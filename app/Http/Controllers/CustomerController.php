@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\District;
 use App\Models\Province;
+use App\Models\Authorize;
+use App\Models\Category;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,18 +14,41 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Session;
 
+
 class CustomerController extends Controller
 {
+    /**
+ * @OA\Get(
+ *     path="/customerlogin",
+ *     summary="Display Customer Login Page",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Displays the login page for customers"
+ *     )
+ * )
+ */
     public function login()
     {
 
         return view('customer/login');
     }
+    /**
+ * @OA\Get(
+ *     path="/customersignup",
+ *     summary="Display Customer Signup Page",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Displays the signup page for customers"
+ *     )
+ * )
+ */
     public function signup()
     {
         $data = [];
         $data['provinces'] = Province::get(["province_name", "id"]);
         $data['districts'] = District::get(["district_name", "id"]);
+        $data['authorizes'] = Authorize::get(["authorize_name", "id"]);
+        $data['categories'] = Category::get(["category_name", "id"]);
         return view('customer/signup', $data);
     }
 

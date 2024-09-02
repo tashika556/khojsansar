@@ -17,19 +17,16 @@ class Customer extends Model
       'first_name',
       'middle_name',
       'last_name',
-      'permanent-state',
-      'permanent-district',
-      'permanent-municipality',
-      'permanent-ward',
-      'permanent-tole',
-      'temporary-state',
-      'temporary-district',
-      'temporary-municipality',
-      'temporary-state',
-      'temporary-district',
-      'temporary-municipality',
-      'temporary-ward',
-      'temporary-tole',
+      'permanent_state',
+      'permanent_district',
+      'permanent_municipality',
+      'permanent_ward',
+      'permanent_tole',
+      'temporary_state',
+      'temporary_district',
+      'temporary_municipality',
+      'temporary_ward',
+      'temporary_tole',
       'email',
       'phone',
       'cell',
@@ -38,7 +35,16 @@ class Customer extends Model
       'cpassword',
       'agree',
       'otp',
+      'admin_verified',
     ];  
+    public function authorizeshow()
+    {
+        return $this->belongsTo(Authorize::class, 'authorize', 'id');
+    }
+    public function categoryshow()
+    {
+        return $this->belongsTo(Category::class, 'category', 'id');
+    }
     public function permanentState()
     {
         return $this->belongsTo(Province::class, 'permanent_state', 'id');

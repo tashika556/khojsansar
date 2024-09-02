@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\AuthorizeController;
 
 //view
 Route::get('/', function () {
@@ -75,7 +76,13 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::delete('/municipality/{id}', [MunicipalityController::class, 'destroy'])->name('municipality.destroy');
     Route::get('/municipality/search', [MunicipalityController::class, 'search'])->name('municipality.search');
 
-  
+    Route::get('/admin/authorize', [AuthorizeController::class, 'authorizes'])->name('authorizes'); 
+    Route::get('/admin/createauthorize', [AuthorizeController::class, 'createauthorize'])->name('createauthorize'); 
+    Route::post('/authorize-form', [AuthorizeController::class, 'store'])->name('storeauthorize'); 
+    Route::get('/admin/editauthorize/{id}', [AuthorizeController::class, 'editauthorize'])->name('editauthorize'); 
+    Route::put('/authorize-updateform/{id}', [AuthorizeController::class, 'update'])->name('updateauthorize'); 
+    Route::delete('/authorize/{id}', [AuthorizeController::class, 'destroy'])->name('authorize.destroy');
+    Route::get('/authorize/search', [AuthorizeController::class, 'search'])->name('authorize.search');
 
 });
 

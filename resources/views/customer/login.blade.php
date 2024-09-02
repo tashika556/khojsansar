@@ -9,6 +9,7 @@
                             <img src="{{ URL::asset('admin/images/brand-logos/digi-logo.png')}}" alt="logo">
                         </a>
                     </div>
+                    <h6 class="text-white text-center">Customer Login</h6>
                     <h3>Sign Into Your Account</h3>
                     <div class="login-inner-form">
                         <form action="#" method="GET">
@@ -21,9 +22,10 @@
                             </div>
                             <div class="form-group clearfix">
                                 <label for="second_field" class="form-label">Password</label>
-                                <div class="form-box">
-                                    <input name="password" type="password" class="form-control login-input" autocomplete="off" id="second_field" placeholder="Password" aria-label="Password">
+                                <div class="form-box position-relative">
+                                    <input name="password" type="password" class="form-control login-input" autocomplete="off" id="password" placeholder="Password" aria-label="Password">
                                     <i class="flaticon-password"></i>
+                                    <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
                                 </div>
                             </div>
                             <div class="checkbox form-group clearfix">

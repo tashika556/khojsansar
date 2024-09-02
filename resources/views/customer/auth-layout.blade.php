@@ -58,6 +58,9 @@
         </div>
     </div>
 </div>
+@stack('before-scripts')
+<script src="{{asset('customer/js/font-awesom.js')}} "></script>
+<script src="{{asset('customer/js/main.js')}} "></script>
 @stack('after-scripts')
 </body>
 

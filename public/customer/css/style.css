@@ -373,3 +373,5 @@ body {
   height: 100%;
   opacity:0.1;
 }
+.password-toggle-icon,.password-toggle-icons{position:absolute;top:50%;right:60px;transform:translateY(-50%);cursor:pointer}.password-toggle-icon i,.password-toggle-icons i{transition:color .3s ease-in-out;font-size: 16px !important;background-color:  unset !important; color:#a11e21 !important }.password-toggle-icon i:hover,.password-toggle-icons i:hover{color:#0000009c}
+select.login-signup{appearance: auto !important; -webkit-appearance: auto !important;}.text-span{color: #ff7683;}

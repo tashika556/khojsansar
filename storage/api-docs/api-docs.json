@@ -1,0 +1,50 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Khojsansar OpenAPI",
+        "description": "Khojsansar OpenApi description",
+        "contact": {
+            "email": "trishachhetri27@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "3.0.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Home page",
+                "operationId": "58658e34a5c8bd71c4a0afed6de10d20",
+                "responses": {
+                    "default": {
+                        "description": "Welcome page"
+                    }
+                }
+            }
+        },
+        "/customerlogin": {
+            "get": {
+                "summary": "Display Customer Login Page",
+                "operationId": "2c323b67184703860e1235bce07a9551",
+                "responses": {
+                    "200": {
+                        "description": "Displays the login page for customers"
+                    }
+                }
+            }
+        },
+        "/customersignup": {
+            "get": {
+                "summary": "Display Customer Signup Page",
+                "operationId": "ec2fa397782934a0fbcadbb13d11e1ed",
+                "responses": {
+                    "200": {
+                        "description": "Displays the signup page for customers"
+                    }
+                }
+            }
+        }
+    }
+}
