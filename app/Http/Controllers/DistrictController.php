@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class DistrictController extends Controller
 {
     public function getDistricts(Request $request){
-        $data['districts'] =Districts::where("province_id", $request->province_id)->get(["district_name","id"]);
+        $data['districts'] =District::where("province_id", $request->province_id)->get(["district_name","id"]);
 
         return response()->json($data);
 

@@ -58,7 +58,7 @@
         </div>
     </div>
 </div>
-
+@stack('after-scripts')
 </body>
 
 

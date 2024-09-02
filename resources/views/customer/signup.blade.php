@@ -71,19 +71,19 @@
                         </div>
                     </div>
                 </div>
-           <div class="col-12">
-    <b class="opacity-25">Permanent Address</b></div>
+                <div class="col-12">
+                    <b class="opacity-25">Permanent Address</b>
+                </div>
                 <div class="col-xl-4 col-md-6 col-12">
                     <div class="form-group clearfix">
                         <label for="first_field" class="form-label">Province:</label>
                         <div class="form-box">
-                            <select name="state" id="province"  class="form-control login-signup"
-                                >
+                            <select name="state" id="province" class="form-control login-signup">
                                 <option value="">- - Province - - *</option>
-                                        @foreach($provinces as $data)
-                                        <option value="{{$data->id}}">{{$data->province_name}}</option>
-                                        @endforeach
-                                </select>
+                                @foreach($provinces as $data)
+                                <option value="{{$data->id}}">{{$data->province_name}}</option>
+                                @endforeach
+                            </select>
 
                         </div>
                     </div>
@@ -92,11 +92,11 @@
                     <div class="form-group clearfix">
                         <label for="first_field" class="form-label">District:</label>
                         <div class="form-box">
-           
 
-                                <select id="district" name="district" class="form-control login-signup">
 
-</select>
+                            <select id="district" name="district" class="form-control login-signup">
+
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -104,8 +104,10 @@
                     <div class="form-group clearfix">
                         <label for="first_field" class="form-label">Municipality/Palika:</label>
                         <div class="form-box">
-                            <input name="business" type="text" class="form-control login-signup" id="first_field"
-                                placeholder="Last Name">
+                        <select id="municipality" name="municipality" class="form-control login-signup">
+
+</select>
+                   
 
 
                         </div>
@@ -204,6 +206,11 @@
 </div>
 
 
+@endsection
+
+@push("after-scripts")
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#province').on('change', function() {
@@ -228,7 +235,27 @@ $(document).ready(function() {
             }
         });
     });
+    $('#district').on('change', function() {
+        var idDistrict = this.value;
+        $("#municipality").html('');
+        $.ajax({
+            url: "{{url('/getMunicipality')}}",
+            type: "POST",
+            data: {
+                district_id: idDistrict,
+                _token: '{{csrf_token()}}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                $('#municipality').html(
+                    '<option value="">Select Palika:-</option>');
+                $.each(result.municipalities, function(key, value) {
+                    $("#municipality").append('<option value="' + value
+                        .id + '">' + value.municipality_name + '</option>');
+                });
+            }
+        });
+    });
 });
-
-
-@endsection
+</script>
+@endpush
