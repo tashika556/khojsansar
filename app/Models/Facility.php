@@ -14,4 +14,8 @@ class Facility extends Model
       'facility_name',
 'facility_logo',
     ];
+    public function businesses()
+    {
+        return $this->belongsToMany(Business::class, 'business_facilities', 'facility', 'business');
+    }
 }

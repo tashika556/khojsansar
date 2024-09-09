@@ -2721,7 +2721,38 @@ class MunicipalitySeeder extends Seeder
                 'district_id' =>  62,
             ],
 
-
+            [
+                'municipality_name' =>  'Chandannath Municipality',
+                'district_id' =>  63,
+            ],
+            [
+                'municipality_name' =>  'Patarasi Gaunpalika',
+                'district_id' =>  63,
+            ],
+            [
+                'municipality_name' =>  'Kanaka Sundari Gaunpalika',
+                'district_id' =>  63,
+            ],
+            [
+                'municipality_name' =>  'Sinja Gaunpalika',
+                'district_id' =>  63,
+            ],
+            [
+                'municipality_name' =>  'Guthichaur Gaunpalika',
+                'district_id' =>  63,
+            ],
+            [
+                'municipality_name' =>  'Tatopani Gaunpalika',
+                'district_id' =>  63,
+            ],
+            [
+                'municipality_name' =>  'Tila Gaunpalika',
+                'district_id' =>  63,
+            ],
+            [
+                'municipality_name' =>  'Hima Gaunpalika',
+                'district_id' =>  63,
+            ],
 
 
             [

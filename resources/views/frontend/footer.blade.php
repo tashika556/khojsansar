@@ -69,6 +69,7 @@
     crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
 <script src="{{ URL::asset('frontend/js/main.js')}}"></script>
+
 @stack('after-scripts')
 </body>
 

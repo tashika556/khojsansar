@@ -6,14 +6,25 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthorizeController;
+use App\Http\Controllers\BusinessFacilityController;
+use App\Http\Controllers\BusinessServiceController;
 
-//view
+//view frontend
 Route::get('/', function () {
     return view('frontend/index');
+});
+
+Route::get('/contact', function () {
+    return view('frontend/contact');
+});
+Route::get('/map', function () {
+    return view('frontend/map');
 });
 
 //province district municipality view
@@ -74,7 +85,7 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/admin/editmunicipality/{id}', [MunicipalityController::class, 'editmunicipality'])->name('editmunicipality'); 
     Route::put('/municipality-updateform/{id}', [MunicipalityController::class, 'update'])->name('updatemunicipality'); 
     Route::delete('/municipality/{id}', [MunicipalityController::class, 'destroy'])->name('municipality.destroy');
-    Route::get('/municipality/search', [MunicipalityController::class, 'search'])->name('municipality.search');
+
 
     Route::get('/admin/authorize', [AuthorizeController::class, 'authorizes'])->name('authorizes'); 
     Route::get('/admin/createauthorize', [AuthorizeController::class, 'createauthorize'])->name('createauthorize'); 
@@ -82,7 +93,32 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/admin/editauthorize/{id}', [AuthorizeController::class, 'editauthorize'])->name('editauthorize'); 
     Route::put('/authorize-updateform/{id}', [AuthorizeController::class, 'update'])->name('updateauthorize'); 
     Route::delete('/authorize/{id}', [AuthorizeController::class, 'destroy'])->name('authorize.destroy');
-    Route::get('/authorize/search', [AuthorizeController::class, 'search'])->name('authorize.search');
+
+    Route::get('/admin/pendingcustomer', [AdminController::class, 'pendingcustomers'])->name('pendingcustomers'); 
+    Route::get('/admin/viewpendingcustomer/{id}', [AdminController::class, 'viewpendingcustomers'])->name('viewpendingcustomers'); 
+    Route::post('/admin/pendingcustomer/{id}/verify', [AdminController::class, 'verifypendingCustomer'])->name('pendingcustomer.verify');
+    Route::post('/admin/pendingcustomer/{id}/reject', [AdminController::class, 'rejectpendingCustomer'])->name('pendingcustomer.reject');  
+
+    Route::delete('/customer/{id}', [AdminController::class, 'destroycustomer'])->name('customer.destroy');
+
+    Route::get('/admin/verifiedcustomer', [AdminController::class, 'verifiedcustomers'])->name('verifiedcustomers'); 
+    Route::get('/admin/viewverifiedcustomer/{id}', [AdminController::class, 'viewverifiedcustomers'])->name('viewverifiedcustomers');   
+
+
+    Route::get('/admin/rejectedcustomer', [AdminController::class, 'rejectedcustomers'])->name('rejectedcustomers'); 
+    Route::get('/admin/viewrejectedcustomer/{id}', [AdminController::class, 'viewrejectedcustomers'])->name('viewrejectedcustomers');   
+
+
+    Route::get('/admin/verifiedcustomer', [AdminController::class, 'verifiedcustomers'])->name('verifiedcustomers'); 
+    Route::get('/admin/viewverifiedcustomer/{id}', [AdminController::class, 'viewverifiedcustomers'])->name('viewverifiedcustomers');  
+
+
+    Route::get('/admin/menu', [MenuController::class, 'menu'])->name('menu'); 
+    Route::post('/admin/menu', [MenuController::class, 'store'])->name('menu.store');
+    Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
+    Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+    
+    Route::get('/admin/businessmenu', [MenuController::class, 'businessmenu'])->name('businessmenu'); 
 
 });
 
@@ -93,3 +129,22 @@ Route::get('/customerlogin',[CustomerController::class,'login']);
 Route::get('/customersignup',[CustomerController::class,'signup']);
 
 Route::post('/reg-form', [CustomerController::class, 'signupform']);
+Route::post('/login-form', [CustomerController::class, 'loginform']);
+
+Route::get('/customerhome', [CustomerController::class, 'customerhome']);
+Route::put('/personalform/{id}', [CustomerController::class, 'updatepersonalform'])->name('updatepersonalform');
+
+
+
+Route::get('/business', [BusinessController::class, 'business'])->name('businessview');
+Route::post('/businessform/{id}', [BusinessController::class, 'updatebusinessform'])->name('updatebusinessform');
+Route::get('/search-business', [BusinessController::class, 'searchBusiness'])->name('search-business');
+
+Route::get('/businessservice/{id}', [BusinessServiceController::class, 'businessservice'])->name('businessserviceview');
+Route::post('/businessserviceform/{id}', [BusinessServiceController::class, 'updatebusinessserviceform'])->name('updatebusinessserviceform');
+
+Route::get('/businessfacility/{id}', [BusinessFacilityController::class, 'businessfacility'])->name('businessfacilityview');
+Route::post('/businessfacilityform/{id}', [BusinessFacilityController::class, 'updatebusinessfacilityform'])->name('updatebusinessfacilityform');
+
+
+Route::get('/termscondition', [CustomerController::class, 'termscond']);

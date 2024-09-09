@@ -1,4 +1,4 @@
-<?php include 'header.php'; ?>
+@include('frontend.header')
 <section class="bg_img banner d-flex justify-content-center align-items-center dark_bg"
     style="background-image: url(img/banner/contact.jpg);">
     <div class="banner_content text-white">
@@ -94,5 +94,4 @@
         </div>
     </div>
 </section>
-
-<?php include "footer.php"; ?>
+@include('frontend.footer')

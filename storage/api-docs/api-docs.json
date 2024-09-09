@@ -1,25 +1,351 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Khojsansar OpenAPI",
-        "description": "Khojsansar OpenApi description",
+        "title": "Khojsansar API",
+        "description": "Khojsansar App API Documentation",
         "contact": {
             "email": "trishachhetri27@gmail.com"
         },
         "license": {
-            "name": "Apache 2.0",
-            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+            "name": "Apache 2.4.58",
+            "url": "https://www.apache.org/licenses/LICENSE-2.4.58.html"
         },
-        "version": "3.0.0"
+        "version": "3.0"
     },
     "paths": {
         "/": {
             "get": {
+                "summary": "Display Home Page",
                 "description": "Home page",
-                "operationId": "58658e34a5c8bd71c4a0afed6de10d20",
+                "operationId": "52d00847236cc2dde3a06390a1ede299",
                 "responses": {
                     "default": {
                         "description": "Welcome page"
+                    }
+                }
+            }
+        },
+        "/api/customer/customersignup": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get Signup Form Data",
+                "description": "Returns provinces, districts, authorizes, and categories for signup.",
+                "operationId": "495fa11baf79ff5cd4400d83a37983ce",
+                "responses": {
+                    "200": {
+                        "description": "Returns signup data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "provinces": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "districts": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "authorizes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/terms": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get Terms and Conditions",
+                "description": "Returns the terms and conditions text.",
+                "operationId": "4950580df8bcf40de13b002a2b273cb2",
+                "responses": {
+                    "200": {
+                        "description": "Returns terms and conditions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "terms": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Customer Login",
+                "description": "Logs in a customer with email, password, and OTP.",
+                "operationId": "e64660b28c3a7862e19f4231a0db0962",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "otp": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid OTP or Password"
+                    },
+                    "404": {
+                        "description": "Please register first"
+                    }
+                }
+            }
+        },
+        "/api/customer/reg-form": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Customer Signup",
+                "description": "Registers a new customer with the provided information.",
+                "operationId": "052abd6fb5799319a4146cec40412511",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "business": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "user_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "cpassword": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "agree": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registration successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Registration failed"
+                    }
+                }
+            }
+        },
+        "/api/customerhome": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get Customer Home",
+                "description": "Returns the customer information if authenticated.",
+                "operationId": "3600dcbbf09e519becc92d6063f4bfc3",
+                "responses": {
+                    "200": {
+                        "description": "Returns customer information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "customer": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/districts": {
+            "get": {
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Get list of districts",
+                "operationId": "cbc67994cfdcf3c21a349c105b9e5d24",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/District"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/municipalities": {
+            "get": {
+                "tags": [
+                    "Municipalities"
+                ],
+                "summary": "Get list of Municipalities",
+                "operationId": "9f6cf9dcf75676fb27cc3bf2f24a6eca",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Municipality"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/provinces": {
+            "get": {
+                "tags": [
+                    "Provinces"
+                ],
+                "summary": "Get list of provinces",
+                "operationId": "afe5388febed3b221fac15112d75d6a7",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Province"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
                     }
                 }
             }
@@ -45,6 +371,164 @@
                     }
                 }
             }
+        },
+        "/reg-form": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Customer Signup",
+                "description": "Registers a new customer with the provided information.",
+                "operationId": "7b9288874b145b57700cc22014cd5225",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "business": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "user_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "cpassword": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "agree": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registration successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Registration failed"
+                    }
+                }
+            }
         }
-    }
+    },
+    "components": {
+        "schemas": {
+            "District": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "district_name": {
+                        "type": "string",
+                        "example": "Bhojpur"
+                    },
+                    "province_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "district_name": "Koshi District",
+                    "province_id": 1
+                }
+            },
+            "Municipality": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "municipality_name": {
+                        "type": "string",
+                        "example": "Shadananda Municipality"
+                    },
+                    "district_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "municipality_name": "Shadananda Municipality",
+                    "district_id": 1
+                }
+            },
+            "Province": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "province_name": {
+                        "type": "string",
+                        "example": "Koshi Pradesh"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "province_name": "Koshi Pradesh"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Customer",
+            "description": "Customer"
+        },
+        {
+            "name": "Districts",
+            "description": "Districts"
+        },
+        {
+            "name": "Municipalities",
+            "description": "Municipalities"
+        },
+        {
+            "name": "Provinces",
+            "description": "Provinces"
+        }
+    ]
 }

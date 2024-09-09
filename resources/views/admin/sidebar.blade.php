@@ -274,7 +274,7 @@
                                 d="M200,136H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48ZM104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Z">
                             </path>
                         </svg>
-                        <span class="side-menu__label text-fixed-white ">Data</span>
+                        <span class="side-menu__label text-fixed-white ">Business Data</span>
                         <i class="text-fixed-white ri-arrow-down-s-line side-menu__angle"></i>
                     </a>
                     <ul class="slide-menu child1">
@@ -307,17 +307,36 @@
                             <a href="javascript:void(0)">Customer's User</a>
                         </li>
                         <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Pending</a>
+                            <a href="{{url('admin/pendingcustomer')}}" class="text-fixed-white side-menu__item">Pending</a>
                         </li>
                         <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Verified</a>
+                            <a href="{{url('admin/verifiedcustomer')}}" class="text-fixed-white side-menu__item">Verified</a>
                         </li>
                         <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Rejected</a>
+                            <a href="{{url('admin/rejectedcustomer')}}" class="text-fixed-white side-menu__item">Rejected</a>
                         </li>
                     </ul>
                 </li>
 
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="text-fixed-white side-menu__item">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M19 22H5C3.34315 22 2 20.6569 2 19V3C2 2.44772 2.44772 2 3 2H17C17.5523 2 18 2.44772 18 3V15H22V19C22 20.6569 20.6569 22 19 22ZM18 17V19C18 19.5523 18.4477 20 19 20C19.5523 20 20 19.5523 20 19V17H18ZM16 20V4H4V19C4 19.5523 4.44772 20 5 20H16ZM6 7H14V9H6V7ZM6 11H14V13H6V11ZM6 15H11V17H6V15Z"></path></svg>
+                        <span class="side-menu__label text-fixed-white ">Menu</span>
+                        <i class="text-fixed-white ri-arrow-down-s-line side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0)">Menu</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{url('admin/menu')}}" class="text-fixed-white side-menu__item">Menu List</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{url('admin/verifiedcustomer')}}" class="text-fixed-white side-menu__item">Business Menu Details</a>
+                        </li>
+                  
+                    </ul>
+                </li>
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="text-fixed-white side-menu__item">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" width="32" height="32"
@@ -335,17 +354,12 @@
                         <li class="slide side-menu__label1">
                             <a href="javascript:void(0)">Payment</a>
                         </li>
-                        <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Bank Transfer</a>
-                        </li>
-                        <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Online Payment</a>
-                        </li>
+         
                         <li class="slide">
                             <a href="javascript:void(0);" class="text-fixed-white side-menu__item">QR</a>
                         </li>
                         <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Cash</a>
+                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Esewa</a>
                         </li>
                     </ul>
                 </li>
@@ -417,7 +431,25 @@
                                 </li>
                             </ul>
                         </li>
-
+                        <li class="slide has-sub">
+                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Website Details
+                                <i class="text-fixed-white ri-arrow-down-s-line side-menu__angle"></i></a>
+                            <ul class="slide-menu child2">
+                                <li class="slide">
+                                    <a href="{{url('admin/category')}}"
+                                        class="text-fixed-white side-menu__item">Contact</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{url('admin/facility')}}"
+                                        class="text-fixed-white side-menu__item">Testimonial</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{url('admin/service')}}"
+                                        class="text-fixed-white side-menu__item">Site Setting</a>
+                                </li>
+                          
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 

@@ -36,6 +36,8 @@ class Customer extends Model
       'agree',
       'otp',
       'admin_verified',
+      'admin_rejected',
+      'rejection_reason',
     ];  
     public function authorizeshow()
     {

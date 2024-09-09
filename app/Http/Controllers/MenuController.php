@@ -7,59 +7,33 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function menu()
     {
-        //
+        $menu =Menu::all();
+        return view('admin.menu.menu-list',compact('menu'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
-    {
-        //
-    }
+{
+    Menu::create($request->only('menu_topic'));
+    return redirect()->route('menu')->with('success', 'Menu created successfully!');
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Menu $menu)
-    {
-        //
-    }
+public function update(Request $request, $id)
+{
+    $menu = Menu::findOrFail($id);
+    $menu->update($request->only('menu_topic'));
+    return redirect()->route('menu')->with('success', 'Menu updated successfully!');
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Menu $menu)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Menu $menu)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Menu $menu)
-    {
-        //
+        $menu = Menu::findOrFail($id);
+        $res = $menu->delete();
+        
+        if ($res) {
+            return back()->with('success', 'Menu deleted successfully.');
+        } else {
+            return back()->with('fail', 'Failed to delete the Menu.');
+        }
     }
 }

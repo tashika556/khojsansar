@@ -15,12 +15,14 @@
     <link rel="stylesheet" href="{{ URL::asset('frontend/css/responsive.css')}}" />
     <link rel="stylesheet" href="{{ URL::asset('frontend/css/animate.min.css')}}" />
     <link rel="stylesheet" href="{{ URL::asset('frontend/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
     @stack('after-styles')
 </head>
 <body>
     <nav class="nav navbar position-relative ">
         <div class="container-fluid">
-            <a href="index.php" class="navbar-logo text-center"><img src="{{ URL::asset('frontend/img/logo.png')}}" class="img-fluid" alt=""></a>
+            <a href="{{url('/')}}" class="navbar-logo text-center"><img src="{{ URL::asset('frontend/img/logo.png')}}" class="img-fluid" alt=""></a>
             <ul class="navbar-links">
 
 
@@ -45,13 +47,13 @@
 
             <div class="menu_side mt-5">
                 <ul>
-                    <li><a class="active" href="">Home</a></li>
+                    <li><a class="active" href="{{url('/')}}">Home</a></li>
                     <li><a href="about.php">About</a></li>
                     <li><a href="restaurant-list.php">Restaurant</a></li>
                     <li><a href="digital-menu.php">Digital Menu</a></li>
                     <li><a href="blog.php">Blog</a></li>
                     <li><a href="review.php">Review</a></li>
-                    <li><a href="contact.php">Contact</a></li>
+                    <li><a href="{{url('contact')}}">Contact</a></li>
                 </ul>
             </div>
 

@@ -27,8 +27,8 @@ return new class extends Migration
             $table->unsignedBigInteger('temporary_state')->nullable();
             $table->unsignedBigInteger('temporary_district')->nullable();
             $table->unsignedBigInteger('temporary_municipality')->nullable();
-            $table->string('temporary-ward')->nullable();
-            $table->string('temporary-tole')->nullable();
+            $table->string('temporary_ward')->nullable();
+            $table->string('temporary_tole')->nullable();
             $table->string('email');
             $table->string('phone');
             $table->string('cell')->nullable();
@@ -37,16 +37,19 @@ return new class extends Migration
             $table->string('cpassword');
             $table->string('otp')->unique()->nullable();
             $table->boolean('admin_verified')->default(false);
+            $table->boolean('admin_rejected')->default(false);
             $table->boolean('agree');
+            $table->longText('rejection_reason');
             $table->foreign('permanent_district')->references('id')->on('districts');
             $table->foreign('permanent_state')->references('id')->on('provinces');
             $table->foreign('permanent_municipality')->references('id')->on('municipalities');
             $table->foreign('temporary_district')->references('id')->on('districts');
             $table->foreign('temporary_state')->references('id')->on('provinces');
             $table->foreign('temporary_municipality')->references('id')->on('municipalities');
+            $table->foreign('authorize')->references('id')->on('authorizes');
+            $table->foreign('category')->references('id')->on('categories');
             $table->timestamps();
-    
-    });
+        });
     }
 
     /**

@@ -119,7 +119,7 @@
         showPage(1);
     });
     </script>
-
+<script src="{{asset('customer/js/jquery-3.6.4.min.js')}} "></script>
 
     @stack('after-scripts')
 </body>

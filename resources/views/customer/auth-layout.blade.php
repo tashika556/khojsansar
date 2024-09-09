@@ -61,6 +61,55 @@
 @stack('before-scripts')
 <script src="{{asset('customer/js/font-awesom.js')}} "></script>
 <script src="{{asset('customer/js/main.js')}} "></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#province').on('change', function() {
+        var idpradesh = this.value;
+        $("#district").html('');
+        $.ajax({
+            url: "{{url('/getDistrict')}}",
+            type: "POST",
+            data: {
+                province_id: idpradesh,
+                _token: '{{csrf_token()}}'
+            },
+            dataType: 'json',
+            success: function(res) {
+                $('#district').html(' <option value="">Select District-</option>>');
+                $.each(res.districts, function(key, value) {
+                    $("#district").append('<option value="' + value
+                        .id + '">' + value.district_name + '</option>');
+                });
+
+
+            }
+        });
+    });
+    $('#district').on('change', function() {
+        var idDistrict = this.value;
+        $("#municipality").html('');
+        $.ajax({
+            url: "{{url('/getMunicipality')}}",
+            type: "POST",
+            data: {
+                district_id: idDistrict,
+                _token: '{{csrf_token()}}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                $('#municipality').html(
+                    '<option value="">Select Palika:-</option>');
+                $.each(result.municipalities, function(key, value) {
+                    $("#municipality").append('<option value="' + value
+                        .id + '">' + value.municipality_name + '</option>');
+                });
+            }
+        });
+    });
+});
+</script>
 @stack('after-scripts')
 </body>
 

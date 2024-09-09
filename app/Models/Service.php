@@ -14,4 +14,8 @@ class Service extends Model
       'service_name',
 'service_logo',
     ];
+    public function businesses()
+    {
+        return $this->belongsToMany(Business::class, 'business_services', 'service', 'business');
+    }
 }

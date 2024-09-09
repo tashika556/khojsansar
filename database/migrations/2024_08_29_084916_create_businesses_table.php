@@ -21,7 +21,12 @@ return new class extends Migration
             $table->unsignedBigInteger('municipality');
             $table->string('ward');
             $table->string('tole');
-            $table->string('map');
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->foreign('customer')->references('id')->on('customers');
+            $table->foreign('state')->references('id')->on('provinces');
+            $table->foreign('district')->references('id')->on('districts');
+            $table->foreign('municipality')->references('id')->on('municipalities');
             $table->timestamps();
         });
     }

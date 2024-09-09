@@ -12,11 +12,11 @@
                 <div class="card">
                     
                     <div class="card-header">
-                        <img src="{{ URL::asset('admin/images/brand-logos/digi-logo.png')}}" class="bg-white">
+                        <img src="https://archiesoft.com.np/khojfrontend/img/logo-color.png" class="bg-white">
                 
                  
-                        <p style="font-family:Times New Roman,Times,serif;font-size:12pt">Warm Greetings {{ $customer->first_name }},</p><br>
-                      <p style="font-family:Times New Roman,Times,serif;font-size:12pt">Your OTP Number is: <b>{{$customer->otp}}</b></p> <br>
+                        <p style="font-family:Times New Roman,Times,serif;font-size:12pt">Warm Greetings {{ $customer->first_name }},</p>
+                      <p style="font-family:Times New Roman,Times,serif;font-size:12pt">Your OTP Number is: <b>{{$customer->otp}}</b></p>
 
  
                     <p style="font-family:Times New Roman,Times,serif;font-size:12pt;margin-top:38px;line-height: 12px;"><b>KhojSansar Nepal</b></p>
