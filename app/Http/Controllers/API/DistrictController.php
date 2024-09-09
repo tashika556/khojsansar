@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Traits\ApiResponseTrait;
 
 /**
  * @OA\Info(title="District API", version="1.0")
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\DB;
 
 class DistrictController extends Controller
 {
+    use ApiResponseTrait;
+
     /**
      * @OA\Get(
      *     path="/api/districts",
@@ -38,9 +41,60 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        $districts = DB::table('districts')->get();
-        return response()->json($districts);
+        try {
+            $districts = DB::table('districts')->get();
+
+            if ($districts->isEmpty()) {
+                return $this->apiResponse(false, 'No districts found', [], [], false);
+            }
+
+            return $this->apiResponse(true, 'Districts fetched successfully', $districts);
+        } catch (\Exception $e) {
+            // Return a standardized error response in case of an exception
+            return $this->apiResponse(false, 'An error occurred while fetching districts', [], ['error' => $e->getMessage()]);
+        }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/getDistrict",
+     *     summary="Get list of districts by province ID",
+     *     tags={"Districts"},
+     *     @OA\Parameter(
+     *         name="province_id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/District"))
+     *     ),
+     *     @OA\Response(response=404, description="Not Found")
+     * )
+     */
+    public function getDistricts(Request $request)
+    {
+        $provinceId = $request->query('province_id');
 
+        if (!$provinceId) {
+            return $this->apiResponse(false, 'Province ID is required', [], [], false);
+        }
+
+        try {
+            $districts = DB::table('districts')
+                ->where('province_id', $provinceId)
+                ->get(['district_name', 'id']);
+
+            if ($districts->isEmpty()) {
+                return $this->apiResponse(false, 'No districts found for the given province ID', [], [], false);
+            }
+
+            return $this->apiResponse(true, 'Districts fetched successfully for the given province ID', $districts);
+        } catch (\Exception $e) {
+        
+            return $this->apiResponse(false, 'An error occurred while fetching districts', [], ['error' => $e->getMessage()]);
+        }
+    }
 }

@@ -65,7 +65,7 @@ class CustomerController extends Controller
     }
      /**
      * @OA\Post(
-     *     path="/api/login",
+     *     path="/api/login-form",
      *     summary="Customer Login",
      *     description="Logs in a customer with email, password, and OTP.",
      *     tags={"Customer"},

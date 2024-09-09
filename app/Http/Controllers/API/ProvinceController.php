@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Traits\ApiResponseTrait;
 
 /**
  * @OA\Info(title="Province API", version="1.0")
@@ -22,6 +21,8 @@ use Illuminate\Support\Facades\DB;
 
 class ProvinceController extends Controller
 {
+    use ApiResponseTrait;
+
     /**
      * @OA\Get(
      *     path="/api/provinces",
@@ -37,7 +38,17 @@ class ProvinceController extends Controller
      */
     public function index()
     {
-        $provinces = DB::table('provinces')->get();
-        return response()->json($provinces);
+        try {
+            $provinces = DB::table('provinces')->get();
+
+            if ($provinces->isEmpty()) {
+                return $this->apiResponse(false, 'No provinces found', [], [], false);
+            }
+
+            return $this->apiResponse(true, 'Provinces fetched successfully', $provinces);
+        } catch (\Exception $e) {
+
+            return $this->apiResponse(false, 'An error occurred while fetching provinces', [], ['error' => $e->getMessage()]);
+        }
     }
 }

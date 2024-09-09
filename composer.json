@@ -27,6 +27,10 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
+      
+
+}
+
     },
     "autoload-dev": {
         "psr-4": {
@@ -64,4 +68,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true
+    
 }

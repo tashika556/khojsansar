@@ -100,14 +100,14 @@
                 }
             }
         },
-        "/api/login": {
+        "/api/login-form": {
             "post": {
                 "tags": [
                     "Customer"
                 ],
                 "summary": "Customer Login",
                 "description": "Logs in a customer with email, password, and OTP.",
-                "operationId": "e64660b28c3a7862e19f4231a0db0962",
+                "operationId": "6f25f1a105c043b62959ff00e015e6e4",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -296,13 +296,87 @@
                 }
             }
         },
+        "/api/getDistrict": {
+            "post": {
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Get list of districts by province ID",
+                "operationId": "8f055416a65e472fd8e7c23548c528c2",
+                "parameters": [
+                    {
+                        "name": "province_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/District"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
         "/api/municipalities": {
             "get": {
                 "tags": [
                     "Municipalities"
                 ],
-                "summary": "Get list of Municipalities",
+                "summary": "Get list of municipalities",
                 "operationId": "9f6cf9dcf75676fb27cc3bf2f24a6eca",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Municipality"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/getMunicipality": {
+            "post": {
+                "tags": [
+                    "Municipalities"
+                ],
+                "summary": "Get list of municipalities by district ID",
+                "operationId": "73eaebed20676c0e51e89ec3986a1bf9",
+                "parameters": [
+                    {
+                        "name": "district_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
