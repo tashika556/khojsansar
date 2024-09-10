@@ -210,34 +210,16 @@
 
 <script src="{{ asset('admin/js/main.js') }}"></script>
 <script src="{{ asset('admin/libs/%40popperjs/core/umd/popper.min.js')}}"></script>
-
 <script src="{{ asset('admin/libs/node-waves/waves.min.js')}}"></script>
-
-<!-- SIMPLEBAR JS -->
 <script src="{{ asset('admin/libs/simplebar/simplebar.min.js')}}"></script>
 <script src="{{ asset('admin/js/simplebar.js')}}"></script>
-
-<!-- PICKER JS -->
 <script src="{{ asset('admin/libs/flatpickr/flatpickr.min.js')}}"></script>
 <script src="{{ asset('admin/libs/%40simonwep/pickr/pickr.es5.min.js')}}"></script>
-
-<!-- AUTO COMPLETE JS -->
 <script src="{{ asset('admin/libs/%40tarekraafat/autocomplete.js/autoComplete.min.js')}}"></script>
-
-<!-- Apex Charts JS -->
 <script src="{{ asset('admin/libs/apexcharts/apexcharts.min.js')}}"></script>
-
-<!-- Sales Dashboard -->
 <script src="{{ asset('admin/js/sales-dashboard.js')}}"></script>
-
-
-<!-- STICKY JS -->
 <script src="{{ asset('admin/js/sticky.js')}}"></script>
-
-<!-- DEFAULTMENU JS -->
 <script src="{{ asset('admin/js/defaultmenu.js')}}"></script>
-
-<!-- CUSTOM JS -->
 <script src="{{ asset('admin/js/custom.js')}}"></script>
 
 

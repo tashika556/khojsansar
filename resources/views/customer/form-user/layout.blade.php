@@ -250,6 +250,33 @@ document.getElementById('change-temp-muni').addEventListener('click', function(e
 });
 
 </script>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('click', function (e) {
+                if (e.target && e.target.classList.contains('add-item')) {
+                    let menuId = e.target.getAttribute('data-menu-id');
+                    let menuItemsContainer = document.querySelector(`.menu-items[data-menu-id="${menuId}"]`);
+ 
+                    let menuItemCount = menuItemsContainer.querySelectorAll('.menu-item').length;
+
+      
+                    let newMenuItem = menuItemsContainer.querySelector('.menu-item').cloneNode(true);
+                    
+         
+                    newMenuItem.querySelectorAll('input, textarea').forEach(input => input.value = '');
+                    
+          
+                    newMenuItem.querySelectorAll('input, textarea').forEach(input => {
+                        input.id = input.id.replace(/\d+$/, menuItemCount + 1);
+                        input.name = input.name.replace(/\d+$/, menuItemCount + 1);
+                    });
+
+         
+                    menuItemsContainer.appendChild(newMenuItem);
+                }
+            });
+        });
+    </script>
     @stack('after-scripts')
 </body>
 

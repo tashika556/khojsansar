@@ -627,7 +627,9 @@ height: 58px;transition: 0.5s;cursor: pointer; border-radius: 10px;
     border-radius:5px;
 }
 
-
+.menu-topic-section h5{
+  color:#a11e21;
+}
 .custom-checkbox-wrapper input[type="checkbox"]:checked  {
   background-color: #a11e21;
   border-color: #a30d11;

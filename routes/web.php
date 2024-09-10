@@ -13,7 +13,10 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthorizeController;
 use App\Http\Controllers\BusinessFacilityController;
+use App\Http\Controllers\BusinessMenuController;
 use App\Http\Controllers\BusinessServiceController;
+use App\Http\Controllers\SpecialController;
+use App\Http\Controllers\PhotosVideosController;
 
 //view frontend
 Route::get('/', function () {
@@ -144,7 +147,17 @@ Route::get('/businessservice/{id}', [BusinessServiceController::class, 'business
 Route::post('/businessserviceform/{id}', [BusinessServiceController::class, 'updatebusinessserviceform'])->name('updatebusinessserviceform');
 
 Route::get('/businessfacility/{id}', [BusinessFacilityController::class, 'businessfacility'])->name('businessfacilityview');
-Route::post('/businessfacilityform/{id}', [BusinessFacilityController::class, 'updatebusinessfacilityform'])->name('updatebusinessfacilityform');
+Route::post('/businessfacilityform/{id}', [BusinessFacilityController::class, 'store'])->name('updatebusinessfacilityform');
+
+
+Route::get('/businessmenu/{id}', [BusinessMenuController::class, 'businessmenu'])->name('businessmenuview');
+Route::post('/businessmenu/{id}', [BusinessMenuController::class, 'store'])->name('businessmenustore');
+
+Route::get('/businessspecial/{id}', [SpecialController::class, 'businessspecial'])->name('businessspecialview');
+Route::post('/businessspecial/{id}', [SpecialController::class, 'store'])->name('businessspecialstore');
+
+Route::get('/businessphotosvideos/{id}', [PhotosVideosController::class, 'businessphotosvideos'])->name('businessphotosvideosview');
+Route::post('/businessphotosvideos/{id}', [PhotosVideosController::class, 'store'])->name('businessphotosvideosstore');
 
 
 Route::get('/termscondition', [CustomerController::class, 'termscond']);

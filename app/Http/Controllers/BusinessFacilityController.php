@@ -18,7 +18,7 @@ class BusinessFacilityController extends Controller
         return view('customer.form-user.facility', compact('facilities', 'business'));
     }
 
-    public function updatebusinessfacilityform(Request $request, $id)
+    public function store(Request $request, $id)
     {
         $request->validate([
             'facilities' => 'required|array',
@@ -28,7 +28,9 @@ class BusinessFacilityController extends Controller
         $business = Business::where('customer', $id)->firstOrFail();
         $business->facilities()->sync($request->input('facilities'));
 
-        return redirect()->route('businessfacilityview', ['id' => $id])
+        return redirect()->route('businessmenuview', ['id' => $id])
             ->with('success', 'Facilities updated successfully!');
     }
+
+    
 }

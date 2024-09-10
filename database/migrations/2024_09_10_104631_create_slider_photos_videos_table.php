@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('specials', function (Blueprint $table) {
+        Schema::create('slider_photos_videos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('business');
-            $table->string('special_name');
-            $table->string('photo')->nullable();
-            $table->foreign('business')->references('id')->on('businesses');
+            $table->string('photosvideos');
+            $table->foreign('business')->references('id')->on('businesses')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('specials');
+        Schema::dropIfExists('slider_photos_videos');
     }
 };

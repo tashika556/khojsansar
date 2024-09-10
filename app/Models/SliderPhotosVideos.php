@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Special extends Model
+class SliderPhotosVideos extends Model
 {
     use HasFactory;
-    protected $table = 'specials';
-    protected $fillable = ['business','special_name','photo'];
+    protected $table= 'slider_photos_videos';
 
+    protected $fillable = [
+      'business','photosvideos',
+
+    ];
     public function business()
     {
         return $this->belongsTo(Business::class, 'business');
