@@ -50,7 +50,7 @@
                             </div>
                         </form>
                     
-                    <p class="text-center">Don't have an account?<a href="{{url('customersignup')}}"> Register here</a></p>
+                    <p class="text-center">Don't have an account? <a href="{{url('customersignup')}}">  Register here</a></p>
                 </div>
             </div>
             @endsection

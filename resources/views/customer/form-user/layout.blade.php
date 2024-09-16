@@ -56,6 +56,7 @@
         <ul class="menu">
             <li><a href="about.php">About</a></li>
             <li><a href="contact.php">Contact</a></li>
+            <li><a href="about.php">Review</a></li>
             <li><a href="contact.php">Logout</a></li>
         </ul>
     </div>

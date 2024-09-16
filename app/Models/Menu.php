@@ -19,4 +19,8 @@ class Menu extends Model
     {
         return $this->belongsToMany(Business::class, 'business_menus', 'menu_topic', 'business');
     }
+    public function menuItems()
+    {
+        return $this->hasMany(BusinessMenu::class, 'menu_topic');
+    }
 }

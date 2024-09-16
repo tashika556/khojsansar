@@ -3,71 +3,235 @@
     max-width: 1273px;
   }
 }
+
+@media (max-width: 1444px) {
+  .bg_black_before::before {
+    width: 113.5% !important;
+  }
+
+  .vertical-line {
+    height: 85px !important;
+  }
+}
+
+@media (max-width: 1443px) {
+  .digital-menu-list ul li {
+    width: 40% !important;
+  }
+}
+
+@media (max-width: 1400px) {
+  .admin-login a {
+    right: 560px !important;
+  }
+}
+
 @media (max-width: 1200px) {
   body {
     overflow: hidden;
   }
+
+  .vertical-line {
+    height: 70px !important;
+  }
+
   section.slider .slider-container {
     width: 100%;
     object-fit: cover;
     height: clamp(400px, 53vw, 100vh);
   }
+
+  .custom-width {
+    width: 540px !important;
+  }
 }
+
+@media (max-width: 1100px) {
+  .admin-login a {
+    right: 500px !important;
+  }
+
+  .vertical-line {
+    height: 50px !important;
+  }
+
+}
+
+@media (min-width: 992px) {
+  .custom-width {
+    width: 450px !important;
+  }
+
+
+
+}
+
+@media (max-width: 991px) {
+  .custom-width {
+    width: 100% !important;
+  }
+
+  .banner section.search_section {
+    margin-top: 78px !important;
+  }
+
+  .search_btn a {
+    padding: 5px !important;
+  }
+
+  .search_btn a {
+    font-size: 20px !important;
+  }
+
+  section.search_section select {
+    height: 45px !important;
+  }
+}
+
 @media (max-width: 990px) {
   section.search_section .col-lg-3 {
-    border: 1px solid #80808040;
+    border: 1px solid #80808040 !important;
   }
+
   .left_block {
-    display: none;
+    display: none !important;
   }
-  section.search_section select {
+
+  /* section.search_section select {
     height: 60px;
     line-height: 60px;
-  }
-  .search_btn a {
+  } */
+
+  /* .search_btn a {
     padding: 13px;
-  }
-  section.search_section {
+  } */
+
+  /* section.search_section {
     margin-top: -16px;
-  }
+  } */
+
   .deluxe-left-img img {
     height: 340px;
 
     width: 100%;
   }
+
+  .admin-login a {
+    right: 400px !important;
+  }
+
+  .banner section.search_section {
+    margin-top: 130px;
+  }
 }
+
+@media (max-width: 830px) and (min-width: 768px) {
+  section.restaurant_home button.slick-next.slick-arrow {
+    right: -40px;
+  }
+
+  section.restaurant_home button.slick-prev.slick-arrow {
+    left: -40px;
+  }
+}
+
 @media (max-width: 767px) {
   .slider_img img {
     width: 125px;
     height: 125px;
   }
+
+  .vertical-line {
+    height: 25px !important;
+  }
+
   section.slider .slider-container {
     padding: 20px;
   }
+
   .side-bar-large {
-    width: 378px;
+    width: 320px;
   }
+
   .img_two {
     margin-left: 0;
   }
+
   .restairant {
     width: 100%;
   }
+
   .restairant img {
     width: 100%;
   }
+
   .img_two img {
     height: 477px;
     margin-top: 20px;
     width: 100%;
   }
+
   .img_one img {
     margin-top: 0;
   }
+
   .inner_heading h2 {
     letter-spacing: 0px;
     line-height: clamp(27px, 5vw, 45px);
     font-size: clamp(20px, 5vw, 26px);
   }
- 
+
+  .admin-login a {
+    right: 300px !important;
+  }
+
+  .digital-menu-list ul li {
+    width: 100% !important;
+  }
+
+  .side-bar-overlay {
+    background-size: 357px !important;
+    bottom: -122px !important;
+  }
+
+
+
+}
+
+@media (max-width: 580px) {
+  a.navbar-logo {
+    left: 0 !important;
+  }
+
+  .admin-login a {
+    right: 0 !important;
+  }
+
+  .footer-bottom-down p {
+    font-size: 11px !important;
+  }
+}
+
+/* @media (max-width: 498px) {
+  .footer-overlay {
+    bottom: 52px !important;
+}
+} */
+
+@media (max-width: 375px) {
+  a.logo_item img {
+    width: 110px !important;
+  }
+}
+
+@media (max-width: 365px) {
+  .footer-overlay {
+    bottom: 52px !important;
+  }
+}
+
+@media (max-width: 345px) {
+  .review-btn .btn_default {
+    width: 205px !important;
+  }
 }

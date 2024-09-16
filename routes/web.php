@@ -16,6 +16,8 @@ use App\Http\Controllers\BusinessFacilityController;
 use App\Http\Controllers\BusinessMenuController;
 use App\Http\Controllers\BusinessServiceController;
 use App\Http\Controllers\SpecialController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PhotosVideosController;
 
 //view frontend
@@ -120,6 +122,13 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::post('/admin/menu', [MenuController::class, 'store'])->name('menu.store');
     Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
     Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+
+    Route::get('/admin/payment/{id}', [PaymentMethodController::class, 'payment'])->name('payment');
+    // Route::post('/admin/payment', [PaymentMethodController::class, 'store'])->name('payment.store');
+    Route::put('/admin/payment/{id}', [PaymentMethodController::class, 'update'])->name('payment.update');
+    Route::delete('/admin/payment/{id}', [PaymentMethodController::class, 'destroy'])->name('payment.destroy');
+  
+    
     
     Route::get('/admin/businessmenu', [MenuController::class, 'businessmenu'])->name('businessmenu'); 
 
@@ -157,7 +166,13 @@ Route::get('/businessspecial/{id}', [SpecialController::class, 'businessspecial'
 Route::post('/businessspecial/{id}', [SpecialController::class, 'store'])->name('businessspecialstore');
 
 Route::get('/businessphotosvideos/{id}', [PhotosVideosController::class, 'businessphotosvideos'])->name('businessphotosvideosview');
-Route::post('/businessphotosvideos/{id}', [PhotosVideosController::class, 'store'])->name('businessphotosvideosstore');
+Route::post('/business/{businessId}/store-photos', [PhotosVideosController::class, 'store'])->name('businessphotosvideosstore');
+
+
+
+Route::get('/businesspayment/{id}', [PaymentController::class, 'payments'])->name('paymentview');
+Route::post('/businesspaymentform/{id}', [PaymentController::class, 'store'])->name('updatebusinesspaymentform');
+
 
 
 Route::get('/termscondition', [CustomerController::class, 'termscond']);

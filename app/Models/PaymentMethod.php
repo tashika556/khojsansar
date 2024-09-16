@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentMethod extends Model
 {
     use HasFactory;
+    protected $table= 'payment_methods';
+
+    protected $fillable = [
+      'qr_photo',
+'accountholder_bank_name',
+'accountholder_name',
+'accountholder_number',
+'accountholder_branch',
+    ];
 }

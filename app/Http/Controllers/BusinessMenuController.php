@@ -19,12 +19,20 @@ class BusinessMenuController extends Controller
     
     public function store(Request $request, $businessId)
     {
+        $messages = [
+            'required' => 'The :attribute field is required. Please click remove icon if you donot need it.',
+
+              'photo.mimes' => 'Photos must be of the following file type: jpg, jpeg or png.'
+        
+        ];
+  
+
         $request->validate([
             'title.*.*' => 'required|string|max:255',
             'price.*.*' => 'required|string|max:255',
             'caption.*.*' => 'nullable|string',
             'photo.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+         ], $messages);
     
         $business = Business::findOrFail($businessId);
     

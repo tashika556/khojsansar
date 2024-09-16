@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AdminController;
+use App\Http\Controllers\API\BusinessController;
 use App\Http\Controllers\API\DistrictController;
 use App\Http\Controllers\API\MunicipalityController;
 use App\Http\Controllers\API\ProvinceController;
@@ -18,6 +19,12 @@ Route::post('/getDistrict', [DistrictController::class, 'getDistricts']);
 
 Route::post('/getMunicipality', [MunicipalityController::class, 'getMunicipalitys']);
 Route::get('/municipalities', [MunicipalityController::class, 'index']);
+
+
+
+Route::post('/getRestaurantByLocation', [BusinessController::class, 'getRestaurantByLocation']);
+Route::get('/restaurants', [BusinessController::class, 'index']);
+
 
 Route::get('/provinces', [ProvinceController::class, 'index']);
 

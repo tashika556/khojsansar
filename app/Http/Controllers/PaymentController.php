@@ -3,63 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\Customer;
+use App\Models\Business;
+use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
+use Session;
 
 class PaymentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function payments()
     {
-        //
+        if (Session::has('loginId')) {
+            $customer = Customer::find(Session::get('loginId'));
+            $business = Business::where('customer', $customer->id)->first();
+            $paymentmethod = PaymentMethod::latest()->first();
+            $payment = Payment::where('business', $business->id)->first();
+    
+            return view('customer.form-user.payment', compact('business', 'paymentmethod', 'customer', 'payment'));
+        } else {
+            return back()->with('fail', 'Sorry, you do not have the right to access it. First, login to continue.');
+        }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    
+    public function store(Request $request, $customerId)
     {
-        //
-    }
+        $request->validate([
+            'payment_receipt' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'payment_confirmation' => 'required|boolean',
+        ], [
+            'payment_receipt.required' => 'Please upload your payment receipt.',
+            'payment_confirmation.required' => 'Please confirm your payment.',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Payment $payment)
-    {
-        //
-    }
+        $business = Business::where('customer', $customerId)->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Payment $payment)
-    {
-        //
-    }
+        $filename = null;
+        if ($request->hasFile('payment_receipt')) {
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Payment $payment)
-    {
-        //
-    }
+            $payment = Payment::where('business', $business->id)->first();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Payment $payment)
-    {
-        //
+            if ($payment && $payment->payment_receipt) {
+                $oldFile = storage_path('app/public/payments/' . $payment->payment_receipt);
+                if (file_exists($oldFile)) {
+                    unlink($oldFile);
+                }
+            }
+    
+            $file = $request->file('payment_receipt');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/payments', $filename);
+        }
+        $payment = Payment::updateOrCreate(
+            ['business' => $business->id],
+            [
+                'payment_receipt' => $filename,
+                'payment_confirmation' => $request->input('payment_confirmation'),
+            ]
+        );
+
+        if ($payment) {
+            return back()->with('success', 'Your payment has been submitted successfully.');
+        } else {
+            return back()->with('fail', 'Sorry, there was an error submitting your payment.');
+        }
     }
 }

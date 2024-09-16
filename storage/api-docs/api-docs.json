@@ -13,6 +13,88 @@
         "version": "3.0"
     },
     "paths": {
+        "/api/restaurants": {
+            "get": {
+                "tags": [
+                    "Restaurants"
+                ],
+                "summary": "Get list of restaurants",
+                "operationId": "d2d43182e1d3ee25a848555dbbed79e1",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Business"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/getRestaurantByLocation": {
+            "post": {
+                "tags": [
+                    "Restaurants"
+                ],
+                "summary": "Get list of restaurants by location with pagination",
+                "operationId": "74c3355ee2e6a319fa8296ec48d62b86",
+                "parameters": [
+                    {
+                        "name": "municipality",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Business"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
         "/": {
             "get": {
                 "summary": "Display Home Page",
@@ -524,6 +606,63 @@
     },
     "components": {
         "schemas": {
+            "Business": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "summary": {
+                        "type": "string",
+                        "example": "Great restaurant with a variety of dishes."
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "123 Main St."
+                    },
+                    "state": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "district": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "municipality": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "ward": {
+                        "type": "string",
+                        "example": "Ward 4"
+                    },
+                    "tole": {
+                        "type": "string",
+                        "example": "Tole 2"
+                    },
+                    "latitude": {
+                        "type": "string",
+                        "example": "27.7172"
+                    },
+                    "longitude": {
+                        "type": "string",
+                        "example": "85.3240"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "summary": "Great restaurant with a variety of dishes.",
+                    "address": "123 Main St.",
+                    "state": 1,
+                    "district": 1,
+                    "municipality": 1,
+                    "ward": "Ward 4",
+                    "tole": "Tole 2",
+                    "latitude": "27.7172",
+                    "longitude": "85.3240"
+                }
+            },
             "District": {
                 "properties": {
                     "id": {
@@ -588,6 +727,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Restaurants",
+            "description": "Restaurants"
+        },
         {
             "name": "Customer",
             "description": "Customer"

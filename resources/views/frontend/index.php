@@ -1,6 +1,4 @@
-
-
-@include('frontend.header')
+<?php include "header.php"; ?>
 
 <section class="slider p-0">
     <div class="container-fluid p-0">
@@ -79,7 +77,7 @@
 </section>
 
 
-
+<!-- search end  -->
 <section class="section_menu">
     <div class="container">
 
@@ -390,7 +388,7 @@
         </div>
     </div>
 </section>
-@include('frontend.testimonial')
+<?php include "testimonial.php"; ?>
 <section class="booking-logo bg_gray py-4 position-relative">
     <div class="container">
         <div class="row d-flex align-items-center">
@@ -427,4 +425,4 @@
         </div>
     </div>
 </section>
-@include('frontend.footer')
+<?php include "footer.php"; ?>

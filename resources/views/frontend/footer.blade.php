@@ -1,25 +1,20 @@
 <a id="button">Go To Top</a>
 
-<section class="contact-area bg_img dark_bg " id="contact">
-    <div class="container">
+<section class="contact-area">
+
+    <div class="footer-overlay"></div>
+
+    <div class="footer-top-area">
         <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="contact-content text-center">
-  
-                    <div class="phone_text">
-                        <h6>Kumaripati - 5 Lalitpur  Metropolitan  ,Nepal</h6>
-                        <div class="footer_number">
-                            <h2> <a href="tel: 01-5553000">
-                                    01-5553000</a><span>
-                            </h2>
-                        </div>
-                        <h6><a href="mailto:digisoftdev@gmail.com">
+            <div class="col-md-4">
+                <div class="footer-top-area-item text-center">
+                    <h5>Contact Us</h5>
+                    <p>
+                        <a href="tel:+977-01-5453000">+977-01-5453000, +977-9803030780</a>
 
-                                digisoftdev@gmail.com</a></h6>
-
-
-                    </div>
-                    <div class="contact-social">
+                    </p>
+                    <p><a href="mailto:info@khojsansar.com">info@khojsansar.com</a></p>
+                    <div class="contact-social d-flex justify-content-center">
                         <ul>
                             <li><a class="hover-target" href=""><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
                             </li>
@@ -27,32 +22,54 @@
                             </li>
                             <li><a class="hover-target" href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
                             </li>
-
+                            <li><a class="hover-target" href=""><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
+
             </div>
-        </div>
-        <div class="row footer_bottom d-flex align-items-center h-100 mt-5">
-
-            <div class="col-lg-6 text-lg-left text-center d-flex">
-                <p>Copyright © 2023 Nepal Restro.</p>
-                <p>Website by: <a href="">DigiSoft Developers</a></p>
-            </div>
-
-
-            <div class="col-lg-6">
-                <div class="footer_img d-flex justify-content-end align-items-center ">
-                    <p>We Accept <span><i class="fa fa-hand-o-right" aria-hidden="true"></i></span></p>
-                    <img src="{{ URL::asset('frontend/img/accepts.png')}}" class="img-fluid" alt="">
+            <div class="col-md-4">
+                <div class="footer-top-area-item text-center">
+                    <h5>Address</h5>
+                    <p>kumaripati - 5 <br> Lalitpur Metropolitan, Lalitpur ,Nepal</p>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="footer-top-area-item text-center">
+                    <h5>Opening Hours</h5>
+                    <p>Everyday : From 12.30 To 23.00<br>Kitchen Closes At 22.00</p>
+                    <p class="text-center text-white">We Accept</p>
 
+                    <div class="d-flex align-items-center justify-content-center ">
+                        <img src="img/accepts.png" alt="">
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
+
+    <div class="footer-bottom-area">
+
+        <div class="footer-bottom-middle footer-px">
+            <a href="index.php">
+                <img src="img/logo.png" alt="">
+            </a>
+        </div>
+        <div class="footer-bottom-down footer-px">
+            <div class="d-flex justify-content-between">
+                <div class="footer-bottom-down-left">
+                    <p>Copyright © 2023 Nepal Restro.</p>
+                </div>
+                <div class="footer-bottom-down-right">
+                    <p>Website by: <a href="">DigiSoft Developers</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
-
-
 
 @stack('before-scripts')
 <script src="{{ URL::asset('frontend/js/jquery-1.12.4.min.js')}}"></script>
@@ -71,6 +88,8 @@
 <script src="{{ URL::asset('frontend/js/main.js')}}"></script>
 
 @stack('after-scripts')
+
+
 </body>
 
 </html>

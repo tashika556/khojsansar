@@ -25,7 +25,7 @@
                         <div class="testimonial_box-bottom">
                             <div class="testimonial_box-profile d-flex align-items-center">
                                 <div class="testimonial_box-img">
-                                    <img src="img/user.jpg" alt="profile">
+                                    <img src="img/logo-color.png">
                                 </div>
                                 <div class="testimonial_box-info ml-2">
                                     <div class="testimonial_box-name">
@@ -58,7 +58,7 @@
                         <div class="testimonial_box-bottom">
                             <div class="testimonial_box-profile d-flex align-items-center">
                                 <div class="testimonial_box-img">
-                                    <img src="img/user.jpg" alt="profile">
+                                    <img src="img/logo-color.png">
                                 </div>
                                 <div class="testimonial_box-info ml-2">
                                     <div class="testimonial_box-name">
@@ -85,5 +85,40 @@
     </div>
 </section>
 
-
+<section class="booking-logo bg_gray py-4 position-relative">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
+                <a href="" class="logo_item" alt="#">
+                    <img src="img/client/digisoft.png" alt="#">
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
+                <a href="" class="logo_item" alt="#">
+                    <img src="img/client/digisoft.png" alt="#">
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
+                <a href="" class="logo_item" alt="#">
+                    <img src="img/client/digisoft.png" alt="#">
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
+                <a href="" class="logo_item" alt="#">
+                    <img src="img/client/digisoft.png" alt="#">
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
+                <a href="" class="logo_item" alt="#">
+                    <img src="img/client/digisoft.png" alt="#">
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-6 text-center">
+                <a href="" class="logo_item" alt="#">
+                    <img src="img/client/digisoft.png" alt="#">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 <?php include "footer.php"; ?>

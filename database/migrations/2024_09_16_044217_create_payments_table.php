@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('business');
+            $table->string('payment_receipt');
+            $table->boolean('payment_confirmation')->default(false);;
+            $table->boolean('admin_payment_confirmation')->default(false);
+            $table->foreign('business')->references('id')->on('businesses')->onDelete('CASCADE')->onUpdate('CASCADE');;
             $table->timestamps();
         });
     }

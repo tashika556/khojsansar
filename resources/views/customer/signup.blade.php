@@ -233,7 +233,7 @@
             </div>
         </form>
 
-        <p class="text-center">Already have an account?<a href="{{url('customerlogin')}}"> Login here</a></p>
+        <p class="text-center">Already have an account? <a href="{{url('customerlogin')}}"> Login here</a></p>
     </div>
 </div>
 

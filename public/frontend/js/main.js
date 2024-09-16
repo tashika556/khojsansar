@@ -54,8 +54,8 @@ $(".testimonial_block").slick({
 // testimonial end
 
 $(".restaurant_detail_slider").slick({
-  dots: false,
-  arrow: true,
+  dots: true,
+  arrow: false,
   infinite: true,
   autoplay: true,
   fade: false,
@@ -99,14 +99,8 @@ $(".restaurant_slider").slick({
 });
 // restaurant end
 $(document).ready(function () {
-  //jquery for toggle sub menus
-  $(".sub-btn-large").click(function () {
-    $(this).next(".sub-menu-large").slideToggle();
-    $(this).find(".dropdown").toggleClass("rotate");
-  });
-
-  //jquery for expand and collapse the sidebar
-  $(".menu-btn-large").click(function () {
+  $(".menu-btn-large").click(function (e) {
+    e.preventDefault();
     $(".side-bar-large").addClass("active");
     $(".menu-btn-large").css("visibility", "hidden");
   });
@@ -137,244 +131,209 @@ $(document).ready(function () {
   });
 });
 // menu mobile end
+$(document).ready(function () {
+  let originalItems = $('#restaurant-list .col-lg-4').clone();
+  let $items = originalItems;
+  let itemsPerPage = parseInt($('#items-per-page-select').val());
+  let currentPage = 1;
 
-////7///////////////////////////////////////////////////////////////////////
-// city_state.js ///////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
+  function updateShowingCounter() {
+    const totalItems = originalItems.length;
+    const totalFilteredItems = $items.length;
+    const start = (currentPage - 1) * itemsPerPage + 1;
+    const end = Math.min(currentPage * itemsPerPage, totalFilteredItems);
+    $('#showing-start').text(start);
+    $('#showing-end').text(end);
+    $('#total-count').text(totalItems);
+  }
 
-var countries = Object();
-countries["Bagmati"] =
-  "Sindhuli|Ramechhap|Dolakha|Bhaktapur|Dhading|Kathmandu|Kavrepalanchok|Lalitpur|Nuwakot|Rasuwa|Sindhupalchok|Chitwan|Makwanpur";
-countries["Madhesh"] =
-  "Sarlahi District|Dhanusha District|Bara District|Rautahat District|Saptari District|Siraha District|Mahottari District|Parsa District";
-countries["Province No.1"] =
-  "Jhapa|Ilam|Panchthar|Taplejung|Sankhuwasabha|Terhathum|Bhojpur|Dhankuta|Khotang|Sunsari|Morang|Solukhumbu|Okhaldhunga|Udaipur";
-countries["Gandaki"] =
-  "Kaski District|Syangja District|Tanahun District|Lamjung District|Manang District|Gorkha District|Parbat District|Mustang District|Myagdi District|Baglung District|Nawalparasi District";
-countries["Lumbini"] =
-  "Arghakhanchi|Banke|Bardiya|Dang|Gulmi|Kapilvastu|Parasi|Palpa|Pyuthan|Rolpa|Rukum|Rupandehi";
-countries["Karnali"] =
-  "Western Rukum|Salyan|Dolpa|Humla|Jumla|Kalikot|Mugu|Surkhet|Dailekh|Jajarkot";
-countries["Sudurpashchim"] =
-  "Achham|Baitadi|Bajhang|Bajura|Dadeldhura|Darchula|Doti|Kailali|Kanchanpur";
+  function showPage(page) {
+    if (page < 1 || page > Math.ceil($items.length / itemsPerPage)) return;
+    $items.hide();
+    $items.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
+    currentPage = page;
 
-////////////////////////////////////////////////////////////////////////////
+    $('.pagination-link').removeClass('active');
+    $(`.pagination-link[data-page="${page}"]`).addClass('active');
 
-var city_states = Object();
+    // Update button states
+    $('.pagination-link.prev').toggleClass('disabled', currentPage === 1);
+    $('.pagination-link.next').toggleClass('disabled', currentPage === Math.ceil($items.length / itemsPerPage));
 
-//Sudurpashchim
-city_states["Achham"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Baitadi"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Bajhang"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Panchthar"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Bajura"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Dadeldhura"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Darchula"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Doti"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Kailali"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Kanchanpur"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
+    updateShowingCounter();
+  }
 
-//Madhesh
-//Province No.1
-city_states["Jhapa"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Ilam"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Rautahat District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Panchthar"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Taplejung"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Sankhuwasabha"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Terhathum"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Bhojpur"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Dhankuta"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Khotang"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Sunsari"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Morang"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Solukhumbu"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Udaipur"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-//Madhesh
-city_states["Sarlahi District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Dhanusha District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Rautahat District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Saptari District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Siraha District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Mahottari District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Parsa District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
+  function createPagination() {
+    const $pagination = $('#pagination');
+    $pagination.find('.pagination-link:not(.prev):not(.next)').remove();
 
-// gandaki
-city_states["Kaski District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Syangja District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Tanahun District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Lamjung District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Manang District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Gorkha District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Parbat District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Mustang District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Myagdi District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Baglung District"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Nawalparasi District"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
+    const totalPages = Math.ceil($items.length / itemsPerPage);
+    for (let i = 1; i <= totalPages; i++) {
+      const $link = $('<a></a>', {
+        href: '#',
+        class: 'pagination-link',
+        text: i,
+        'data-page': i
+      });
 
-// Lumbini
-city_states["Arghakhanchi"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Banke"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Bardiya"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Dang"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Gulmi"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Kapilvastu"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Parasi"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Palpa"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Pyuthan"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Rolpa"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Rukum"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Rupandehi"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-// karnali
-city_states["Western Rukum"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Salyan"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Dolpa"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Humla"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Jumla"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Kalikot"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Mugu"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Surkhet"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Dailekh"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Jajarkot"] =
-  "Asian Chicken Soup||Hot & Sour Soup Chicken|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
+      $pagination.append($link);
+    }
+  }
 
-//Bagmati
-city_states["Sindhuli"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Ramechhap"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Dolakha"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Bhaktapur"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Dhading"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Kathmandu"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Kavrepalanchok"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Lalitpur"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Nuwakot"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Rasuwa"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Sindhupalchok"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Chitwan"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
-city_states["Makwanpur"] =
-  "Veg Momo Chilly||Buff Momo Kothey|Chicken Momo Chilly|Chicken Momo Steamed|Veg-Momo|Chicken Momo Kothey";
+  function filterItems(query) {
+    if (query) {
+      $items = originalItems.filter(function () {
+        const name = $(this).find('.restaurant_block-text h5').text().toLowerCase();
+        return name.includes(query.toLowerCase());
+      });
+    } else {
+      $items = originalItems;
+    }
 
-////////////////////////////////////////////////////////////////////////////
+    $('#restaurant-list').empty().append($items);
 
-html = "";
-for (region in countries)
-  html += '<option value="' + region + '">' + region + "</option>";
 
-document.getElementById("region").innerHTML =
-  document.getElementById("region").innerHTML + html;
+    createPagination();
+    showPage(1);
+  }
 
-function set_country(oRegionSel, oCountrySel, oCity_StateSel) {
-  var countryArr;
-  oCountrySel.length = 0;
-  oCity_StateSel.length = 0;
-  var region = oRegionSel.options[oRegionSel.selectedIndex].text;
-  if (countries[region]) {
-    oCountrySel.disabled = false;
-    oCity_StateSel.disabled = true;
-    oCountrySel.options[0] = new Option("Districts", "");
-    countryArr = countries[region].split("|");
-    for (var i = 0; i < countryArr.length; i++)
-      oCountrySel.options[i + 1] = new Option(countryArr[i], countryArr[i]);
-    document.getElementById("txtregion").innerHTML = region;
-    document.getElementById("txtplacename").innerHTML = "";
-  } else oCountrySel.disabled = true;
+  $('#pagination').on('click', '.pagination-link', function (e) {
+    e.preventDefault();
+    const page = $(this).data('page');
+    if (page === 'prev') {
+      showPage(currentPage - 1);
+    } else if (page === 'next') {
+      showPage(currentPage + 1);
+    } else {
+      showPage(Number(page));
+    }
+  });
+
+  $('#search-input').on('input', function () {
+    const query = $(this).val();
+    filterItems(query);
+  });
+
+  $('#items-per-page-select').on('change', function () {
+    itemsPerPage = parseInt($(this).val());
+
+    filterItems($('#search-input').val());
+  });
+
+
+  filterItems('');
+});
+
+//////////////city_state///////////////////////////////////////////////////
+const data = {
+  regions: {
+    'Bagmati': ['Sindhuli', 'Ramechhap', 'Dolakha', 'Bhaktapur', 'Dhading', 'Kathmandu', 'Kavrepalanchok', 'Lalitpur', 'Nuwakot', 'Rasuwa', 'Sindhupalchok', 'Chitwan', 'Makwanpur'],
+    'Madhesh': ['Sarlahi District', 'Dhanusha District', 'Bara District', 'Rautahat District', 'Saptari District', 'Siraha District', 'Mahottari District', 'Parsa District'],
+    'Province No.1': ['Jhapa', 'Ilam', 'Panchthar', 'Taplejung', 'Sankhuwasabha', 'Terhathum', 'Bhojpur', 'Dhankuta', 'Khotang', 'Sunsari', 'Morang', 'Solukhumbu', 'Okhaldhunga', 'Udaipur'],
+    'Gandaki': ['Kaski District', 'Syangja District', 'Tanahun District', 'Lamjung District', 'Manang District', 'Gorkha District', 'Parbat District', 'Mustang District', 'Myagdi District', 'Baglung District', 'Nawalparasi District'],
+    'Lumbini': ['Arghakhanchi', 'Banke', 'Bardiya', 'Dang', 'Gulmi', 'Kapilvastu', 'Parasi', 'Palpa', 'Pyuthan', 'Rolpa', 'Rukum', 'Rupandehi'],
+    'Karnali': ['Western Rukum', 'Salyan', 'Dolpa', 'Humla', 'Jumla', 'Kalikot', 'Mugu', 'Surkhet', 'Dailekh', 'Jajarkot'],
+    'Sudurpashchim': ['Achham', 'Baitadi', 'Bajhang', 'Bajura', 'Dadeldhura', 'Darchula', 'Doti', 'Kailali', 'Kanchanpur'],
+  },
+  districts: {
+    // Bagmati//
+    'Sindhuli': ['Kamalamai', 'Dudhauli', 'Sunkoshi Rural', 'Hariharpurgadhi Rural', 'Tinpatan Rural', 'Marin Rural', 'Golanjor Rural', 'Phikkal Rural', 'Ghyanglekh Rural'],
+    'Ramechhap': ['Manthali', 'Ramechhap', 'Umakunda Rural', 'Khandadevi Rural', 'Gokulganga Rural', 'Doramba Rural', 'Likhu Rural', 'Sunapati Rural'],
+    'Dolakha': ['Bhimeswor', 'Jiri', 'Kalinchok Rural', 'Melung Rural', 'Bigu Rural', 'Gaurishankar Rural', 'Baiteshwor Rural', 'Sailung Rural', 'Tamakoshi Rural', 'Kalinchok Rural'],
+    'Bhaktapur': ['Bhaktapur', 'Changunarayan', 'Madhyapur Thimi', 'Suryabinayak'],
+    'Dhading': ['Dhunibeshi', 'Nilkantha', 'Khaniyabas', 'Gajuri', 'Galchhi', 'Gangajamuna', 'Jwalamukhi', 'Thakre', 'Netrawati Dabjong', 'Benighat Rorang', 'Rubi Valley', 'Siddhalek', 'Tripurasundari'],
+    'Kathmandu': ['Kathmandu Metropolitan', 'Budhanilkantha', 'Tarakeshwar', 'Gokarneshwar', 'Chandragiri', 'Tokha', 'Kageshwari-Manohara', 'Nagarjun', 'Kirtipur', 'Dakshinkali', 'Shankharapur'],
+    'Kavrepalanchok': ['Banepa', 'Bethanchok Rural', 'Bhumlu Rural', 'Chauri Deurali Rural', 'Dhulikhel', 'Khani Khola Rural', 'Mahabharat Rural', 'Mandandeupur', 'Namobuddha', 'Panauti', 'Panchkhal', 'Roshi Rural', 'Temal Rural'],
+    'Lalitpur': ['Lalitpur Metropolitan', 'Mahalaxmi', 'Godawari', 'Konjyoson Rural', 'Bagmati Rural', 'Mahankal Rural'],
+    'Nuwakot': ['Bidur', 'Belkotgadhi', 'Kakani Rural', 'Panchakanya Rural', 'Likhu Rural', 'Dupcheshwar Rural', 'hivapuri Rural', 'Tarkeshwar Rural', 'Kispang Rural', 'Myagang Rural'],
+    'Rasuwa': ['Uttargaya Rural', 'Kalika Rural', 'Gosaikunda Rural', 'Naukunda Rural', 'Aamachhodingmo Rural'],
+    'Sindhupalchok': ['Chautara Sangachowkgadhi', 'Bahrabise', 'Melamchi', 'Balephi Rural', 'Sunkoshi Rural', 'Indrawati Rural', 'Jugal Rural', 'Panchpokhari Thangpal Rural', 'Bhotekoshi Rural', 'Lisankhu Pakhar Rural', 'Helambu Rural', 'Tripurasundari Rural'],
+    'Chitwan': ['Bharatpur Metropolitan', 'Kalika', 'Khairahani', 'Madi', 'Ratnanagar', 'Rapti', 'Ichchhakamana Rural'],
+    'Makwanpur': ['Hetauda Sub-Metropolitan', 'Thaha', 'Bhimphedi Rural', 'Makawanpurgadhi Rural', 'Manahari Rural', 'Raksirang Rural', 'Bakaiya Rural', 'Bagmati Rural', 'Kailash Rural', 'Indrasarowar Rural'],
+  },
+  municipalities: {
+    'Kathmandu Metropolitan': ['Asian Chicken Soup', 'Hot & Sour Soup Chicken', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
+    'Bhaktapur': ['Veg Momo Chilly', 'Buff Momo Kothey', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
+    'Lalitpur Metropolitan': ['Asian Chicken Soup', 'Hot & Sour Soup Chicken', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
+    'Kamalamai': ['Veg Momo Chilly', 'Buff Momo Kothey', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
+    'Manthali': ['Asian Chicken Soup', 'Hot & Sour Soup Chicken', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
+    'Bhimeswor': ['Veg Momo Chilly', 'Buff Momo Kothey', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
+  }
+};
+
+// Populate the regions dropdown
+function populateRegions() {
+  const regionSelect = document.getElementById('region');
+  for (const region in data.regions) {
+    const option = document.createElement('option');
+    option.value = region;
+    option.text = region;
+    regionSelect.appendChild(option);
+  }
 }
 
-function set_city_state(oCountrySel, oCity_StateSel) {
-  var city_stateArr;
-  oCity_StateSel.length = 0;
-  var country = oCountrySel.options[oCountrySel.selectedIndex].text;
-  if (city_states[country]) {
-    oCity_StateSel.disabled = false;
-    oCity_StateSel.options[0] = new Option("Select Menu", "");
-    city_stateArr = city_states[country].split("|");
-    for (var i = 0; i < city_stateArr.length; i++)
-      oCity_StateSel.options[i + 1] = new Option(
-        city_stateArr[i],
-        city_stateArr[i]
-      );
-  } else oCity_StateSel.disabled = true;
+// Update districts based on selected region
+function setCountry(regionSelect) {
+  const region = regionSelect.value;
+  const districtSelect = document.getElementById('district');
+  districtSelect.innerHTML = '<option value="" selected="selected">Districts</option>';
+  if (region && data.regions[region]) {
+    data.regions[region].forEach(district => {
+      const option = document.createElement('option');
+      option.value = district;
+      option.text = district;
+      districtSelect.appendChild(option);
+    });
+    districtSelect.disabled = false;
+  } else {
+    districtSelect.disabled = true;
+  }
+  document.getElementById('municipality').innerHTML = '<option value="" selected="selected">Municipality</option>';
+  document.getElementById('municipality').disabled = true;
+  document.getElementById('favorite').innerHTML = '<option value="" selected="selected">Favorite</option>';
+  document.getElementById('favorite').disabled = true;
 }
 
-function print_city_state(oCountrySel, oCity_StateSel) {
-  var country = oCountrySel.options[oCountrySel.selectedIndex].text;
-  var city_state = oCity_StateSel.options[oCity_StateSel.selectedIndex].text;
+// Update municipalities based on selected district
+function setMunicipality(districtSelect) {
+  const district = districtSelect.value;
+  const municipalitySelect = document.getElementById('municipality');
+  municipalitySelect.innerHTML = '<option value="" selected="selected">Municipality</option>';
+  if (district && data.districts[district]) {
+    data.districts[district].forEach(municipality => {
+      const option = document.createElement('option');
+      option.value = municipality;
+      option.text = municipality;
+      municipalitySelect.appendChild(option);
+    });
+    municipalitySelect.disabled = false;
+  } else {
+    municipalitySelect.disabled = true;
+  }
+  document.getElementById('favorite').innerHTML = '<option value="" selected="selected">Favorite</option>';
+  document.getElementById('favorite').disabled = true;
 }
+
+// Update favorites based on selected municipality
+function setFavorite(municipalitySelect) {
+  const municipality = municipalitySelect.value;
+  const favoriteSelect = document.getElementById('favorite');
+  favoriteSelect.innerHTML = '<option value="" selected="selected">Favorite</option>';
+  if (municipality && data.municipalities[municipality]) {
+    data.municipalities[municipality].forEach(favorite => {
+      const option = document.createElement('option');
+      option.value = favorite;
+      option.text = favorite;
+      favoriteSelect.appendChild(option);
+    });
+    favoriteSelect.disabled = false;
+  } else {
+    favoriteSelect.disabled = true;
+  }
+}
+
+// Initialize the form by populating regions
+populateRegions();
 
 /////////////////// search end
 

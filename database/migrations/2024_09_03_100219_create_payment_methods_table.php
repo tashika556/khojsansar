@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('payment_title');
-            $table->string('payment_data');
+            $table->string('qr_photo');
+            $table->string('accountholder_bank_name');
+            $table->string('accountholder_name');
+            $table->string('accountholder_number');
+            $table->string('accountholder_branch');
             $table->timestamps();
         });
     }

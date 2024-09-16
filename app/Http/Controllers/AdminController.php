@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
+use App\Models\PaymentMethod;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -44,8 +45,10 @@ class AdminController extends Controller
     }
     public function dashboard()
     {
-      
-        return view('admin.dashboard');
+        $paymentMethods = PaymentMethod::all(); 
+
+    return view('admin.dashboard', compact('paymentMethods'));
+
     }
     public function adminlogout(Request $request)
     {

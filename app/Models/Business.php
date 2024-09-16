@@ -52,4 +52,9 @@ public function facilities()
 {
     return $this->belongsToMany(Facility::class, 'business_facilities', 'business', 'facility');
 }
+public function menus()
+{
+    return $this->hasMany(BusinessMenu::class);
+}
+
 }
