@@ -8,13 +8,8 @@
 <link rel="stylesheet" href="{{ asset('admin/libs/%40tarekraafat/autocomplete.js/css/autoComplete.css') }}">
 <link rel="stylesheet" href="{{ asset('admin/libs/choices.js/public/assets/styles/choices.min.css') }}">
 
-    
 @endpush 
 @section('container')
-
-
-  
-   
 
         <div class="page">
 
@@ -45,9 +40,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End::page-header -->
-
-                    <!-- Start:: row-1 -->
+          
                     <div class="row">
                         <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="card custom-card">
@@ -146,9 +139,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End:: row-1 -->
 
-                    <!-- Start:: row-2 -->
                     <div class="row">
                         <div class="col-xl-9">
                             <div class="card custom-card overflow-hidden sales-statistics-card">
@@ -194,9 +185,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End:: row-2 -->
 
-                    <!-- Start:: row-3 -->
                     <div class="row">
                         <div class="col-xl-3">
                             <div class="card custom-card">
@@ -511,9 +500,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End:: row-3 -->
 
-                    <!-- Start:: row-4 -->
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card custom-card">
@@ -852,34 +839,24 @@
 
 <script src="{{ asset('admin/libs/node-waves/waves.min.js')}}"></script>
 
-<!-- SIMPLEBAR JS -->
 <script src="{{ asset('admin/libs/simplebar/simplebar.min.js')}}"></script>
 <script src="{{ asset('admin/js/simplebar.js')}}"></script>
 
-<!-- PICKER JS -->
 <script src="{{ asset('admin/libs/flatpickr/flatpickr.min.js')}}"></script>
 <script src="{{ asset('admin/libs/%40simonwep/pickr/pickr.es5.min.js')}}"></script>
 
-<!-- AUTO COMPLETE JS -->
 <script src="{{ asset('admin/libs/%40tarekraafat/autocomplete.js/autoComplete.min.js')}}"></script>
 
-<!-- Apex Charts JS -->
 <script src="{{ asset('admin/libs/apexcharts/apexcharts.min.js')}}"></script>
 
-<!-- Sales Dashboard --> 
 <script src="{{ asset('admin/js/sales-dashboard.js')}}"></script>
 
-
-<!-- STICKY JS -->
 <script src="{{ asset('admin/js/sticky.js')}}"></script>
 
-<!-- DEFAULTMENU JS -->
 <script src="{{ asset('admin/js/defaultmenu.js')}}"></script>
 
-<!-- CUSTOM JS -->
 <script src="{{ asset('admin/js/custom.js')}}"></script>
 
-<!-- CUSTOM-SWITCHER JS -->
 <script src="{{ asset('admin/js/custom-switcher.js')}}"></script>
     
 @endpush 

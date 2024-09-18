@@ -5,7 +5,7 @@
                         <div class="ul_list ">
 
                             <div class="sidebar_title mb-4">
-                                <h3><span>Favourite Location</span></h3>
+                                <h3><span>Most Popular Restaurants</span></h3>
                             </div>
                             <ul>
                                 <a href="news_detail.php">

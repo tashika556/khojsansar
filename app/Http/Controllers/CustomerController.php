@@ -199,6 +199,7 @@ public function updatepersonalform(Request $request, $id)
     ];
 
     $request->validate([
+        'address' => 'required',
         'first_name' => 'required',
         'last_name' => 'required',
         'business' => 'required',
@@ -226,13 +227,10 @@ public function updatepersonalform(Request $request, $id)
     $customer->temporary_municipality = $request->temporary_municipality ?? $customer->temporary_municipality;
     $customer->temporary_ward = $request->temporary_ward;
     $customer->temporary_tole = $request->temporary_tole;
+    $customer->address = $request->address;
     $customer->phone = $request->phone;
     $customer->email = $request->email;
     $customer->cell = $request->cell;
-
-
-
- 
     $res = $customer->save();
 
     if ($res) {

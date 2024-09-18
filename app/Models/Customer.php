@@ -27,6 +27,7 @@ class Customer extends Model
       'temporary_municipality',
       'temporary_ward',
       'temporary_tole',
+      'address',
       'email',
       'phone',
       'cell',
@@ -76,4 +77,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Municipality::class, 'temporary_municipality', 'id');
     }
+    public function business()
+{
+    return $this->hasOne(Business::class, 'customer', 'id');
+}
+
 }

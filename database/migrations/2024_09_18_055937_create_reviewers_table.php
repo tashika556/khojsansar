@@ -11,18 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('specials', function (Blueprint $table) {
+        Schema::create('reviewers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('business');
-            $table->string('special_name');
-            $table->string('photo')->nullable();
-            $table->foreign('business')->references('id')->on('businesses');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('provider')->nullable();
+            $table->string('provider_id')->nullable();
             $table->timestamps();
         });
+        
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('specials');
+        Schema::dropIfExists('reviewers');
     }
 };

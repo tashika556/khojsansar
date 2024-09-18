@@ -867,7 +867,7 @@ div#counter-box {
   background: var(--main_color);
 }
 
-.search_btn a {
+.search_btn button#search-button {
   background: #d30100;
   padding: 22px;
   display: block;
@@ -875,7 +875,10 @@ div#counter-box {
   font-size: 24px;
   letter-spacing: 2px;
   color: white;
+  width:100%;
+  border:0px;
 }
+
 
 section.search_section {
   margin-top: -40px;
@@ -1327,7 +1330,7 @@ a.logo_item img {
   margin: 0 10px;
   transition: all 0.4s ease 0s;
   line-height: 25px;
-  font-size: 17px;
+  font-size: 29px;
 }
 
 .contact-social ul li a:hover {
@@ -1488,7 +1491,6 @@ section.banner {
 }
 
 .restaurant_list-block {
-  /* box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px; */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   width: 100%;
   height: auto;
@@ -2133,6 +2135,8 @@ section.blog_detail .section_title h1 {
   border: 2px solid #ec7e17;
   border-radius: 50%;
   padding: 6px;
+  width: 85px;
+  height: 85px;
 }
 
 .testimonial_box-name h4 {
@@ -2603,23 +2607,9 @@ a.arrow_project {
 
 /* footer */
 .footer-top-area {
-  padding-top: 105px;
-  padding-bottom: 105px;
+  padding-top: 85px;
+  /* padding-bottom: 60px; */
   border-top: 0 solid rgba(201, 165, 129, .5);
-}
-
-.footer-top-area .col-md-4 {
-  position: relative;
-}
-
-.footer-top-area .col-md-4:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: 1px;
-  background: #854b4b;
 }
 
 .footer-top-area-item {
@@ -2709,7 +2699,7 @@ section.contact-area {
   bottom: 23px;
   right: 0;
   left: 0;
-  /* opacity: 20%; */
+  opacity: 20%;
   background-image: url("../img/cooking.png");
 }
 
@@ -2823,7 +2813,7 @@ section.contact-area {
   bottom: 0;
   right: 0;
   left: 0;
-  opacity: 40%;
+  opacity: 10%;
   background-image: url("../img/7551ac4acfcfb9f4686cbf975a7.png");
 }
 
@@ -2862,23 +2852,6 @@ section.contact-area {
   top: -30px;
   left: 0;
 }
-
-.more-btn {
-  color: #042726;
-  border: 1px solid #042726;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  width: auto;
-  margin: 0;
-  padding: 10px 15px;
-}
-
-.more-btn:hover {
-  color: #fff;
-  background-color: #042726;
-}
-
 .category select.decorated option:hover {
   box-shadow: 0 0 10px 100px #042726 inset;
 }
@@ -2916,4 +2889,77 @@ section.contact-area {
   font-weight: 500;
   gap: 5px;
   width: 49%;
+}
+.restaurant-btn {
+  display: inline-block;
+  transition: all 400ms ease;
+}
+.restaurant-btn i {
+  position: relative;
+  font-size: 16px;
+  color: #042726;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid #042726;
+  line-height: 42px;
+  transition: 400ms cubic-bezier(0.4, 0, 1, 1);
+  transform: translateX(5px);
+} 
+
+.restaurant-btn:hover i {
+  color: #fff;
+  background-color: #042726;
+  transform: translateX(0px);
+}
+
+.restaurant-btn span {
+  display: none;
+  margin-left: 6px;
+  font-size: 16px;
+  color: #042726;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+
+.restaurant-btn:hover span {
+  display: inline-block;
+} 
+.star-rating {
+  white-space: nowrap;
+}
+
+.star-rating input[type="radio"] {
+  appearance: none;
+}
+
+.star-rating i {
+  font-size: 1.2em;
+  transition: 0.3s;
+}
+
+.star-rating label:hover i,
+.star-rating label:hover i {
+  transform: scale(1.35);
+  color: #fadab2;
+  animation: jump 0.5s calc(0.3s + (var(--i) - 1) * 0.15s) alternate infinite;
+}
+
+.star-rating label:has(~ :checked) i {
+  color: #f3ab52;
+  text-shadow: 0 0 2px #ffffff, 0 0 10px #ecc682;
+}
+
+
+@keyframes jump {
+
+  0%,
+  50% {
+    transform: translatey(0) scale(1.35);
+  }
+
+  100% {
+    transform: translatey(-15%) scale(1.35);
+  }
 }

@@ -17,13 +17,31 @@ use App\Http\Controllers\BusinessMenuController;
 use App\Http\Controllers\BusinessServiceController;
 use App\Http\Controllers\SpecialController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PhotosVideosController;
 
 //view frontend
-Route::get('/', function () {
-    return view('frontend/index');
-});
+
+
+Route::get('/', [UserController::class,'index']);
+
+Route::get('/restaurant-list', [UserController::class, 'showRestaurantList'])->name('restaurant.list');
+Route::get('/restaurantall-list', [UserController::class, 'showRestauranatallList'])->name('restaurantall.list');
+Route::get('/restaurant-detail/{id}', [UserController::class, 'showRestaurantDetail'])->name('restaurant.detail');
+
+
+Route::get('/menu-detail/{id}', [MenuController::class, 'showMenuDetail'])->name('menu.detail');
+Route::get('/menu-pdf/{id}', [MenuController::class, 'showMenuPdf'])->name('menu.pdf');
+
+Route::post('/getCategories', [UserController::class, 'getCategories']);
+
+Route::get('login/facebook', [ReviewController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [ReviewController::class, 'handleFacebookCallback']);
+Route::get('login/google', [ReviewController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('login/google/callback', [ReviewController::class, 'handleGoogleCallback']);
+Route::post('business/{id}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 Route::get('/contact', function () {
     return view('frontend/contact');
@@ -35,6 +53,8 @@ Route::get('/map', function () {
 //province district municipality view
 
 Route::post('/getDistrict', [DistrictController::class,'getDistricts']);
+
+
 Route::post('/getMunicipality', [MunicipalityController::class,'getMunicipalitys']);
 
 
@@ -124,7 +144,6 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
 
     Route::get('/admin/payment/{id}', [PaymentMethodController::class, 'payment'])->name('payment');
-    // Route::post('/admin/payment', [PaymentMethodController::class, 'store'])->name('payment.store');
     Route::put('/admin/payment/{id}', [PaymentMethodController::class, 'update'])->name('payment.update');
     Route::delete('/admin/payment/{id}', [PaymentMethodController::class, 'destroy'])->name('payment.destroy');
   

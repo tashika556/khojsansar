@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\PaymentMethod;
 use App\Models\Facility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -10,7 +10,7 @@ class FacilityController extends Controller
 {
         
     public function facility()
-    {
+    { 
         $facility =Facility::all();
         return view('admin.facility.facility-list',compact('facility'));
     }

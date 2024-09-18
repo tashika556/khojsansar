@@ -111,6 +111,13 @@
                                 <p>Payment</p>
                             </div>
                         </div>
+                        <div class="img-popup">
+                        <img src="" alt="Popup Image">
+                        <div class="close-btn">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                    </div>
     @section('container')
     @show
     @stack('before-scripts')

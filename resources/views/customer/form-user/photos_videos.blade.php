@@ -7,63 +7,58 @@
     <div class="row">
         <div class="col-12">
             <div class="bg-white p-4">
-                <form action="{{ route('businessphotosvideosstore', $business->id) }}" method="post"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group mb-4 border-bottom pb-4">
-                                <label for="slider_photos">Slider Photos or Videos</label><br>
-                                <input type="file" name="slider_images[]" id="sliderImagesInput" accept="image/*"
-                                    multiple onchange="previewImages(this, 'sliderImagesPreview', 'slider')">
-                                <div id="sliderImagesPreview" class="image-preview d-flex">
-                                    @foreach($sliderphotos as $photo)
-                                    <div class="image-wrapper img-sliders-gallery">
-                                        <img src="{{ asset('storage/uploads/slider_photos_videos/' . $photo->photosvideos) }}"
-                                            class="img-thumbnail">
-                                        <span class="remove-icon"
-                                            onclick="removeImage('{{ $photo->photosvideos }}', 'slider')">&#10060;</span>
-                                        <input type="hidden" name="removed_slider_images[]"
-                                            value="{{ $photo->photosvideos }}">
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group mb-4 border-bottom pb-4">
-                                <label for="gallery_photos">Gallery Photos or Videos</label><br>
-                                <input type="file" name="gallery_images[]" id="galleryImagesInput" accept="image/*"
-                                    multiple onchange="previewImages(this, 'galleryImagesPreview', 'gallery')">
-
-
-                                <div id="galleryImagesPreview" class="image-preview d-flex">
-                                    @foreach($galleryphotos as $photo)
-                                    <div class="image-wrapper img-sliders-gallery">
-                                        <img src="{{ asset('storage/uploads/gallery_photos_videos/' . $photo->photosvideos) }}"
-                                            class="img-thumbnail">
-                                        <span class="remove-icon"
-                                            onclick="removeImage('{{ $photo->photosvideos }}', 'gallery')">&#10060;</span>
-                                        <input type="hidden" name="removed_gallery_images[]"
-                                            value="{{ $photo->photosvideos }}">
-                                    </div>
-                                    @endforeach
-                                </div>
-
-                            </div>
-                        </div>
+            <form action="{{ route('businessphotosvideosstore', $business->id) }}" method="post" enctype="multipart/form-data">
+    @csrf
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group mb-4 border-bottom pb-4">
+                <label for="slider_photos">Slider Photos or Videos</label><br>
+                <input type="file" name="slider_images[]" id="sliderImagesInput" accept="image/*"
+                    multiple onchange="previewImages(this, 'sliderImagesPreview', 'slider')">
+                <div id="sliderImagesPreview" class="image-preview d-flex">
+                    @foreach($sliderphotos as $photo)
+                    <div class="image-wrapper img-sliders-gallery container__img-holder">
+                        <img src="{{ asset('storage/uploads/slider_photos_videos/' . $photo->photosvideos) }}"
+                            class="img-thumbnail">
+                        <span class="remove-icon" onclick="removeImage('{{ $photo->photosvideos }}', 'slider')">&#10060;</span>
+                        <input type="hidden" name="existing_slider_images[]" value="{{ $photo->photosvideos }}">
                     </div>
-                    @include('admin.auth.error')
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-danger" value="Update Photos & Videos">
+                    
+                  
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group mb-4 border-bottom pb-4">
+                <label for="gallery_photos">Gallery Photos or Videos</label><br>
+                <input type="file" name="gallery_images[]" id="galleryImagesInput" accept="image/*"
+                    multiple onchange="previewImages(this, 'galleryImagesPreview', 'gallery')">
+                <div id="galleryImagesPreview" class="image-preview d-flex">
+                    @foreach($galleryphotos as $photo)
+                    <div class="image-wrapper img-sliders-gallery container__img-holder">
+                        <img src="{{ asset('storage/uploads/gallery_photos_videos/' . $photo->photosvideos) }}"
+                            class="img-thumbnail">
+                        <span class="remove-icon" onclick="removeImage('{{ $photo->photosvideos }}', 'gallery')">&#10060;</span>
+                        <input type="hidden" name="existing_gallery_images[]" value="{{ $photo->photosvideos }}">
                     </div>
-                </form>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-danger" value="Update Photos & Videos">
+    </div>
+</form>
+
+
             </div>
         </div>
     </div>
 </div>
-
 <script>
 let selectedSliderFiles = [];
 let selectedGalleryFiles = [];
@@ -115,7 +110,6 @@ function createImageWrapper(src, file, type) {
 }
 
 function removeFile(fileToRemove, type) {
-    // Remove the file from the respective array and update the input file
     if (type === 'slider') {
         selectedSliderFiles = selectedSliderFiles.filter(file => file !== fileToRemove);
         updateInputFile('slider');
@@ -135,7 +129,7 @@ function updateInputFile(type) {
 
 function removeImage(imageName, type) {
     const preview = document.getElementById(`${type}ImagesPreview`);
-    const removeInput = document.querySelector(`input[name="removed_${type}_images[]"][value="${imageName}"]`);
+    const removeInput = document.querySelector(`input[name="existing_${type}_images[]"][value="${imageName}"]`);
 
     if (removeInput) {
         removeInput.remove();
@@ -146,7 +140,6 @@ function removeImage(imageName, type) {
         imageWrapper.remove(); 
     }
 }
-
 
 </script>
 

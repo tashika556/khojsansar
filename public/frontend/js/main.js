@@ -1,3 +1,5 @@
+
+
 // testimonial end
 $(document).ready(function () {
   // required elements
@@ -138,204 +140,90 @@ $(document).ready(function () {
   let currentPage = 1;
 
   function updateShowingCounter() {
-    const totalItems = originalItems.length;
-    const totalFilteredItems = $items.length;
-    const start = (currentPage - 1) * itemsPerPage + 1;
-    const end = Math.min(currentPage * itemsPerPage, totalFilteredItems);
-    $('#showing-start').text(start);
-    $('#showing-end').text(end);
-    $('#total-count').text(totalItems);
+      const totalItems = originalItems.length;
+      const totalFilteredItems = $items.length;
+      const start = (currentPage - 1) * itemsPerPage + 1;
+      const end = Math.min(currentPage * itemsPerPage, totalFilteredItems);
+      $('#showing-start').text(start);
+      $('#showing-end').text(end);
+      $('#total-count').text(totalItems);
   }
 
   function showPage(page) {
-    if (page < 1 || page > Math.ceil($items.length / itemsPerPage)) return;
-    $items.hide();
-    $items.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
-    currentPage = page;
+      if (page < 1 || page > Math.ceil($items.length / itemsPerPage)) return;
+      $items.hide();
+      $items.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
+      currentPage = page;
 
-    $('.pagination-link').removeClass('active');
-    $(`.pagination-link[data-page="${page}"]`).addClass('active');
+      $('.pagination-link').removeClass('active');
+      $(`.pagination-link[data-page="${page}"]`).addClass('active');
 
-    // Update button states
-    $('.pagination-link.prev').toggleClass('disabled', currentPage === 1);
-    $('.pagination-link.next').toggleClass('disabled', currentPage === Math.ceil($items.length / itemsPerPage));
+      // Update button states
+      $('.pagination-link.prev').toggleClass('disabled', currentPage === 1);
+      $('.pagination-link.next').toggleClass('disabled', currentPage === Math.ceil($items.length / itemsPerPage));
 
-    updateShowingCounter();
+      updateShowingCounter();
   }
 
   function createPagination() {
-    const $pagination = $('#pagination');
-    $pagination.find('.pagination-link:not(.prev):not(.next)').remove();
+      const $pagination = $('#pagination');
+      $pagination.find('.pagination-link:not(.prev):not(.next)').remove();
 
-    const totalPages = Math.ceil($items.length / itemsPerPage);
-    for (let i = 1; i <= totalPages; i++) {
-      const $link = $('<a></a>', {
-        href: '#',
-        class: 'pagination-link',
-        text: i,
-        'data-page': i
-      });
+      const totalPages = Math.ceil($items.length / itemsPerPage);
+      for (let i = 1; i <= totalPages; i++) {
+          const $link = $('<a></a>', {
+              href: '#',
+              class: 'pagination-link',
+              text: i,
+              'data-page': i
+          });
 
-      $pagination.append($link);
-    }
+          $pagination.append($link);
+      }
   }
 
   function filterItems(query) {
-    if (query) {
-      $items = originalItems.filter(function () {
-        const name = $(this).find('.restaurant_block-text h5').text().toLowerCase();
-        return name.includes(query.toLowerCase());
-      });
-    } else {
-      $items = originalItems;
-    }
+      if (query) {
+          $items = originalItems.filter(function () {
+              const name = $(this).find('.restaurant_block-text h5').text().toLowerCase();
+              return name.includes(query.toLowerCase());
+          });
+      } else {
+          $items = originalItems;
+      }
 
-    $('#restaurant-list').empty().append($items);
+      $('#restaurant-list').empty().append($items);
 
-
-    createPagination();
-    showPage(1);
+      createPagination();
+      showPage(1);
   }
-
-  $('#pagination').on('click', '.pagination-link', function (e) {
-    e.preventDefault();
-    const page = $(this).data('page');
-    if (page === 'prev') {
-      showPage(currentPage - 1);
-    } else if (page === 'next') {
-      showPage(currentPage + 1);
-    } else {
-      showPage(Number(page));
-    }
-  });
-
-  $('#search-input').on('input', function () {
-    const query = $(this).val();
-    filterItems(query);
-  });
 
   $('#items-per-page-select').on('change', function () {
-    itemsPerPage = parseInt($(this).val());
-
-    filterItems($('#search-input').val());
+      itemsPerPage = parseInt($(this).val());
+      createPagination();
+      showPage(1);
   });
 
+  $('#pagination').on('click', '.pagination-link', function (e) {
+      e.preventDefault();
+      const page = $(this).data('page');
+      if (page === 'prev') {
+          showPage(currentPage - 1);
+      } else if (page === 'next') {
+          showPage(currentPage + 1);
+      } else {
+          showPage(Number(page));
+      }
+  });
 
-  filterItems('');
+  $('#search-input').on('keyup', function () {
+      filterItems($(this).val());
+  });
+
+  createPagination();
+  showPage(1);
 });
 
-//////////////city_state///////////////////////////////////////////////////
-const data = {
-  regions: {
-    'Bagmati': ['Sindhuli', 'Ramechhap', 'Dolakha', 'Bhaktapur', 'Dhading', 'Kathmandu', 'Kavrepalanchok', 'Lalitpur', 'Nuwakot', 'Rasuwa', 'Sindhupalchok', 'Chitwan', 'Makwanpur'],
-    'Madhesh': ['Sarlahi District', 'Dhanusha District', 'Bara District', 'Rautahat District', 'Saptari District', 'Siraha District', 'Mahottari District', 'Parsa District'],
-    'Province No.1': ['Jhapa', 'Ilam', 'Panchthar', 'Taplejung', 'Sankhuwasabha', 'Terhathum', 'Bhojpur', 'Dhankuta', 'Khotang', 'Sunsari', 'Morang', 'Solukhumbu', 'Okhaldhunga', 'Udaipur'],
-    'Gandaki': ['Kaski District', 'Syangja District', 'Tanahun District', 'Lamjung District', 'Manang District', 'Gorkha District', 'Parbat District', 'Mustang District', 'Myagdi District', 'Baglung District', 'Nawalparasi District'],
-    'Lumbini': ['Arghakhanchi', 'Banke', 'Bardiya', 'Dang', 'Gulmi', 'Kapilvastu', 'Parasi', 'Palpa', 'Pyuthan', 'Rolpa', 'Rukum', 'Rupandehi'],
-    'Karnali': ['Western Rukum', 'Salyan', 'Dolpa', 'Humla', 'Jumla', 'Kalikot', 'Mugu', 'Surkhet', 'Dailekh', 'Jajarkot'],
-    'Sudurpashchim': ['Achham', 'Baitadi', 'Bajhang', 'Bajura', 'Dadeldhura', 'Darchula', 'Doti', 'Kailali', 'Kanchanpur'],
-  },
-  districts: {
-    // Bagmati//
-    'Sindhuli': ['Kamalamai', 'Dudhauli', 'Sunkoshi Rural', 'Hariharpurgadhi Rural', 'Tinpatan Rural', 'Marin Rural', 'Golanjor Rural', 'Phikkal Rural', 'Ghyanglekh Rural'],
-    'Ramechhap': ['Manthali', 'Ramechhap', 'Umakunda Rural', 'Khandadevi Rural', 'Gokulganga Rural', 'Doramba Rural', 'Likhu Rural', 'Sunapati Rural'],
-    'Dolakha': ['Bhimeswor', 'Jiri', 'Kalinchok Rural', 'Melung Rural', 'Bigu Rural', 'Gaurishankar Rural', 'Baiteshwor Rural', 'Sailung Rural', 'Tamakoshi Rural', 'Kalinchok Rural'],
-    'Bhaktapur': ['Bhaktapur', 'Changunarayan', 'Madhyapur Thimi', 'Suryabinayak'],
-    'Dhading': ['Dhunibeshi', 'Nilkantha', 'Khaniyabas', 'Gajuri', 'Galchhi', 'Gangajamuna', 'Jwalamukhi', 'Thakre', 'Netrawati Dabjong', 'Benighat Rorang', 'Rubi Valley', 'Siddhalek', 'Tripurasundari'],
-    'Kathmandu': ['Kathmandu Metropolitan', 'Budhanilkantha', 'Tarakeshwar', 'Gokarneshwar', 'Chandragiri', 'Tokha', 'Kageshwari-Manohara', 'Nagarjun', 'Kirtipur', 'Dakshinkali', 'Shankharapur'],
-    'Kavrepalanchok': ['Banepa', 'Bethanchok Rural', 'Bhumlu Rural', 'Chauri Deurali Rural', 'Dhulikhel', 'Khani Khola Rural', 'Mahabharat Rural', 'Mandandeupur', 'Namobuddha', 'Panauti', 'Panchkhal', 'Roshi Rural', 'Temal Rural'],
-    'Lalitpur': ['Lalitpur Metropolitan', 'Mahalaxmi', 'Godawari', 'Konjyoson Rural', 'Bagmati Rural', 'Mahankal Rural'],
-    'Nuwakot': ['Bidur', 'Belkotgadhi', 'Kakani Rural', 'Panchakanya Rural', 'Likhu Rural', 'Dupcheshwar Rural', 'hivapuri Rural', 'Tarkeshwar Rural', 'Kispang Rural', 'Myagang Rural'],
-    'Rasuwa': ['Uttargaya Rural', 'Kalika Rural', 'Gosaikunda Rural', 'Naukunda Rural', 'Aamachhodingmo Rural'],
-    'Sindhupalchok': ['Chautara Sangachowkgadhi', 'Bahrabise', 'Melamchi', 'Balephi Rural', 'Sunkoshi Rural', 'Indrawati Rural', 'Jugal Rural', 'Panchpokhari Thangpal Rural', 'Bhotekoshi Rural', 'Lisankhu Pakhar Rural', 'Helambu Rural', 'Tripurasundari Rural'],
-    'Chitwan': ['Bharatpur Metropolitan', 'Kalika', 'Khairahani', 'Madi', 'Ratnanagar', 'Rapti', 'Ichchhakamana Rural'],
-    'Makwanpur': ['Hetauda Sub-Metropolitan', 'Thaha', 'Bhimphedi Rural', 'Makawanpurgadhi Rural', 'Manahari Rural', 'Raksirang Rural', 'Bakaiya Rural', 'Bagmati Rural', 'Kailash Rural', 'Indrasarowar Rural'],
-  },
-  municipalities: {
-    'Kathmandu Metropolitan': ['Asian Chicken Soup', 'Hot & Sour Soup Chicken', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
-    'Bhaktapur': ['Veg Momo Chilly', 'Buff Momo Kothey', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
-    'Lalitpur Metropolitan': ['Asian Chicken Soup', 'Hot & Sour Soup Chicken', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
-    'Kamalamai': ['Veg Momo Chilly', 'Buff Momo Kothey', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
-    'Manthali': ['Asian Chicken Soup', 'Hot & Sour Soup Chicken', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
-    'Bhimeswor': ['Veg Momo Chilly', 'Buff Momo Kothey', 'Chicken Momo Chilly', 'Chicken Momo Steamed', 'Veg-Momo', 'Chicken Momo Kothey'],
-  }
-};
-
-// Populate the regions dropdown
-function populateRegions() {
-  const regionSelect = document.getElementById('region');
-  for (const region in data.regions) {
-    const option = document.createElement('option');
-    option.value = region;
-    option.text = region;
-    regionSelect.appendChild(option);
-  }
-}
-
-// Update districts based on selected region
-function setCountry(regionSelect) {
-  const region = regionSelect.value;
-  const districtSelect = document.getElementById('district');
-  districtSelect.innerHTML = '<option value="" selected="selected">Districts</option>';
-  if (region && data.regions[region]) {
-    data.regions[region].forEach(district => {
-      const option = document.createElement('option');
-      option.value = district;
-      option.text = district;
-      districtSelect.appendChild(option);
-    });
-    districtSelect.disabled = false;
-  } else {
-    districtSelect.disabled = true;
-  }
-  document.getElementById('municipality').innerHTML = '<option value="" selected="selected">Municipality</option>';
-  document.getElementById('municipality').disabled = true;
-  document.getElementById('favorite').innerHTML = '<option value="" selected="selected">Favorite</option>';
-  document.getElementById('favorite').disabled = true;
-}
-
-// Update municipalities based on selected district
-function setMunicipality(districtSelect) {
-  const district = districtSelect.value;
-  const municipalitySelect = document.getElementById('municipality');
-  municipalitySelect.innerHTML = '<option value="" selected="selected">Municipality</option>';
-  if (district && data.districts[district]) {
-    data.districts[district].forEach(municipality => {
-      const option = document.createElement('option');
-      option.value = municipality;
-      option.text = municipality;
-      municipalitySelect.appendChild(option);
-    });
-    municipalitySelect.disabled = false;
-  } else {
-    municipalitySelect.disabled = true;
-  }
-  document.getElementById('favorite').innerHTML = '<option value="" selected="selected">Favorite</option>';
-  document.getElementById('favorite').disabled = true;
-}
-
-// Update favorites based on selected municipality
-function setFavorite(municipalitySelect) {
-  const municipality = municipalitySelect.value;
-  const favoriteSelect = document.getElementById('favorite');
-  favoriteSelect.innerHTML = '<option value="" selected="selected">Favorite</option>';
-  if (municipality && data.municipalities[municipality]) {
-    data.municipalities[municipality].forEach(favorite => {
-      const option = document.createElement('option');
-      option.value = favorite;
-      option.text = favorite;
-      favoriteSelect.appendChild(option);
-    });
-    favoriteSelect.disabled = false;
-  } else {
-    favoriteSelect.disabled = true;
-  }
-}
-
-// Initialize the form by populating regions
-populateRegions();
-
-/////////////////// search end
 
 const slides = document.querySelectorAll(".slide");
 const controls = document.querySelectorAll(".control");

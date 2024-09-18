@@ -14,4 +14,9 @@ class Category extends Model
       'category_name',
 
     ];
+    public function customers()
+{
+    return $this->hasMany(Customer::class, 'category', 'id');
+}
+
 }

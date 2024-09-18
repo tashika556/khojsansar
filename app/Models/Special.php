@@ -9,7 +9,7 @@ class Special extends Model
 {
     use HasFactory;
     protected $table = 'specials';
-    protected $fillable = ['business','special_name','photo'];
+    protected $fillable = ['business','special_name','short_detail','price','photo'];
 
     public function business()
     {

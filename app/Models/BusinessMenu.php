@@ -15,7 +15,6 @@ class BusinessMenu extends Model
     {
         return $this->belongsTo(Business::class, 'business');
     }
-
     public function menu()
     {
         return $this->belongsTo(Menu::class, 'menu_topic');

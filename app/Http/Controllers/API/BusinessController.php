@@ -8,26 +8,25 @@ use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponseTrait;
 
 /**
- * @OA\Info(title="Business API", version="1.0")
+ * @OA\Info(title="Restaurant API", version="1.0")
  */
 
 /**
  * @OA\Schema(
- *     schema="Business",
+ *     schema="RestaurantDetail",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
- *     @OA\Property(property="summary", type="string", example="Great restaurant with a variety of dishes."),
- *     @OA\Property(property="address", type="string", example="123 Main St."),
- *     @OA\Property(property="state", type="integer", example=1),
- *     @OA\Property(property="district", type="integer", example=1),
- *     @OA\Property(property="municipality", type="integer", example=1),
- *     @OA\Property(property="ward", type="string", example="Ward 4"),
- *     @OA\Property(property="tole", type="string", example="Tole 2"),
- *     @OA\Property(property="latitude", type="string", example="27.7172"),
- *     @OA\Property(property="longitude", type="string", example="85.3240"),
- *     example={"id": 1, "summary": "Great restaurant with a variety of dishes.", "address": "123 Main St.", "state": 1, "district": 1, "municipality": 1, "ward": "Ward 4", "tole": "Tole 2", "latitude": "27.7172", "longitude": "85.3240"}
+ *     @OA\Property(property="name", type="string", example="Ani's Restaurant"),
+ *     @OA\Property(property="restaurant_type", type="string", example="Chinese Cuisine"),
+ *     @OA\Property(property="coverimage", type="string", example="coverimage.jpg"),
+ *     @OA\Property(property="rating", type="number", format="float", example=4.5),
+ *     @OA\Property(property="review_count", type="integer", example=120),
+ *     example={"id": 1, "name": "Ani's Restaurant", "restaurant_type": "Chinese Cuisine", "coverimage": "coverimage.jpg", "rating": 4.5, "review_count": 120}
  * )
  */
+
+
+
 
 class BusinessController extends Controller
 {
@@ -37,11 +36,11 @@ class BusinessController extends Controller
      * @OA\Get(
      *     path="/api/restaurants",
      *     summary="Get list of restaurants",
-     *     tags={"Restaurants"},
+     *     tags={"Restaurant Details"},
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Business"))
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/RestaurantDetail"))
      *     ),
      *     @OA\Response(response=404, description="Not Found")
      * )
@@ -56,39 +55,86 @@ class BusinessController extends Controller
             return $this->apiResponse(false, 'An error occurred while fetching restaurants', [], ['error' => $e->getMessage()]);
         }
     }
-
     /**
-     * @OA\Post(
-     *     path="/api/getRestaurantByLocation",
-     *     summary="Get list of restaurants by location with pagination",
-     *     tags={"Restaurants"},
-     * 
+     * @OA\Get(
+     *     path="/api/restaurant/{id}",
+     *     summary="Get restaurant details by ID",
+     *     tags={"Restaurant Details"},
      *     @OA\Parameter(
-     *         name="municipality",
-     *         in="query",
+     *         name="id",
+     *         in="path",
      *         required=true,
      *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="integer", default=1)
-     *     ),
-     *     @OA\Parameter(
-     *         name="per_page",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="integer", default=10)
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Business"))
+     *         @OA\JsonContent(ref="#/components/schemas/RestaurantDetail")
      *     ),
      *     @OA\Response(response=404, description="Not Found")
      * )
      */
+    public function getRestaurantDetail($id)
+    {
+        try {
+    
+            $dummyRating = 4.5;
+            $dummyReviewCount = 120;
+
+            $restaurant = DB::table('businesses')
+                ->join('customers', 'businesses.customer', '=', 'customers.id')
+                ->join('categories', 'customers.category', '=', 'categories.id')
+                ->where('businesses.id', $id)
+                ->select(
+                    'businesses.id',
+                    'customers.business as name',   
+                    'categories.category_name as restaurant_type', 
+                    'businesses.coverimage',
+                    DB::raw("$dummyRating as rating"),
+                    DB::raw("$dummyReviewCount as review_count")
+                )
+                ->first();
+
+            if (!$restaurant) {
+                return $this->apiResponse(false, 'Restaurant not found', [], [], false);
+            }
+
+            return $this->apiResponse(true, 'Restaurant details fetched successfully', $restaurant);
+        } catch (\Exception $e) {
+            return $this->apiResponse(false, 'An error occurred while fetching restaurant details', [], ['error' => $e->getMessage()]);
+        }
+    }
+/**
+ * @OA\Post(
+ *     path="/api/getRestaurantByMunicipalities",
+ *     summary="Get list of restaurants by municipalities with pagination",
+ *     tags={"Restaurants Detail By Location"},
+ *     @OA\Parameter(
+ *         name="municipality",
+ *         in="query",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="query",
+ *         required=false,
+ *         @OA\Schema(type="integer", default=1)
+ *     ),
+ *     @OA\Parameter(
+ *         name="per_page",
+ *         in="query",
+ *         required=false,
+ *         @OA\Schema(type="integer", default=10)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/RestaurantDetail"))
+ *     ),
+ *     @OA\Response(response=404, description="Not Found")
+ * )
+ */
     public function getRestaurantByLocation(Request $request)
     {
     
@@ -111,4 +157,66 @@ class BusinessController extends Controller
             return $this->apiResponse(false, 'An error occurred while fetching restaurants', [], ['error' => $e->getMessage()]);
         }
     }
+    
+ /**
+     * @OA\Post(
+     *     path="/api/getRestaurantsByLatLng",
+     *     summary="Get restaurants by latitude and longitude",
+     *     tags={"Restaurants Detail By Location"},
+     *     @OA\Parameter(
+     *         name="latitude",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number", format="float")
+     *     ),
+     *     @OA\Parameter(
+     *         name="longitude",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number", format="float")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/RestaurantDetail"))
+     *     ),
+     *     @OA\Response(response=404, description="Not Found")
+     * )
+     */
+    public function getRestaurantsByLatLng(Request $request)
+    {
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+
+        if (!$latitude || !$longitude) {
+            return response()->json(['success' => false, 'message' => 'Latitude and Longitude are required'], 400);
+        }
+
+        try {
+     
+            $businesses = Business::selectRaw("
+                businesses.*,
+                customers.business as restaurant_name,
+                4.5 as rating, -- dummy rating
+                200 as review_count, -- dummy review count
+                (6371 * acos(cos(radians(?)) * cos(radians(latitude)) 
+                * cos(radians(longitude) - radians(?)) 
+                + sin(radians(?)) * sin(radians(latitude)))) AS distance
+            ", [$latitude, $longitude, $latitude])
+            ->join('customers', 'customers.id', '=', 'businesses.customer')
+            ->having('distance', '<', 50) 
+            ->orderBy('distance', 'asc')
+            ->get();
+
+            if ($businesses->isEmpty()) {
+                return response()->json(['success' => false, 'message' => 'No restaurants found nearby'], 404);
+            }
+
+            return response()->json(['success' => true, 'data' => $businesses], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'An error occurred', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+
 }

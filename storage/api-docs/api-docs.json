@@ -13,13 +13,33 @@
         "version": "3.0"
     },
     "paths": {
-        "/api/restaurants": {
+        "/api/banners": {
             "get": {
                 "tags": [
-                    "Restaurants"
+                    "Banners"
                 ],
-                "summary": "Get list of restaurants",
-                "operationId": "d2d43182e1d3ee25a848555dbbed79e1",
+                "summary": "Get list of restaurant banners with pagination",
+                "operationId": "2071c64b4086fa1091ce6e988263394d",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
@@ -28,7 +48,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Business"
+                                        "$ref": "#/components/schemas/Banner"
                                     }
                                 }
                             }
@@ -40,13 +60,111 @@
                 }
             }
         },
-        "/api/getRestaurantByLocation": {
+        "/api/getBannersbyRestaurant/{restaurant_id}": {
+            "get": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Get banners by restaurant ID",
+                "operationId": "793346074ec3b0afd749212f55772307",
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Banner"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/restaurants": {
+            "get": {
+                "tags": [
+                    "Restaurant Details"
+                ],
+                "summary": "Get list of restaurants",
+                "operationId": "d2d43182e1d3ee25a848555dbbed79e1",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RestaurantDetail"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/restaurant/{id}": {
+            "get": {
+                "tags": [
+                    "Restaurant Details"
+                ],
+                "summary": "Get restaurant details by ID",
+                "operationId": "fcad4f5c470f4997d46545eb1a4ebcd2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RestaurantDetail"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/getRestaurantByMunicipalities": {
             "post": {
                 "tags": [
-                    "Restaurants"
+                    "Restaurants Detail By Location"
                 ],
-                "summary": "Get list of restaurants by location with pagination",
-                "operationId": "74c3355ee2e6a319fa8296ec48d62b86",
+                "summary": "Get list of restaurants by municipalities with pagination",
+                "operationId": "dbe5d36052731d00115c4d44b4e04279",
                 "parameters": [
                     {
                         "name": "municipality",
@@ -83,7 +201,118 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Business"
+                                        "$ref": "#/components/schemas/RestaurantDetail"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/getRestaurantsByLatLng": {
+            "post": {
+                "tags": [
+                    "Restaurants Detail By Location"
+                ],
+                "summary": "Get restaurants by latitude and longitude",
+                "operationId": "21b6495610824c92cfebbc664eaa6eb1",
+                "parameters": [
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RestaurantDetail"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get list of categories",
+                "operationId": "8e17a9627dbed245cf032f867569cf11",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/getCategory": {
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get categories by Restaurant ID",
+                "operationId": "f37ab78f5139e16524619e2544fdf0b3",
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
                                     }
                                 }
                             }
@@ -415,6 +644,70 @@
                 }
             }
         },
+        "/api/facilities": {
+            "get": {
+                "tags": [
+                    "Facilities"
+                ],
+                "summary": "Get list of facilities",
+                "operationId": "313063116b188c2da61bebe23a871010",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Facility"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/getFacility": {
+            "post": {
+                "tags": [
+                    "Facilities"
+                ],
+                "summary": "Get facilities by restaurant ID",
+                "operationId": "04b3ed1d2f130e4cadd71b073be0e446",
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Facility"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
         "/api/municipalities": {
             "get": {
                 "tags": [
@@ -495,6 +788,300 @@
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Province"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/services": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Get list of Services",
+                "operationId": "7cb57dfc3dc68b14a0f32724289e41ab",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Service"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/getService": {
+            "post": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Get services by restaurant ID",
+                "operationId": "5522555fe5513a7a38ed791f6f6f2a38",
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Service"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/specialfoods": {
+            "get": {
+                "tags": [
+                    "Special Foods"
+                ],
+                "summary": "Get list of special foods",
+                "operationId": "2c1c64c1c0ba4474c550974e564dbd8f",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SpecialFood"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/getSpecialfood": {
+            "post": {
+                "tags": [
+                    "Special Foods"
+                ],
+                "summary": "Get special foods by business ID",
+                "operationId": "7a78e94166b6345d98ac24c641a466d6",
+                "parameters": [
+                    {
+                        "name": "business_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SpecialFood"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/special-offers/all": {
+            "get": {
+                "tags": [
+                    "Special Offers"
+                ],
+                "summary": "Get all special offers with pagination",
+                "operationId": "ace9f3f38256e541914dcbbe494b9c68",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SpecialOffer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/special-offers/restaurant/{restaurant_id}": {
+            "get": {
+                "tags": [
+                    "Special Offers"
+                ],
+                "summary": "Get special offers by restaurant ID",
+                "operationId": "f59522f6bf9723ee57432270e4ae1e95",
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SpecialOffer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/special-offers/municipality/{municipality_id}": {
+            "get": {
+                "tags": [
+                    "Special Offers"
+                ],
+                "summary": "Get special offers by municipality ID",
+                "operationId": "4474ad8170e6c0a2752aec2c2f442ac0",
+                "parameters": [
+                    {
+                        "name": "municipality_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SpecialOffer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/special-offers/restaurant/{restaurant_id}/municipality/{municipality_id}": {
+            "get": {
+                "tags": [
+                    "Special Offers"
+                ],
+                "summary": "Get special offers by restaurant ID and municipality ID",
+                "operationId": "2976ab52fc506d4ef83eece39d5f1fa6",
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "municipality_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SpecialOffer"
                                     }
                                 }
                             }
@@ -606,61 +1193,81 @@
     },
     "components": {
         "schemas": {
-            "Business": {
+            "Banner": {
                 "properties": {
                     "id": {
                         "type": "integer",
                         "example": 1
                     },
-                    "summary": {
-                        "type": "string",
-                        "example": "Great restaurant with a variety of dishes."
-                    },
-                    "address": {
-                        "type": "string",
-                        "example": "123 Main St."
-                    },
-                    "state": {
+                    "restaurant_id": {
                         "type": "integer",
                         "example": 1
                     },
-                    "district": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "municipality": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "ward": {
+                    "coverimage": {
                         "type": "string",
-                        "example": "Ward 4"
-                    },
-                    "tole": {
-                        "type": "string",
-                        "example": "Tole 2"
-                    },
-                    "latitude": {
-                        "type": "string",
-                        "example": "27.7172"
-                    },
-                    "longitude": {
-                        "type": "string",
-                        "example": "85.3240"
+                        "example": "coverimage.jpg"
                     }
                 },
                 "type": "object",
                 "example": {
                     "id": 1,
-                    "summary": "Great restaurant with a variety of dishes.",
-                    "address": "123 Main St.",
-                    "state": 1,
-                    "district": 1,
-                    "municipality": 1,
-                    "ward": "Ward 4",
-                    "tole": "Tole 2",
-                    "latitude": "27.7172",
-                    "longitude": "85.3240"
+                    "restaurant_id": 1,
+                    "coverimage": "coverimage.jpg"
+                }
+            },
+            "RestaurantDetail": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Ani's Restaurant"
+                    },
+                    "restaurant_type": {
+                        "type": "string",
+                        "example": "Chinese Cuisine"
+                    },
+                    "coverimage": {
+                        "type": "string",
+                        "example": "coverimage.jpg"
+                    },
+                    "rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 4.5
+                    },
+                    "review_count": {
+                        "type": "integer",
+                        "example": 120
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "Ani's Restaurant",
+                    "restaurant_type": "Chinese Cuisine",
+                    "coverimage": "coverimage.jpg",
+                    "rating": 4.5,
+                    "review_count": 120
+                }
+            },
+            "Category": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "category_name": {
+                        "type": "string",
+                        "example": "Typical / Ethnic"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "category_name": "Typical / Ethnic"
                 }
             },
             "District": {
@@ -683,6 +1290,28 @@
                     "id": 1,
                     "district_name": "Koshi District",
                     "province_id": 1
+                }
+            },
+            "Facility": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "facility_name": {
+                        "type": "string",
+                        "example": "Wi-Fi"
+                    },
+                    "facility_logo": {
+                        "type": "string",
+                        "example": "wifi.png"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "facility_name": "Wi-Fi",
+                    "facility_logo": "wifi.png"
                 }
             },
             "Municipality": {
@@ -723,13 +1352,82 @@
                     "id": 1,
                     "province_name": "Koshi Pradesh"
                 }
+            },
+            "Service": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "service_name": {
+                        "type": "string",
+                        "example": "Buffet Service"
+                    },
+                    "service_logo": {
+                        "type": "string",
+                        "example": "buffet.png"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "service_name": "Buffet Service",
+                    "service_logo": "buffet.png"
+                }
+            },
+            "SpecialFood": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "special_name": {
+                        "type": "string",
+                        "example": "Kothey Momo"
+                    },
+                    "short_detail": {
+                        "type": "string",
+                        "example": "Delicious, yummy with 4 different pickles."
+                    },
+                    "price": {
+                        "type": "string",
+                        "example": "Rs.200"
+                    },
+                    "photo": {
+                        "type": "string",
+                        "example": "food.png"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "special_name": "Kothey Momo",
+                    "short_detail": "Delicious, yummy with 4 different pickles.",
+                    "price": "Rs.200",
+                    "photo": "food.png"
+                }
+            },
+            "SpecialOffer": {
+                "type": "object"
             }
         }
     },
     "tags": [
         {
-            "name": "Restaurants",
-            "description": "Restaurants"
+            "name": "Banners",
+            "description": "Banners"
+        },
+        {
+            "name": "Restaurant Details",
+            "description": "Restaurant Details"
+        },
+        {
+            "name": "Restaurants Detail By Location",
+            "description": "Restaurants Detail By Location"
+        },
+        {
+            "name": "Categories",
+            "description": "Categories"
         },
         {
             "name": "Customer",
@@ -740,12 +1438,28 @@
             "description": "Districts"
         },
         {
+            "name": "Facilities",
+            "description": "Facilities"
+        },
+        {
             "name": "Municipalities",
             "description": "Municipalities"
         },
         {
             "name": "Provinces",
             "description": "Provinces"
+        },
+        {
+            "name": "Services",
+            "description": "Services"
+        },
+        {
+            "name": "Special Foods",
+            "description": "Special Foods"
+        },
+        {
+            "name": "Special Offers",
+            "description": "Special Offers"
         }
     ]
 }

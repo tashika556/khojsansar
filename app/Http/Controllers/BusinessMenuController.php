@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\BusinessMenu;
 use App\Models\Menu;
+use App\Models\MenuPdf;
 use App\Models\Business;
 use Illuminate\Http\Request;
+
 
 class BusinessMenuController extends Controller
 {
@@ -13,49 +15,68 @@ class BusinessMenuController extends Controller
     {
         $menuTopics = Menu::all();
         $business = Business::where('customer', $id)->firstOrFail();
-    
-        return view('customer.form-user.menu', compact('menuTopics', 'business'));
+        $existingPdf = MenuPdf::where('business', $business->id)->first();
+        return view('customer.form-user.menu', compact('menuTopics', 'business', 'existingPdf'));
     }
-    
     public function store(Request $request, $businessId)
     {
         $messages = [
-            'required' => 'The :attribute field is required. Please click remove icon if you donot need it.',
-
-              'photo.mimes' => 'Photos must be of the following file type: jpg, jpeg or png.'
-        
+            'required' => 'The :attribute field is required. Please click remove icon if you do not need it.',
+            'photo.mimes' => 'Photos must be of the following file type: jpg, jpeg, or png.',
+            'pdf.mimes' => 'File must be of the following file type: pdf.',
         ];
-  
-
+    
+        // Adjust validation rules to handle dynamic inputs better
         $request->validate([
-            'title.*.*' => 'required|string|max:255',
-            'price.*.*' => 'required|string|max:255',
+            'title.*.*' => 'sometimes|required|string|max:255',
+            'price.*.*' => 'sometimes|required|string|max:255',
             'caption.*.*' => 'nullable|string',
             'photo.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-         ], $messages);
+            'pdf' => 'nullable|mimes:pdf|max:10000',
+        ], $messages);
     
         $business = Business::findOrFail($businessId);
     
         foreach ($request->title as $topicId => $titles) {
             foreach ($titles as $index => $title) {
+                $menuId = $request->menu_id[$topicId][$index] ?? null;
                 $menuData = [
                     'menu_topic' => $topicId,
                     'business' => $businessId,
                     'title' => $title,
-                    'price' => $request->price[$topicId][$index],
+                    'price' => $request->price[$topicId][$index] ?? null,
                     'caption' => $request->caption[$topicId][$index] ?? null,
                 ];
+    
                 if (isset($request->photo[$topicId][$index]) && $request->hasFile("photo.$topicId.$index")) {
                     $menuData['photo'] = $request->file("photo.$topicId.$index")->store('menu_photos', 'public');
                 }
     
-                BusinessMenu::create($menuData);
+                if ($menuId) {
+                    $menuItem = BusinessMenu::findOrFail($menuId);
+                    $menuItem->update($menuData);
+                } else {
+                    BusinessMenu::create($menuData);
+                }
             }
         }
+        \Log::info('Request Data:', $request->all());
+        if ($request->hasFile('pdf')) {
+            $pdfPath = $request->file('pdf')->store('menu_pdfs', 'public');
+            \Log::info('PDF uploaded to: ' . $pdfPath);
+    
+            $existingPdf = MenuPdf::where('business', $businessId)->first();
+    
+            if ($existingPdf) {
+                $existingPdf->update(['pdf' => $pdfPath]);
+            } else {
+                MenuPdf::create(['pdf' => $pdfPath, 'business' => $businessId]);
+            }
+        }
+        
 
-        return redirect()->route('businessspecialview', $business->customer)->with('success', 'Menu items added successfully!');
+        return redirect()->route('businessspecialview', $business->customer)->with('success', 'Menu items and PDF added/updated successfully!');
     }
     
-    
-    
+
 }

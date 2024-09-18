@@ -5,15 +5,14 @@
 
 <div class="col-12">
     <div class="form-business-box">
-        <form action="{{ route('updatebusinessform', $customer->id ) }}" method="POST">
+        <form action="{{ route('updatebusinessform', $customer->id ) }}" enctype="multipart/form-data" method="POST">
             @csrf
             <div class="row">
 
                 <div class="col-12">
                     <div class="form-group mb-4">
                         <label for="exampleFormControlSelect2">Summary</label>
-                        <textarea name="summary" class="form-control" rows="6" id="">
-                            {{ $business->summary ?? '' }}
+                        <textarea name="summary" class="form-control" rows="6" id="">{{ $business->summary ?? '' }}
                         </textarea>
                     </div>
                 </div>
@@ -33,10 +32,8 @@
                         <div class="address-box" id="province-input">
                             {{ $business->stateshow->province_name ?? '' }}
                         </div>
-                        <input type="hidden" name="state" id=""
-                            value="{{ $business->state }}">
-                        <select name="state" id="province" class="form-control login-signup"
-                            style="display: none;">
+                        <input type="hidden" name="state" id="" value="{{ $business->state }}">
+                        <select name="state" id="province" class="form-control login-signup" style="display: none;">
                             <option value="">- - Select Province - -</option>
                             @foreach($provinces as $data)
                             <option value="{{$data->id}}" {{ $data->id == $business->state ? 'selected' : '' }}>
@@ -70,10 +67,8 @@
                         <div class="address-box" id="district-input">
                             {{ $business->districtshow->district_name ?? '' }}
                         </div>
-                        <input type="hidden" name="district" id=""
-                            value="{{ $business->district }}">
-                        <select id="district" name="district" class="form-control login-signup"
-                            style="display: none;">
+                        <input type="hidden" name="district" id="" value="{{ $business->district }}">
+                        <select id="district" name="district" class="form-control login-signup" style="display: none;">
 
                         </select>
 
@@ -120,42 +115,110 @@
                 <div class="col-xl-2 col-md-4 col-12">
                     <div class="form-group mb-4">
                         <label for="exampleFormControlSelect2">Ward</label>
-                        <input type="number" class="form-control" name="ward" id="exampleFormControlInput1" value="{{ $business->ward ?? '' }}">
+                        <input type="number" class="form-control" name="ward" id="exampleFormControlInput1"
+                            value="{{ $business->ward ?? '' }}">
                     </div>
                 </div>
-                
+
                 <div class="col-xl-4 col-md-6 col-12">
                     <div class="form-group mb-4">
                         <label for="exampleFormControlSelect2">Tole</label>
-                        <input type="text" class="form-control" name="tole" id="exampleFormControlInput1" value="{{ $business->tole ?? '' }}">
+                        <input type="text" class="form-control" name="tole" id="exampleFormControlInput1"
+                            value="{{ $business->tole ?? '' }}">
                     </div>
                 </div>
-                
+
                 <div class="col-xl-6 col-md-6 col-12">
                     <div class="form-group">
                         <label for="exampleFormControlSelect2">Address</label>
-                        <input type="text" class="form-control" name="address" id="exampleFormControlInput1" value="{{ $business->address ?? '' }}">
+                        <input type="text" class="form-control" name="address" id="exampleFormControlInput1"
+                            value="{{ $business->address ?? '' }}">
                     </div>
                 </div>
-                
+
                 <div class="col-md-6 col-12">
                     <div class="form-group mb-4">
                         <label for="exampleFormControlSelect2">Latitude</label>
-                        <input type="text" class="form-control" name="latitude" id="exampleFormControlInput1" value="{{ $business->latitude ?? '' }}">
+                        <input type="text" class="form-control" name="latitude" id="exampleFormControlInput1"
+                            value="{{ $business->latitude ?? '' }}">
                     </div>
                 </div>
-                
+
                 <div class="col-md-6 col-12">
                     <div class="form-group">
                         <label for="exampleFormControlSelect2">Longitude</label>
-                        <input type="text" class="form-control" name="longitude" id="exampleFormControlInput1" value="{{ $business->longitude ?? '' }}">
+                        <input type="text" class="form-control" name="longitude" id="exampleFormControlInput1"
+                            value="{{ $business->longitude ?? '' }}">
                     </div>
                 </div>
-                
+                <div class="col-xl-6 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="website_url">Website URL</label>
+                        <input type="text" class="form-control" name="website_url"
+                            value="{{ $business->website_url ?? '' }}">
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="phone_one">Phone One</label>
+                        <input type="text" class="form-control" name="phone_one"
+                            value="{{ $business->phone_one ?? '' }}">
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="phone_two">Phone Two</label>
+                        <input type="text" class="form-control" name="phone_two"
+                            value="{{ $business->phone_two ?? '' }}">
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="email_one">Email One</label>
+                        <input type="email" class="form-control" name="email_one"
+                            value="{{ $business->email_one ?? '' }}">
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="email_two">Email Two</label>
+                        <input type="email" class="form-control" name="email_two"
+                            value="{{ $business->email_two ?? '' }}">
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="logo">Logo</label>
+                        <input type="file" class="form-control" name="logo">
+                        @if($business->logo)
+                        <div class="container__img-holder ">
+                        <img src="{{ asset('uploads/businesslogo/' . $business->logo) }}" alt="Logo">
+                        </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="coverimage">Cover Image</label>
+                        <input type="file" class="form-control" name="coverimage">
+                        @if($business->coverimage)
+                        <div class="container__img-holder ">
+                        <img src="{{ asset('uploads/businesscoverimage/'.$business->coverimage) }}" alt="Cover Image"
+                            width="100">
+                            </div>
+                        @endif
+                    </div>
+                </div>
                 <div class="col-12">
                     @include('admin.auth.error')
                 </div>
-                
+
                 <div class="col-xl-4 col-md-6 col-12">
                     <div class="form-group mb-4">
                         <input type="submit" class="btn btn-warning text-white" value="Save">

@@ -193,9 +193,16 @@
     background-size: 357px !important;
     bottom: -122px !important;
   }
+.feature-price {
+    top: 200px !important;
+    width: 75px !important;
+    height: 75px !important;
+    padding: 15px 0 !important;
+}
 
-
-
+.menu_img img {
+    height: 250px !important;
+}
 }
 
 @media (max-width: 580px) {
@@ -210,18 +217,32 @@
   .footer-bottom-down p {
     font-size: 11px !important;
   }
+  .inner-box .image img {
+    height: 250px !important;
+}
+.blog_img img {
+    height: 250px !important;
+}
 }
 
-/* @media (max-width: 498px) {
-  .footer-overlay {
-    bottom: 52px !important;
+ @media (max-width: 498px) {
+  .quote i.fa {
+    font-size: 65px;
+    right: 0px;
+    top: 220px;
 }
-} */
+.testimonial_sliders {
+    padding: 20px;
+}
+} 
 
 @media (max-width: 375px) {
   a.logo_item img {
     width: 110px !important;
   }
+  .banner_content h1 {
+    font-size: 60px
+}
 }
 
 @media (max-width: 365px) {

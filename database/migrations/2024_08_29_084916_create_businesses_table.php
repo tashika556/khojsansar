@@ -23,6 +23,13 @@ return new class extends Migration
             $table->string('tole');
             $table->string('latitude');
             $table->string('longitude');
+            $table->string('website_url');
+            $table->string('phone_one');
+            $table->string('phone_two');
+            $table->string('email_one');
+            $table->string('email_two');
+            $table->string('logo');
+            $table->string('coverimage');
             $table->foreign('customer')->references('id')->on('customers');
             $table->foreign('state')->references('id')->on('provinces');
             $table->foreign('district')->references('id')->on('districts');

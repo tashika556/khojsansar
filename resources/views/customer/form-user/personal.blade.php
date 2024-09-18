@@ -57,14 +57,14 @@
                     <div class="form-group">
                         <label for="exampleFormControlSelect2">Middle Name</label>
                         <input type="text" class="form-control" name="middle_name" id="exampleFormControlInput1"
-                            value="{{ $customer->first_name }}">
+                            value="{{ $customer->middle_name }}">
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6 col-12">
                     <div class="form-group mb-4">
                         <label for="exampleFormControlSelect2">Last Name</label>
                         <input type="text" class="form-control" name="last_name" id="exampleFormControlInput1"
-                            value="{{ $customer->first_name }}">
+                            value="{{ $customer->last_name }}">
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6 col-12">
@@ -86,6 +86,13 @@
                         <label for="exampleFormControlSelect2">Cell</label>
                         <input type="text" class="form-control" name="cell" id="exampleFormControlInput1"
                             value="{{ $customer->cell }}">
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Address:</label>
+                        <input type="text" class="form-control" name="address" id="exampleFormControlInput1"
+                            value="{{ $customer->address }}">
                     </div>
                 </div>
                 <div class="col-12">

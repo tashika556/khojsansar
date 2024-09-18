@@ -29,6 +29,7 @@ return new class extends Migration
             $table->unsignedBigInteger('temporary_municipality')->nullable();
             $table->string('temporary_ward')->nullable();
             $table->string('temporary_tole')->nullable();
+            $table->string('address');
             $table->string('email');
             $table->string('phone');
             $table->string('cell')->nullable();

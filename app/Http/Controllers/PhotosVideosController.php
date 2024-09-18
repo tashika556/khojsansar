@@ -7,6 +7,7 @@ use App\Models\GalleryPhotosVideos;
 use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 class PhotosVideosController extends Controller
 {
  
@@ -28,24 +29,21 @@ class PhotosVideosController extends Controller
         ]);
     
         $business = Business::findOrFail($businessId);
-    
-        // Remove slider images
+
         if ($request->filled('removed_slider_images')) {
             SliderPhotosVideos::whereIn('photosvideos', $request->removed_slider_images)->delete();
             foreach ($request->removed_slider_images as $image) {
                 Storage::delete('public/uploads/slider_photos_videos/' . $image);
             }
         }
-    
-        // Remove gallery images
+
         if ($request->filled('removed_gallery_images')) {
             GalleryPhotosVideos::whereIn('photosvideos', $request->removed_gallery_images)->delete();
             foreach ($request->removed_gallery_images as $image) {
                 Storage::delete('public/uploads/gallery_photos_videos/' . $image);
             }
         }
-    
-        // Save slider images
+
         if ($request->hasFile('slider_images')) {
             foreach ($request->file('slider_images') as $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
@@ -56,8 +54,7 @@ class PhotosVideosController extends Controller
                 ]);
             }
         }
-    
-        // Save gallery images
+
         if ($request->hasFile('gallery_images')) {
             foreach ($request->file('gallery_images') as $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
@@ -70,5 +67,5 @@ class PhotosVideosController extends Controller
         }
     
         return redirect()->route('paymentview', $business->customer)->with('success', 'Photos and Videos updated successfully.');
-    }
+    }  
 }

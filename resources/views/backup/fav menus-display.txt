@@ -1,0 +1,36 @@
+   public function getFavoriteMenus(Request $request)
+    {
+        $municipalityId = $request->municipality_id;
+        
+        $menus = BusinessMenu::whereHas('business', function($query) use ($municipalityId) {
+            $query->where('municipality', $municipalityId);
+        })->get(['id', 'title']);
+    
+        return response()->json(['menus' => $menus]);
+    }
+
+
+
+Route::post('/getFavoriteMenus', [UserController::class, 'getFavoriteMenus']);
+
+
+  $('#municipality').on('change', function() {
+        var municipalityId = $(this).val();
+        $("#favorite").prop('disabled', false).html('<option value="">Select Menu</option>');
+        $.ajax({
+            url: "{{ url('/getFavoriteMenus') }}", 
+            type: "POST",
+            data: {
+                municipality_id: municipalityId,
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(res) {
+          
+                $("#favorite").html('<option value="">Select Menu</option>');
+                $.each(res.menus, function(key, value) {
+                    $("#favorite").append('<option value="' + value.id + '">' + value.title + '</option>');
+                });
+            }
+        });
+    });

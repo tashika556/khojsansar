@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Business extends Model
 {
     use HasFactory;
-    protected $table= 'businesses';
+    protected $table = 'businesses';
+
 
     protected $fillable = [
       'customer',
@@ -20,11 +21,20 @@ class Business extends Model
       'ward',
       'tole',
       'latitude',
-      'longitude'
-
+      'longitude',
+'website_url',
+'phone_one',
+'phone_two',
+'email_one',
+'email_two',
+'logo',
+'coverimage'
     ];
 
-
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 public function customershow()
 {
     return $this->belongsTo(Customer::class, 'customer', 'id');
@@ -48,13 +58,19 @@ public function services()
 {
     return $this->belongsToMany(Service::class, 'business_services', 'business', 'service');
 }
+
 public function facilities()
 {
     return $this->belongsToMany(Facility::class, 'business_facilities', 'business', 'facility');
 }
 public function menus()
 {
-    return $this->hasMany(BusinessMenu::class);
+    return $this->hasMany(BusinessMenu::class, 'business');
 }
+public function menuPdfs()
+{
+    return $this->hasMany(MenuPdf::class, 'business');
+}
+
 
 }

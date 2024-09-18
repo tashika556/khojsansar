@@ -37,14 +37,14 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="side_block">
+                <div class="side_block mt-lg-0 mt-4">
                     <div class="ul_wrapp bg_gray p-4 ">
                         <div class="ul_list ">
                             <div class="sidebar_title mb-4">
                                 <h3><span>Kathmandu</span></h3>
                             </div>
                             <ul>
-                                <a href="news_detail.php">
+                                <a href="restaurant-detail.php">
                                     <h4>The Chimney Restaurant</h4>
                                     <div class="py-2">
                                         <span> kumaripati Lalitpur, Nepal</span>
@@ -52,7 +52,7 @@
                                     </div>
 
                                 </a>
-                                <a href="news_detail.php">
+                                <a href="restaurant-detail.php">
                                     <h4>Thamel House Restaurant</h4>
                                     <div class="py-2">
                                         <span> kumaripati Lalitpur, Nepal</span>
@@ -60,7 +60,7 @@
                                     </div>
 
                                 </a>
-                                <a href="news_detail.php">
+                                <a href="restaurant-detail.php">
                                     <h4>The Chimney Restaurant</h4>
                                     <div class="py-2">
                                         <span> kumaripati Lalitpur, Nepal</span>
@@ -78,7 +78,7 @@
                                 <h3><span>Favourite Location</span></h3>
                             </div>
                             <ul>
-                                <a href="news_detail.php">
+                                <a href="restaurant-detail.php">
                                     <h4>Thamel House Restaurant</h4>
                                     <div class="py-2">
                                         <span> kumaripati Lalitpur, Nepal</span>
@@ -86,7 +86,7 @@
                                     </div>
 
                                 </a>
-                                <a href="news_detail.php">
+                                <a href="restaurant-detail.php">
                                     <h4>Thamel House Restaurant</h4>
                                     <div class="py-2">
                                         <span> kumaripati Lalitpur, Nepal</span>
@@ -94,7 +94,7 @@
                                     </div>
 
                                 </a>
-                                <a href="news_detail.php">
+                                <a href="restaurant-detail.php">
                                     <h4>Thamel House Restaurant</h4>
                                     <div class="py-2">
                                         <span> kumaripati Lalitpur, Nepal</span>

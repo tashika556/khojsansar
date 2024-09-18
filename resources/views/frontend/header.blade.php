@@ -22,6 +22,9 @@
     <link rel="stylesheet" href="{{ URL::asset('frontend/css/responsive.css') }}" />
     <link rel="stylesheet" href="{{ URL::asset('frontend/css/animate.min.css') }}" />
     <link rel="stylesheet" href="{{ URL::asset('frontend/css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+
 
     @stack('after-styles')
 
@@ -58,8 +61,8 @@
 
             <div class="menu_side mt-5">
                 <ul>
-                    <li><a href="index.php"><span>Home</span></a></li>
-                    <li><a href="restaurant-list.php"><span>Restaurant / Bar</span></a></li>
+                    <li><a href="{{url('')}}"><span>Home</span></a></li>
+                    <li><a href="{{url('restaurantall-list')}}"><span>Restaurant / Bar</span></a></li>
                     <li>
                         <a class="collapse-heading collapsed" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                             <span>Services</span>
@@ -67,7 +70,7 @@
                         </a>
                         <ul class="collapse collapse-menu" id="collapseExample">
                             <li>
-                                <a href="blog-detail.php"><span>Restaurant</span></a>
+                                <a href=""><span>Restaurant</span></a>
                             </li>
                             <li>
                                 <a href="blog-detail.php"><span>Digital Menu</span></a>

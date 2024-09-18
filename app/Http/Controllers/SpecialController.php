@@ -10,34 +10,58 @@ class SpecialController extends Controller
 {
     public function businessspecial($id)
     {
-        $special = Special::all();
         $business = Business::where('customer', $id)->firstOrFail();
+        $specials = Special::where('business', $business->id)->get();
     
-        return view('customer.form-user.special', compact('special', 'business'));
+        return view('customer.form-user.special', compact('specials', 'business'));
     }
+    
     public function store(Request $request, $businessId)
     {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+        ];
+    
         $request->validate([
             'special_name.*' => 'required|string|max:255',
+            'short_detail.*' => 'required|string|max:255',
+            'price.*' => 'required|string|max:255',
             'photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        ], $messages);
+    
         $business = Business::findOrFail($businessId);
-        $specialNames = $request->input('special_name', []);
-        
+        $specialIds = $request->input('special_id', []); 
+        $specialNames = $request->input('special_name', []);  
+        $shortDetails = $request->input('short_detail', []);  
+        $prices = $request->input('price', []);  
+    
         foreach ($specialNames as $index => $specialName) {
             $specialData = [
                 'business' => $businessId,
                 'special_name' => $specialName,
+                'short_detail' => $shortDetails[$index],
+                'price' => $prices[$index],
             ];
     
             if (isset($request->photo[$index]) && $request->hasFile("photo.$index")) {
                 $specialData['photo'] = $request->file("photo.$index")->store('special_photos', 'public');
             }
     
-            Special::create($specialData);
+            if (isset($specialIds[$index]) && $specialIds[$index] != null) {
+    
+                $special = Special::findOrFail($specialIds[$index]);
+                $special->update($specialData);
+            } else {
+      
+                Special::create($specialData);
+            }
         }
-        return redirect()->route('businessphotosvideosview', $business->customer)->with('success', 'Special  items added successfully!');
-  
+    
+        return redirect()->route('businessphotosvideosview', $business->customer)->with('success', 'Special items added/updated successfully!');
     }
+    
+    
+
+    
     
 }
