@@ -8,14 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
+    protected $table= 'reviews';
+    protected $fillable = [
+        'business_id',
+        'name',
+        'email',
+        'review',
+        'rating',
+        'approved',
+        'rejected',
+    ];
 
-    protected $fillable = ['reviewer_id', 'business_id', 'review', 'rating'];
-
-    public function reviewer()
-    {
-        return $this->belongsTo(Reviewer::class, 'reviewer_id');
-    }
-    public function business()
+    public function businesses()
     {
         return $this->belongsTo(Business::class);
     }

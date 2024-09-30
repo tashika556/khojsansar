@@ -21,6 +21,8 @@ class Contact extends Model
       'twitter_url',
       'instagram_url',
       'youtube_url',
-      'map_url'
+      'map_url',
+      'opening_hours',
+      'banner'
     ];
 }

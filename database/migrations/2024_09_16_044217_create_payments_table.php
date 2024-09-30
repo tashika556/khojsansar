@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('payment_receipt');
             $table->boolean('payment_confirmation')->default(false);;
             $table->boolean('admin_payment_confirmation')->default(false);
-            $table->foreign('business')->references('id')->on('businesses')->onDelete('CASCADE')->onUpdate('CASCADE');;
+            $table->longText('rejection_reason')->nullable();
+            $table->foreign('business')->references('id')->on('businesses')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->timestamps();
         });
     }

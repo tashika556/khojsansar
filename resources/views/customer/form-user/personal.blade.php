@@ -182,6 +182,13 @@
                             value="{{ $customer->permanent_tole }}">
                     </div>
                 </div>
+                <div class="col-xl-4 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="exampleFormControlSelect2">City</label>
+                        <input type="text" class="form-control" name="permanent_city" id="exampleFormControlInput1"
+                            value="{{ $customer->permanent_city }}">
+                    </div>
+                </div>
                 <div class="col-12">
                     <div class="mx-auto text-center">
                         <h5><strong>Temporary Address</strong></h5>
@@ -299,13 +306,20 @@
                             value="{{ $customer->temporary_tole }}">
                     </div>
                 </div>
+                <div class="col-xl-4 col-md-6 col-12">
+                    <div class="form-group mb-4">
+                        <label for="exampleFormControlSelect2">City</label>
+                        <input type="text" class="form-control" name="temporary_city" id="exampleFormControlInput1"
+                            value="{{ $customer->temporary_city }}">
+                    </div>
+                </div>
                 <div class="col-xl-4"></div>                <div class="col-12">
 @include('admin.auth.error')
 </div>
                 <div class="col-xl-4 col-md-6 col-12">
                     <div class="form-group mb-4">
-                        @include('admin.auth.error')
-                        <input type="submit" class="btn btn-warning text-white" value="Save">
+                 
+                        <input type="submit" class="btn btn-warning text-white submit-btn-form" value="Save">
                     </div>
                 </div>
             </div>

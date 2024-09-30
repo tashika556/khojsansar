@@ -34,7 +34,7 @@
                 
                 <div class="col-xl-4 col-md-6 col-12">
                     <div class="form-group mb-4">
-                        <input type="submit" class="btn btn-warning text-white" value="Save">
+                        <input type="submit" class="btn btn-warning text-white submit-btn-form" value="Save">
                     </div>
                 </div>
             </div>

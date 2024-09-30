@@ -24,11 +24,13 @@ return new class extends Migration
             $table->unsignedBigInteger('permanent_municipality');
             $table->string('permanent_ward');
             $table->string('permanent_tole');
+            $table->string('permanent_city');
             $table->unsignedBigInteger('temporary_state')->nullable();
             $table->unsignedBigInteger('temporary_district')->nullable();
             $table->unsignedBigInteger('temporary_municipality')->nullable();
             $table->string('temporary_ward')->nullable();
             $table->string('temporary_tole')->nullable();
+            $table->string('temporary_city')->nullable();
             $table->string('address');
             $table->string('email');
             $table->string('phone');

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('site_settings', function (Blueprint $table) {
             $table->id();
+            $table->string('site_title');
+            $table->string('logo');
+            $table->string('caption');
+            $table->longText('slider_images');
             $table->timestamps();
         });
     }

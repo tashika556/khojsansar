@@ -25,11 +25,25 @@
 <body class="bg-white">
     @section('container')
     @show
+    <div class="img-popup">
+                        <img src="" alt="Popup Image">
+                        <div class="close-btn">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                    </div>
     @stack('before-scripts')
     <script src="{{ URL::asset('admin/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ URL::asset('admin/js/show-password.js')}}"></script>
     <script src="{{ URL::asset('frontend/js/font-awesom.js')}} "></script>
+    <script src="{{ URL::asset('admin/ckeditor/ckeditor.js')}}"></script>
+    <script src="{{ URL::asset('admin/ckeditor/config.js')}}"></script>
     <script>
+
+    CKEDITOR.replace('details');
+    CKEDITOR.replace('mission_details');
+    CKEDITOR.replace('vision_details');
+
     function confirmDelete() {
         return confirm('Do you really want to delete this data ? ');
     }
@@ -118,9 +132,36 @@
 
         showPage(1);
     });
+
     </script>
 <script src="{{asset('customer/js/jquery-3.6.4.min.js')}} "></script>
+<script>
+        
+  $(document).ready(function () {
 
+var imgPopup = $(".img-popup");
+var imgCont = $(".container__img-holder");
+var popupImage = $(".img-popup img");
+var closeBtn = $(".close-btn");
+
+
+imgCont.on("click", function () {
+  var img_src = $(this).children("img").attr("src");
+  imgPopup.children("img").attr("src", img_src);
+  imgPopup.addClass("opened");
+});
+
+$(imgPopup, closeBtn).on("click", function () {
+  imgPopup.removeClass("opened");
+  imgPopup.children("img").attr("src", "");
+});
+
+popupImage.on("click", function (e) {
+  e.stopPropagation();
+});
+});
+
+</script>
     @stack('after-scripts')
 </body>
 

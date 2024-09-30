@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Customer extends Model
+class Customer extends Model implements JWTSubject
 {
     use HasFactory;
     protected $table= 'customers';
@@ -22,11 +23,13 @@ class Customer extends Model
       'permanent_municipality',
       'permanent_ward',
       'permanent_tole',
+      'permanent_city',
       'temporary_state',
       'temporary_district',
       'temporary_municipality',
       'temporary_ward',
       'temporary_tole',
+      'temporary_city',
       'address',
       'email',
       'phone',
@@ -81,5 +84,23 @@ class Customer extends Model
 {
     return $this->hasOne(Business::class, 'customer', 'id');
 }
+/**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
 
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }

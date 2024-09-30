@@ -1,7 +1,13 @@
 @forelse($businesses as $business)
 <div class="col-lg-4 col-sm-6">
-    <a href="restaurant-detail.php">
+    <a href="{{ route('restaurant.detail', ['id' => $business->id]) }}">
         <div class="restaurant_list-block text-center mb-4">
+            @if($business->openeveryday == 1)
+            <div class="open">
+                <p>24/7</p>
+            </div>
+            @endif
+
             <div class="restaurant_block-img p-4">
                 <img src="{{ asset('uploads/businesslogo/' . $business->logo) }}" class="img-fluid" alt="">
             </div>

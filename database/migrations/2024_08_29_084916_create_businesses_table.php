@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('email_one');
             $table->string('email_two');
             $table->string('logo');
+            $table->boolean('openeveryday')->default(false);
             $table->string('coverimage');
             $table->foreign('customer')->references('id')->on('customers');
             $table->foreign('state')->references('id')->on('provinces');

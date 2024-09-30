@@ -12,7 +12,7 @@
                 <div class="card">
                     
                     <div class="card-header">
-                        <img src="https://archiesoft.com.np/khojfrontend/img/logo-color.png" class="bg-white">
+                        <img src="https://khojtest.khojsansarnepal.com/public/sitesetting/logo/1726729984_logo-khoj.png" class="bg-white">
                 
                  
                         <p style="font-family:Times New Roman,Times,serif;font-size:12pt">Warm Greetings {{ $customer->first_name }},</p>

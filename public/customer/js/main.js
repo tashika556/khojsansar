@@ -56,3 +56,49 @@ $(document).ready(function () {
       e.stopPropagation();
     });
   });
+//   new
+  document.addEventListener('DOMContentLoaded', function () {
+    // Hide all sections initially
+    const sections = document.querySelectorAll('.form-divide');
+    sections.forEach(section => section.style.display = 'none');
+
+    // Show the first section
+    sections[0].style.display = 'block';
+
+    // Function to validate the current section
+    function validateSection(section) {
+        let isValid = true;
+        const requiredFields = section.querySelectorAll('input[required], select[required]');
+
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                isValid = false;
+                field.classList.add('is-invalid'); // Add error class for styling
+            } else {
+                field.classList.remove('is-invalid'); // Remove error class if valid
+            }
+        });
+
+        return isValid;
+    }
+
+    // Add event listeners to buttons
+    const nextButtons = document.querySelectorAll('.next-button');
+    const prevButtons = document.querySelectorAll('.prev-button');
+
+    nextButtons.forEach((btn, index) => {
+        btn.addEventListener('click', function () {
+            if (validateSection(sections[index])) {
+                sections[index].style.display = 'none';
+                sections[index + 1].style.display = 'block';
+            }
+        });
+    });
+
+    prevButtons.forEach((btn, index) => {
+        btn.addEventListener('click', function () {
+            sections[index + 1].style.display = 'none';
+            sections[index].style.display = 'block';
+        });
+    });
+});

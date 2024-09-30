@@ -6,18 +6,31 @@ use App\Models\BusinessMenu;
 use App\Models\Menu;
 use App\Models\MenuPdf;
 use App\Models\Business;
+use App\Models\SiteSetting;
+use App\Models\Contact;
 use Illuminate\Http\Request;
-
+use App\Models\Customer;
+use Session;
+use App\Models\PaymentMethod;
 
 class BusinessMenuController extends Controller
 {
     public function businessmenu($id)
-    {
+    {    if (Session::has('loginId')) {
+        $customer = Customer::where('id', '=', Session::get('loginId'))->first();
         $menuTopics = Menu::all();
         $business = Business::where('customer', $id)->firstOrFail();
         $existingPdf = MenuPdf::where('business', $business->id)->first();
-        return view('customer.form-user.menu', compact('menuTopics', 'business', 'existingPdf'));
+        $sitesetting = SiteSetting::first();
+        $contact = Contact::first();
+        return view('customer.form-user.menu', compact('customer','menuTopics', 'business', 'existingPdf','sitesetting','contact'));
+    }else{
+            return back()->with('fail', 'Sorry, you donot have right to acces it. First, Login to continue');
+         }
     }
+
+
+     
     public function store(Request $request, $businessId)
     {
         $messages = [
@@ -74,9 +87,33 @@ class BusinessMenuController extends Controller
             }
         }
         
-
+        session(['businessMenuCompleted' => true]);
         return redirect()->route('businessspecialview', $business->customer)->with('success', 'Menu items and PDF added/updated successfully!');
     }
+    public function businessmenulist()
+    {
+        $paymentMethods = PaymentMethod::all();
+
+        $businessmenu = BusinessMenu::with('businesses.customershow') 
+            ->get()
+            ->groupBy('business'); 
+    
+        return view('admin.menu.business-menu-list', compact('businessmenu', 'paymentMethods'));
+    }
+    public function viewBusinessMenu($businessId)
+    {
+        $paymentMethods = PaymentMethod::all();
+        $business = Business::with('menus')->findOrFail($businessId);
+        
+        $businessMenus = BusinessMenu::with('menu')->where('business', $businessId)->get();
+        $groupedMenus = $businessMenus->groupBy('menu_topic');
+        
+     
+        $menuPDF = MenuPDF::where('business', $businessId)->first();
+    
+        return view('admin.menu.business-menu-detail', compact('business', 'groupedMenus', 'paymentMethods', 'menuPDF'));
+    }
+    
     
 
 }

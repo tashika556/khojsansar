@@ -15,15 +15,20 @@ use App\Models\Facility;
 use App\Models\BusinessService;
 use App\Models\Service;
 use App\Models\Special;
+use App\Models\SiteSetting;
+use App\Models\Contact;
+use App\Models\Partner;
+use App\Models\KhojsansarServices;
 use App\Models\GalleryPhotosVideos;
 use App\Models\SliderPhotosVideos;
+use App\Models\PaymentMethod;
 
 class MenuController extends Controller
 {
     public function menu()
-    {
+    {  $paymentMethods = PaymentMethod::all(); 
         $menu =Menu::all();
-        return view('admin.menu.menu-list',compact('menu'));
+        return view('admin.menu.menu-list',compact('menu','paymentMethods'));
     }
     public function store(Request $request)
 {
@@ -52,6 +57,10 @@ public function update(Request $request, $id)
 
     public function showMenuDetail($id)
     {
+        $sitesetting = SiteSetting::first();
+        $contact = Contact::first();
+        $partners = Partner::all();
+        $khojsansarservice= KhojsansarServices::all();
         $provinces = Province::get(["province_name", "id"]);
         $business = Business::with('customershow', 'menus', 'services')->findOrFail($id);
  
@@ -78,6 +87,10 @@ public function update(Request $request, $id)
             'menus' => $menus,
             'latitude' => $business->latitude,
             'longitude' => $business->longitude,
+            'sitesetting' => $sitesetting,
+            'contact' => $contact,
+            'partners' => $partners,
+            'khojsansarservice'=>$khojsansarservice,
             
         ]);
      

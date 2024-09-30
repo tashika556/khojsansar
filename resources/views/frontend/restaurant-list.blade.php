@@ -4,7 +4,7 @@
 
 @section('container')
 <section class="bg_img banner d-flex justify-content-center align-items-center dark_bg"
-    style="background-image: url(img/slider/slider02.jpg);">
+    style="background-image: url({{ URL::asset('frontend/img/slider/slider02.jpg') }})">
 
     <section class="search_section p-0 w-100">
         <div class="container">
@@ -24,12 +24,13 @@
                         <div class="items-per-page mb-4 d-flex align-items-center">
                             <label for="items-per-page-select">Show:</label>
                             <select id="items-per-page-select" class="form-control">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
+                                <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
                             </select>
                         </div>
+
                         <div class="search-bar mb-4">
                             <input type="text" id="search-input" class="form-control" placeholder="Search"
                                 value="{{ request('search') }}">
@@ -62,171 +63,7 @@
     </div>
 </section>
 
-
-
-<section class="restaurant_home bg_img image_bg dark_bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-12 mx-auto">
-                <div class="section_title text-center text-white">
-                    <h5>Explore</h5>
-                    <div class="section_header">
-                        <h1><span>Restaurant</span> </h1>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="restaurant_slider">
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
+@include('frontend.specialfoodrestaurantsection')
 @include('frontend.testimonial')
 @include('frontend.partner')
 @endsection

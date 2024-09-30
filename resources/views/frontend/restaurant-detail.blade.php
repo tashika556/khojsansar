@@ -207,7 +207,7 @@
                                     </tr>
                                     <tr>
                                         <td><span><i class="fa fa-firefox" aria-hidden="true"></i></span></td>
-                                        <td><a href="{{ $business->website_url}}">{{ $business->website_url}}</a></td>
+                                        <td><a href="{{ $business->website_url}}" target="_blank">{{ $business->website_url}}</a></td>
 
                                     </tr>
                                 </tbody>
@@ -219,7 +219,7 @@
         </div>
     </div>
 </section>
-@include('frontend.partials.specialfood')
+@include('frontend.specialfoodrestaurantsection')
 @include('frontend.testimonial')
 @include('frontend.partner')
 @endsection

@@ -14,7 +14,8 @@
                     @if(isset($existingPdf) && $existingPdf->pdf)
                     <div class="mt-3">
 
-                        <a href="{{ asset('storage/' . $existingPdf->pdf) }}" class="text-success" target="_blank">View PDF</a>
+                        <a href="{{ asset('storage/' . $existingPdf->pdf) }}" class="text-success" target="_blank">View
+                            PDF</a>
                     </div>
                     @endif
 
@@ -35,7 +36,6 @@
                                             value="{{ $menuItem->title }}" required>
                                     </div>
                                 </div>
-
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="caption">Caption:</label>
@@ -43,7 +43,6 @@
                                             value="{{ $menuItem->caption }}">
                                     </div>
                                 </div>
-
                                 <div class="col-md-2 col-12">
                                     <div class="form-group">
                                         <label for="price">Price:</label>
@@ -51,7 +50,6 @@
                                             value="{{ $menuItem->price }}" required>
                                     </div>
                                 </div>
-
                                 <div class="col-md-2 col-12">
                                     <div class="form-group mt-4">
                                         <button type="button" data-topic-id="{{ $topic->id }}"
@@ -68,6 +66,7 @@
                         </div>
                         @endforeach
 
+                        @if($topic->menuItems->isEmpty())
                         <div class="menu-item-template">
                             <div class="menu-item">
                                 <div class="row">
@@ -91,7 +90,6 @@
                                     </div>
                                     <div class="col-md-2 col-12">
                                         <div class="form-group mt-4">
-                                     
                                             <button type="button" data-topic-id="{{ $topic->id }}"
                                                 class="btn btn-primary add-menu-item">
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
@@ -105,12 +103,14 @@
                                 <hr>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
+
                 @endforeach
 
                 @include('admin.auth.error')
-                <button type="submit" class="btn btn-success mt-3">Submit</button>
+                <button type="submit" class="btn btn-success mt-3 submit-btn-form">Submit</button>
             </form>
 
         </div>
@@ -119,51 +119,40 @@
 
 <script>
 document.addEventListener('click', function(e) {
-
     let addBtn = e.target.closest('.add-menu-item');
     if (addBtn) {
         let topicId = addBtn.getAttribute('data-topic-id');
         let menuItem = `
             <div class="menu-item">
                 <div class="row">
-                    <!-- Title Field -->
                     <div class="col-md-4 col-12">
                         <div class="form-group">
                             <label for="title">Title:</label>
-                            <input type="text" name="title[${topicId}][]" class="form-control">
+                            <input type="text" name="title[${topicId}][]" class="form-control" required>
                         </div>
                     </div>
-                           <!-- Caption Field -->
                     <div class="col-md-4 col-12">
                         <div class="form-group">
                             <label for="caption">Caption:</label>
                             <input type="text" name="caption[${topicId}][]" class="form-control">
                         </div>
                     </div>
-                    <!-- Price Field -->
                     <div class="col-md-2 col-12">
                         <div class="form-group">
                             <label for="price">Price:</label>
-                            <input type="text" name="price[${topicId}][]" class="form-control">
+                            <input type="text" name="price[${topicId}][]" class="form-control" required>
                         </div>
                     </div>
-             
-                    <!-- Photo Field -->
-               
-                    <!-- Remove Button -->
                     <div class="col-md-2 col-12">
                         <div class="form-group mt-4">
-                               <button type="button" data-topic-id="${topicId}" class="btn btn-primary add-menu-item">
+                            <button type="button" data-topic-id="${topicId}" class="btn btn-primary add-menu-item">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                             </button>
                             <button type="button" class="btn btn-danger remove-menu-item">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </button>
-                          
                         </div>
                     </div>
-     
-                
                 </div>
                 <hr>
             </div>

@@ -33,153 +33,7 @@
                 </a>
             </li>
 
-            <li class="header-element notifications-dropdown d-xl-block d-none dropdown">
-
-                <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-toggle="dropdown"
-                    data-bs-auto-close="outside" id="messageDropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="header-link-icon animate-bell" width="32" height="32"
-                        fill="#000000" viewBox="0 0 256 256">
-                        <path
-                            d="M208,192H48a8,8,0,0,1-6.88-12C47.71,168.6,56,139.81,56,104a72,72,0,0,1,144,0c0,35.82,8.3,64.6,14.9,76A8,8,0,0,1,208,192Z"
-                            opacity="0.1"></path>
-                        <path
-                            d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z">
-                        </path>
-                    </svg>
-                    <span class="header-icon-pulse bg-secondary rounded pulse pulse-secondary"></span>
-                </a>
-
-                <div class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
-                    <div class="p-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <p class="mb-0 fs-16">Notifications</p>
-                            <span class="badge bg-secondary-transparent" id="notifiation-data">5 Unread</span>
-                        </div>
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <ul class="list-unstyled mb-0" id="header-notification-scroll">
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center">
-                                <div class="pe-2 lh-1">
-                                    <span class="avatar avatar-md avatar-rounded bg-primary">
-                                        <i class="ti ti-message-dots fs-5"></i>
-                                    </span>
-                                </div>
-                                <div class="flex-grow-1 d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <p class="mb-0 fw-medium"><a href="javascript:void(0);">Messages</a></p>
-                                        <div class="text-muted fw-normal fs-12 header-notification-text text-truncate">
-                                            John Doe messaged you.</div>
-                                    </div>
-                                    <div>
-                                        <a href="javascript:void(0);"
-                                            class="min-w-fit-content text-muted dropdown-item-close1"><i
-                                                class="text-fixed-white ri-close-circle-line fs-5"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center">
-                                <div class="pe-2 lh-1">
-                                    <span class="avatar avatar-md bg-secondary avatar-rounded">
-                                        <i class="ti ti-shopping-cart fs-5"></i>
-                                    </span>
-                                </div>
-                                <div class="flex-grow-1 d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <p class="mb-0 fw-medium"><a href="javascript:void(0);">Orders</a></p>
-                                        <div class="text-muted fw-normal fs-12 header-notification-text text-truncate">
-                                            Order <span class="text-warning">#12345</span> confirmed.</div>
-                                    </div>
-                                    <div>
-                                        <a href="javascript:void(0);"
-                                            class="min-w-fit-content text-muted dropdown-item-close1"><i
-                                                class="text-fixed-white ri-close-circle-line fs-5"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center">
-                                <div class="pe-2 lh-1">
-                                    <span class="avatar avatar-md bg-success avatar-rounded">
-                                        <i class="ti ti-user-circle fs-5"></i>
-                                    </span>
-                                </div>
-                                <div class="flex-grow-1 d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <p class="mb-0 fw-medium"><a href="javascript:void(0);">Profile</a></p>
-                                        <div class="text-muted fw-normal fs-12 header-notification-text text-truncate">
-                                            Complete your profile for offers!</div>
-                                    </div>
-                                    <div>
-                                        <a href="javascript:void(0);"
-                                            class="min-w-fit-content text-muted dropdown-item-close1"><i
-                                                class="text-fixed-white ri-close-circle-line fs-5"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center">
-                                <div class="pe-2 lh-1">
-                                    <span class="avatar avatar-md bg-orange avatar-rounded">
-                                        <i class="ti ti-gift fs-5"></i>
-                                    </span>
-                                </div>
-                                <div class="flex-grow-1 d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <p class="mb-0 fw-medium"><a href="javascript:void(0);">Offers</a></p>
-                                        <div class="text-muted fw-normal fs-12 header-notification-text text-truncate">
-                                            20% off electronics!</div>
-                                    </div>
-                                    <div>
-                                        <a href="javascript:void(0);"
-                                            class="min-w-fit-content text-muted dropdown-item-close1"><i
-                                                class="text-fixed-white ri-close-circle-line fs-5"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center">
-                                <div class="pe-2 lh-1">
-                                    <span class="avatar avatar-md bg-info avatar-rounded">
-                                        <i class="ti ti-calendar fs-5"></i>
-                                    </span>
-                                </div>
-                                <div class="flex-grow-1 d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <p class="mb-0 fw-medium"><a href="javascript:void(0);">Events</a></p>
-                                        <div class="text-muted fw-normal fs-12 header-notification-text text-truncate">
-                                            Webinar in 1 hour!</div>
-                                    </div>
-                                    <div>
-                                        <a href="javascript:void(0);"
-                                            class="min-w-fit-content text-muted dropdown-item-close1"><i
-                                                class="text-fixed-white ri-close-circle-line fs-5"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="p-3 empty-header-item1 border-top">
-                        <div class="d-grid">
-                            <a href="javascript:void(0);" class="btn btn-primary btn-wave">View All</a>
-                        </div>
-                    </div>
-                    <div class="p-5 empty-item1 d-none">
-                        <div class="text-center">
-                            <span class="avatar avatar-xl avatar-rounded bg-secondary-transparent">
-                                <i class="text-fixed-white ri-notification-off-line fs-2"></i>
-                            </span>
-                            <h6 class="fw-medium mt-3">No New Notifications</h6>
-                        </div>
-                    </div>
-                </div>
-
-            </li>
+    
 
             <li class="header-element dropdown">
 
@@ -195,10 +49,9 @@
 
                 <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
                     aria-labelledby="mainHeaderProfile">
-                    <li><a class="dropdown-item d-flex align-items-center" href="profile.html"><i
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{url('admin/profile')}}"><i
                                 class="ti ti-user me-2 fs-18 text-primary"></i>Profile</a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="mail.html"><i
-                                class="ti ti-mail me-2 fs-18 text-secondary"></i>Inbox</a></li>
+               
                     <li><a class="dropdown-item d-flex align-items-center" href="{{url('admin/logout')}}"><i
                                 class="ti ti-logout me-2 fs-18 text-warning"></i>Log Out</a></li>
                 </ul>
@@ -282,10 +135,13 @@
                             <a href="javascript:void(0)">Data</a>
                         </li>
                         <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Pending</a>
+                            <a href="{{url('admin/pendingbusiness')}}" class="text-fixed-white side-menu__item">Pending</a>
                         </li>
                         <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Verified</a>
+                            <a href="{{url('admin/verifiedbusiness')}}" class="text-fixed-white side-menu__item">Verified</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{url('admin/notapprovedbusiness')}}" class="text-fixed-white side-menu__item">Not Approved</a>
                         </li>
                     </ul>
                 </li>
@@ -340,7 +196,7 @@
                             <a href="{{url('admin/menu')}}" class="text-fixed-white side-menu__item">Menu List</a>
                         </li>
                         <li class="slide">
-                            <a href="{{url('admin/verifiedcustomer')}}"
+                            <a href="{{ url('admin/businessmenu/') }}"
                                 class="text-fixed-white side-menu__item">Business Menu Details</a>
                         </li>
 
@@ -387,7 +243,7 @@
 
 
                                 <li class="slide">
-                                    <a href="" class="text-fixed-white side-menu__item">Business Payment Details</a>
+                                    <a href="{{ url('admin/businesspayment/') }}" class="text-fixed-white side-menu__item">Business Payment Details</a>
                                 </li>
                             </ul>
                         </li>
@@ -413,21 +269,8 @@
                         <li class="slide side-menu__label1">
                             <a href="javascript:void(0)">Setting</a>
                         </li>
-                        <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Email Template</a>
-                        </li>
-                        <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">OTP Template</a>
-                        </li>
-                        <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Payment Method</a>
-                        </li>
-                        <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">User</a>
-                        </li>
-                        <li class="slide">
-                            <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Roles</a>
-                        </li>
+               
+                  
                         <li class="slide has-sub">
                             <a href="javascript:void(0);" class="text-fixed-white side-menu__item">Business Data
                                 <i class="text-fixed-white ri-arrow-down-s-line side-menu__angle"></i></a>
@@ -467,18 +310,37 @@
                                 <i class="text-fixed-white ri-arrow-down-s-line side-menu__angle"></i></a>
                             <ul class="slide-menu child2">
                                 <li class="slide">
-                                    <a href="{{url('admin/category')}}"
+                                    <a href="{{url('admin/contact')}}"
                                         class="text-fixed-white side-menu__item">Contact</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="{{url('admin/facility')}}"
+                                    <a href="{{url('admin/testimonial')}}"
                                         class="text-fixed-white side-menu__item">Testimonial</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="{{url('admin/service')}}" class="text-fixed-white side-menu__item">Site
-                                        Setting</a>
+                                    <a href="{{url('admin/partner')}}"
+                                        class="text-fixed-white side-menu__item">Partner</a>
                                 </li>
-
+                                <li class="slide">
+                                    <a href="{{url('admin/khojsansarservice')}}"
+                                        class="text-fixed-white side-menu__item">KhojSansar Service</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{url('admin/blog')}}"
+                                        class="text-fixed-white side-menu__item">Blogs</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{url('admin/about')}}"
+                                        class="text-fixed-white side-menu__item">Abouts</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{url('admin/sitesetting')}}" class="text-fixed-white side-menu__item">Site
+                                        Settings</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{url('admin/locationrestaurant')}}"
+                                        class="text-fixed-white side-menu__item">Restaurant banner by District</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -491,12 +353,9 @@
                     <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
                 </svg></div>
         </nav>
-        <!-- End::nav -->
+
 
     </div>
-    <!-- End::main-sidebar -->
+
 
 </aside>
-<!-- END SIDEBAR -->
-
-<!-- MAIN-CONTENT -->

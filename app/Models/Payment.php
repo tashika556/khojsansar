@@ -15,8 +15,9 @@ class Payment extends Model
       'business',
 'payment_confirmation',
 'admin_payment_confirmation',
+'rejection_reason',
     ];
-    public function business()
+    public function businesses()
     {
         return $this->belongsTo(Business::class, 'business');
     }

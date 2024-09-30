@@ -4,7 +4,7 @@
 
 @section('container')
 <section class="bg_img banner d-flex justify-content-center align-items-center dark_bg"
-    style="background-image: url(img/slider/slider02.jpg);">
+    style="background-image: url({{ URL::asset('frontend/img/slider/slider02.jpg') }})">
 
     <section class="search_section p-0 w-100">
         <div class="container">
@@ -58,8 +58,8 @@
                 </div>
 
                 <div class="row" id="restaurant-list">
-    @include('frontend.partials.restaurant_display')
-</div>
+                    @include('frontend.partials.restaurant_display')
+                </div>
 
 
                 @include('frontend.partials.pagination')
@@ -70,170 +70,7 @@
 </section>
 
 
-
-<section class="restaurant_home bg_img image_bg dark_bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-12 mx-auto">
-                <div class="section_title text-center text-white">
-                    <h5>Explore</h5>
-                    <div class="section_header">
-                        <h1><span>Restaurant</span> </h1>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="restaurant_slider">
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
+@include('frontend.specialfoodrestaurantsection')
 @include('frontend.testimonial')
 @include('frontend.partner')
 @endsection

@@ -28,8 +28,27 @@ class Business extends Model
 'email_one',
 'email_two',
 'logo',
-'coverimage'
+'coverimage',
+'openeveryday',
     ];
+    public function payment()
+    {
+      
+        return $this->hasOne(Payment::class, 'business', 'id');
+    }   
+    public function menus()
+{
+    return $this->hasMany(BusinessMenu::class, 'business');
+}
+public function menuPdfs()
+{
+    return $this->hasMany(MenuPdf::class, 'business');
+}
+
+    public function specials()
+    {
+        return $this->hasMany(Special::class, 'business');
+    }
 
     public function reviews()
     {
@@ -63,14 +82,7 @@ public function facilities()
 {
     return $this->belongsToMany(Facility::class, 'business_facilities', 'business', 'facility');
 }
-public function menus()
-{
-    return $this->hasMany(BusinessMenu::class, 'business');
-}
-public function menuPdfs()
-{
-    return $this->hasMany(MenuPdf::class, 'business');
-}
+
 
 
 }

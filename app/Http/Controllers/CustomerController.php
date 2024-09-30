@@ -2,51 +2,120 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Business;
 use App\Models\Customer;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Authorize;
 use App\Models\Category;
 use App\Models\Municipality;
+use App\Models\SiteSetting;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Session;
-
+use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CustomerController extends Controller
 {
-    /**
- * @OA\Get(
- *     path="/customerlogin",
- *     summary="Display Customer Login Page",
- *     @OA\Response(
- *         response=200,
- *         description="Displays the login page for customers"
- *     )
- * )
- */
+
     public function login()
     {
+        $sitesetting = SiteSetting::first();
 
-        return view('customer/login');
+        return view('customer/login',compact('sitesetting'));
     }
     public function termscond()
     {
 
         return view('customer.term');
     }
-    /**
- * @OA\Get(
- *     path="/customersignup",
- *     summary="Display Customer Signup Page",
- *     @OA\Response(
- *         response=200,
- *         description="Displays the signup page for customers"
- *     )
- * )
- */
+    public function forgetpassword()
+    {
+
+        return view('customer.forget-password');
+    }
+    public function sendResetCode(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+    
+        $customer = Customer::where('email', $request->email)->first();
+    
+        if (!$customer) {
+            return back()->with('fail', 'Sorry, this email is not registered.');
+        }
+    
+        $code = Str::random(6);
+    
+        DB::table('password_resets')->updateOrInsert(
+            ['email' => $customer->email],
+            [
+                'token' => $code,
+                'created_at' => now()
+            ]
+        );
+    
+        Mail::send('email.reset-code', ['code' => $code, 'customer' => $customer], function ($message) use ($customer) {
+            $message->to($customer->email);
+            $message->subject('Password Reset Code');
+        });
+    
+        return redirect()->route('customer.reset-password', ['email' => $customer->email])
+            ->with('success', 'A verification code has been sent to your email address. It will expire in 10 minutes.');
+    }
+    
+    public function showResetPasswordForm(Request $request)
+    {
+        return view('customer.reset-password')->with(['email' => $request->email]);
+    }
+    
+    public function resetPassword(Request $request)
+    {
+        $messages = [
+            'required' => 'The :attribute field is required.',
+            'password.same' => 'The password and confirmation password must match.',
+        ];
+    
+        $request->validate([
+            'code' => 'required|string',
+            'email' => 'required|email', 
+            'password' => 'required|min:8|max:12|required_with:cpassword|same:cpassword',
+            'cpassword' => 'required|min:8|max:12',
+        ], $messages);
+    
+        $resetRecord = DB::table('password_resets')
+            ->where('email', $request->email)
+            ->where('token', $request->code)
+            ->first();
+    
+        if (!$resetRecord) {
+            return back()->with('fail', 'Invalid verification code or email.');
+        }
+    
+        if (Carbon::parse($resetRecord->created_at)->addMinutes(10)->isPast()) {
+            return back()->with('fail', 'The verification code has expired.');
+        }
+    
+        $customer = Customer::where('email', $request->email)->first();
+        if ($customer) {
+            $customer->password = Hash::make($request->password);
+            $customer->save();
+    
+            DB::table('password_resets')->where('email', $request->email)->delete();
+    
+            return redirect()->route('customer.login')->with('success', 'Your password has been reset successfully.');
+        }
+    
+        return back()->with('fail', 'Unable to reset password. Please try again.');
+    }
+    
+
     public function signup()
     {
         $data = [];
@@ -54,40 +123,11 @@ class CustomerController extends Controller
         $data['districts'] = District::get(["district_name", "id"]);
         $data['authorizes'] = Authorize::get(["authorize_name", "id"]);
         $data['categories'] = Category::get(["category_name", "id"]);
-        return view('customer/signup', $data);
+        $sitesetting = SiteSetting::first();
+
+        return view('customer/signup', $data,compact('sitesetting'));
     }
-    /**
-     * @OA\Post(
-     *     path="/reg-form",
-     *     summary="Customer Signup",
-     *     description="Registers a new customer with the provided information.",
-     *     tags={"Customer"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="first_name", type="string"),
-     *             @OA\Property(property="last_name", type="string"),
-     *             @OA\Property(property="business", type="string"),
-     *             @OA\Property(property="category", type="string"),
-     *             @OA\Property(property="phone", type="string"),
-     *             @OA\Property(property="user_name", type="string"),
-     *             @OA\Property(property="email", type="string", format="email"),
-     *             @OA\Property(property="password", type="string", format="password"),
-     *             @OA\Property(property="cpassword", type="string", format="password"),
-     *             @OA\Property(property="agree", type="boolean")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Registration successful",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="message", type="string")
-     *         )
-     *     ),
-     *     @OA\Response(response=500, description="Registration failed")
-     * )
-     */
+    
     public function signupform(Request $request)
     {
         $messages = [
@@ -97,8 +137,10 @@ class CustomerController extends Controller
             'password.same' => 'The password and confirmation password must match.',
             'email' => 'The :attribute must use a valid email address',
             'agree.accepted' => 'You must accept the terms and conditions.',
+                       'g-recaptcha-response.recaptcha' => 'Captcha verification failed',
+            'g-recaptcha-response.required' => 'Please complete the captcha',
         ];
-    
+
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -109,6 +151,7 @@ class CustomerController extends Controller
             'email' => 'required|email|unique:customers',
             'password' => 'required|min:8|max:12|required_with:cpassword|same:cpassword',
             'cpassword' => 'required|min:8|max:12',
+             'g-recaptcha-response' => 'required|recaptcha'
          
         ], $messages);
 
@@ -124,11 +167,7 @@ class CustomerController extends Controller
         $customer->permanent_municipality = $request->permanent_municipality;
         $customer->permanent_ward = $request->permanent_ward;
         $customer->permanent_tole = $request->permanent_tole;
-        $customer->temporary_state = $request->temporary_state;
-        $customer->temporary_district = $request->temporary_district;
-        $customer->temporary_municipality = $request->temporary_municipality;
-        $customer->temporary_ward = $request->temporary_ward;
-        $customer->temporary_tole = $request->temporary_tole;
+        $customer->permanent_city = $request->permanent_city;
         $customer->user_name = $request->user_name;
         $customer->phone = $request->phone;
         $customer->email = $request->email;
@@ -146,48 +185,76 @@ class CustomerController extends Controller
         }
     }
 
-public function loginform(Request $request)
-{
-    $request->validate([
-        'email' => 'required',
-        'password' => 'required',
-        'otp' => 'required',
-    ]);
-
-
-    $customer = Customer::where('email', '=', $request->email)->first();
-
-    if ($customer) {
-        if (Hash::check($request->password, $customer->password)) {
-            if ($request->otp === $customer->otp) { 
-                $request->session()->put('loginId', $customer->id);
-                return redirect('customerhome');
+    public function loginform(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+            'otp' => 'required',
+        ]);
+    
+        $customer = Customer::where('email', '=', $request->email)->first();
+    
+        if ($customer) {
+            if (Hash::check($request->password, $customer->password)) {
+                if ($request->otp === $customer->otp) { 
+                    if ($request->is('api/*')) {
+                        // Generate JWT token
+                        $token = JWTAuth::fromUser($customer);
+                        // Generate refresh token
+                        $refreshToken = $this->generateRefreshToken($customer);
+    
+                        return response()->json([
+                            'success' => true,
+                            'token' => $token,
+                            'refresh_token' => $refreshToken,
+                            'message' => 'Login successful'
+                        ], 200);
+                    } else {
+                        $request->session()->put('loginId', $customer->id);
+                        return redirect('customerhome');
+                    }
+                } else {
+                    return $request->is('api/*')
+                        ? response()->json(['success' => false, 'message' => 'Invalid OTP'], 401)
+                        : back()->with('fail', 'Invalid OTP');
+                }
             } else {
-                return back()->with('fail', 'Invalid OTP');
+                return $request->is('api/*')
+                    ? response()->json(['success' => false, 'message' => 'Password does not match'], 401)
+                    : back()->with('fail', 'Password does not match');
             }
         } else {
-            return back()->with('fail', 'Password doesnot match');
+            return $request->is('api/*')
+                ? response()->json(['success' => false, 'message' => 'Please, Register first'], 404)
+                : redirect()->route('customer.signup')->with('fail', 'Please, Register first');
         }
-    } else {
-        $request->session()->flash('fail', 'Please, Register first');
-        return view('customer/signup');
     }
-}
 
-public function customerhome ()
-{
+    private function generateRefreshToken($customer)
+    {
+    
+        return Str::random(60);
+    }
+    
 
-if (Session::has('loginId')) {
-   $customer = Customer::where('id', '=', Session::get('loginId'))->first();
-   $authorizes = Authorize::all();
-   $category = Category::all();
-   $provinces = Province::all();
-   return view('customer/form-user/personal', compact('customer','authorizes','category','provinces'));
-}
-else{
-   return back()->with('fail', 'Sorry, you donot have right to acces it. First, Login to continue');
-}
-}
+    public function customerhome ()
+    {
+    
+    if (Session::has('loginId')) {
+       $customer = Customer::where('id', '=', Session::get('loginId'))->first();
+       $authorizes = Authorize::all();
+       $category = Category::all();
+       $provinces = Province::all();
+       $business = Business::where('customer', '=', $customer->id)->first();
+       $sitesetting = SiteSetting::first();
+       $contact = Contact::first();
+       return view('customer/form-user/personal', compact('customer','authorizes','category','provinces','sitesetting','contact', 'business'));
+    }
+    else{
+       return back()->with('fail', 'Sorry, you donot have right to acces it. First, Login to continue');
+    }
+    }
 public function updatepersonalform(Request $request, $id)
 {
     $messages = [
@@ -206,6 +273,7 @@ public function updatepersonalform(Request $request, $id)
         'category' => 'required',
         'phone' => 'required|unique:customers,phone,'.$id,
         'email' => 'required|email|unique:customers,email,'.$id,
+        'permanent_city' => 'required',
     
 
     ], $messages);
@@ -222,11 +290,13 @@ public function updatepersonalform(Request $request, $id)
     $customer->permanent_municipality = $request->permanent_municipality ?? $customer->permanent_municipality;
     $customer->permanent_ward = $request->permanent_ward;
     $customer->permanent_tole = $request->permanent_tole;
+    $customer->permanent_city = $request->permanent_city;
     $customer->temporary_state = $request->temporary_state ?? $customer->temporary_state;
     $customer->temporary_district = $request->temporary_district ?? $customer->temporary_district;
     $customer->temporary_municipality = $request->temporary_municipality ?? $customer->temporary_municipality;
     $customer->temporary_ward = $request->temporary_ward;
     $customer->temporary_tole = $request->temporary_tole;
+    $customer->temporary_city = $request->temporary_city;
     $customer->address = $request->address;
     $customer->phone = $request->phone;
     $customer->email = $request->email;
@@ -234,11 +304,21 @@ public function updatepersonalform(Request $request, $id)
     $res = $customer->save();
 
     if ($res) {
+        session(['personalFormCompleted' => true]);
         return redirect()->route('businessview')->with('success', 'Your personal information has been updated successfully.');
  
     } else {
         return back()->with('fail', 'Sorry, there was an error updating your information.');
     }
+}
+public function logout(Request $request)
+{
+
+    $request->session()->forget('loginId');
+
+    $request->session()->regenerate();
+
+    return redirect('/customerlogin')->with('success', 'You have been logged out successfully');
 }
 
     }

@@ -10,13 +10,13 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-sm-4 col-6">
-                    <select id="district" name="district">
+                    <select id="district" name="district" disabled="disabled">
                         <option value="" selected="selected">District</option>
 
                     </select>
                 </div>
                 <div class="col-lg-2 col-sm-4 col-6">
-                    <select id="municipality" name="municipality">
+                    <select id="municipality" name="municipality" disabled="disabled">
                         <option value="" selected="selected">Municipality</option>
 
                     </select>

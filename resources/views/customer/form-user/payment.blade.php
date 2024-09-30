@@ -49,8 +49,8 @@
                                 <hr>
                             </div>
                             <div class="col-12">
-                                <form action="{{ route('updatebusinesspaymentform', $customer->id) }}" method="POST"
-                                    enctype="multipart/form-data">
+                            <form action="{{ route('updatebusinesspaymentform', $customer->id) }}" method="POST" enctype="multipart/form-data">
+
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6">
@@ -69,10 +69,10 @@
                                                 <label for="payment_receipt"><strong>Please upload the receipt of
                                                         your
                                                         payment.</strong></label>
-                                                <input type="file" name="payment_receipt" id="payment_receipt" required>
+                                                <input type="file" name="payment_receipt" id="payment_receipt">
                                                 <div class="qr-imgs mt-4">
                                                     @if(isset($payment) && $payment->payment_receipt)
-                                                    <img src="{{ asset('storage/payments/' . $payment->payment_receipt) }}"
+                                                    <img src="{{ asset('uploads/payment_receipt/' . $payment->payment_receipt) }}"
                                                         alt="Payment Receipt" class="img-thumbnail"
                                                         style="max-width: 150px;">
                                                     @else
@@ -87,7 +87,7 @@
                                             @include('admin.auth.error')
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="submit" class="btn btn-warning text-white"
+                                            <input type="submit" class="btn btn-warning text-white submit-btn-form"
                                                 value="Submit Payment">
                                         </div>
                                     </div>

@@ -94,7 +94,7 @@ $designToggle = true;
 @endif
 
 @php
-$designToggle = !$designToggle; // Toggle design
+$designToggle = !$designToggle; 
 @endphp
 @endif
 @endforeach

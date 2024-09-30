@@ -11,7 +11,7 @@ class BusinessMenu extends Model
     protected $table = 'business_menus';
     protected $fillable = ['menu_topic', 'business','title','price','caption','photo'];
 
-    public function business()
+    public function businesses()
     {
         return $this->belongsTo(Business::class, 'business');
     }

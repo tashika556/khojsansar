@@ -78,23 +78,33 @@
                                             </th>
                                             <th class="bg-yellow-themed text-fixed-white " scope="col">Customer Name
                                             </th>
+                                            <th class="bg-yellow-themed text-fixed-white " scope="col">Payment Done By
+                                                customer
+                                            </th>
                                             <th class="bg-yellow-themed text-fixed-white " scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="dataTable">
-                                        @foreach($bustomer as $index => $bus)
+                                        @foreach($business as $index => $bus)
                                         <tr class="Business-list">
                                             <td>{{ $index + 1 }}</td>
-                                            <td class="data-name">{{ $bus->first_name }}</td>
-                                            <td class="province-name">{{ $bus->authorizeshow->authorize_name}}</td>
-                                            <td class="muni-name">{{ $bus->categoryshow->category_name}}</td>
+                                            <td class="data-name">{{ $bus->customershow->business }}</td>
+                                            <td class="province-name">
+                                                {{ $bus->customershow->categoryshow->category_name }}</td>
+                                            <td class="muni-name">{{ $bus->customershow->first_name }}
+                                                {{ $bus->customershow->middle_name }}
+                                                {{ $bus->customershow->last_name }}</td>
                                             <td>
-                                                <a href="{{ route('viewpendingBusiness', $bus->id) }}"
+                                                {{ $bus->payment ? ($bus->payment->payment_confirmation ? 'Yes' : 'No') : 'No Payment' }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('viewpendingbusiness', $bus->id) }}"
                                                     class="btn btn-info btn-icon btn-sm">
                                                     <i class="ri-eye-line"></i>
                                                 </a>
 
-                                                <form action="{{ route('customer.destroy', $bus->id) }}" method="POST"
+
+                                                <form action="{{ route('businesspayment.destroy', $bus->id) }}" method="POST"
                                                     onsubmit="return confirmDelete()" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
@@ -103,6 +113,7 @@
                                                         <i class="ri-delete-bin-5-line"></i>
                                                     </button>
                                                 </form>
+
                                                 <div class="dropdown d-inline">
                                                     <button
                                                         class="btn btn-primary-light btn-icon btn-sm dropdown-toggle"
@@ -113,43 +124,41 @@
                                                     <ul class="dropdown-menu dropdown-status"
                                                         aria-labelledby="dropdownMenuButton{{ $bus->id }}">
                                                         <li>
-                                                            <form
-                                                                action="{{ route('pendingbusiness.verify', $bus->id) }}"
+                                                            <form action="{{ route('approvePayment', $bus->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 <button type="submit"
-                                                                    class="dropdown-item">Verify</button>
+                                                                    class="dropdown-item">Approve</button>
                                                             </form>
                                                         </li>
                                                         <li>
-                                                            <button class="dropdown-item" data-bs-toggle="modal"
+                                                            <button type="button" class="dropdown-item"
+                                                                data-bs-toggle="modal"
                                                                 data-bs-target="#rejectModal{{ $bus->id }}">
-                                                                Reject
+                                                                Send Message for No Approval
                                                             </button>
                                                         </li>
                                                     </ul>
                                                 </div>
-
                                                 <div class="modal fade" id="rejectModal{{ $bus->id }}" tabindex="-1"
                                                     aria-labelledby="rejectModalLabel{{ $bus->id }}" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title"
-                                                                    id="rejectModalLabel{{ $bus->id }}">Reject Reason
+                                                                    id="rejectModalLabel{{ $bus->id }}">No Approval Reason
                                                                 </h5>
                                                                 <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <form
-                                                                action="{{ route('pendingbusiness.reject', $bus->id) }}"
+                                                            <form action="{{ route('rejectPayment', $bus->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 <div class="modal-body">
                                                                     <div class="mb-3">
                                                                         <label for="rejectionReason{{ $bus->id }}"
                                                                             class="form-label">Reason for
-                                                                            Rejection</label>
+                                                                            Not Approving</label>
                                                                         <textarea class="form-control"
                                                                             id="rejectionReason{{ $bus->id }}"
                                                                             name="rejection_reason" rows="3"
@@ -166,10 +175,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </td>
                                         </tr>
                                         @endforeach
+
 
 
                                     </tbody>

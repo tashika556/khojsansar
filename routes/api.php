@@ -14,10 +14,31 @@ use App\Http\Controllers\API\SpecialController;
 use App\Http\Controllers\API\SpecialOfferController;
 use App\Http\Controllers\API\AuthorizeController;
 use App\Http\Controllers\API\BannerController;
+use App\Http\Controllers\API\PhotosController;
+use App\Http\Controllers\API\ReviewController;
+use App\Http\Controllers\API\SimilarRestaurantsController;
+use App\Http\Controllers\API\RestaurantSearchController;
+use App\Http\Controllers\API\UpdateFetchController;
 
 // API routes
 Route::post('/getCategory', [CategoryController::class, 'getCategorys']);
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::post('/getCategorym', [CategoryController::class, 'getCategories']);
+
+
+Route::post('/customer/login', [CustomerController::class, 'login']);
+
+Route::post('/customer/register', [CustomerController::class, 'apiSignup']);
+
+Route::get('/customerview/{id}', [UpdateFetchController::class, 'displaycustomer']);
+Route::put('/customer/update/{id}', [UpdateFetchController::class, 'updateCustomer']);
+
+Route::get('/businessview/{id}', [UpdateFetchController::class, 'displaybusiness']);
+
+Route::post('/customer/updatestorebusiness', [UpdateFetchController::class, 'storeOrUpdateBusiness']);
+
+Route::post('/customer/forget-password', [CustomerController::class, 'apiSendResetCode'])->name('api.customer.send-reset-code');
+Route::post('/customer/reset-password', [CustomerController::class, 'apiResetPassword'])->name('api.customer.reset-password');
 
 
 Route::post('/getFacility', [FacilityController::class, 'getFacilitys']);
@@ -38,9 +59,24 @@ Route::post('/getMunicipality', [MunicipalityController::class, 'getMunicipality
 Route::get('/municipalities', [MunicipalityController::class, 'index']);
 
 
+
 Route::get('/restaurants', [BusinessController::class, 'index']);
 Route::post('/getRestaurantByMunicipalities', [BusinessController::class, 'getRestaurantByLocation']);
 Route::post('/getRestaurantsByLatLng', [BusinessController::class, 'getRestaurantsByLatLng']);
+Route::get('/restaurantsrate', [BusinessController::class, 'getRestaurantsrate']);
+
+
+Route::get('/restaurantsphotos', [PhotosController::class, 'restaurantsphotos']);
+Route::get('/restaurantsphotos/{id}', [PhotosController::class, 'restaurantPhotos']);
+
+Route::get('/similar-restaurants', [SimilarRestaurantsController::class, 'similarRestaurants']);
+
+
+Route::get('/restaurantssearch', [RestaurantSearchController::class, 'searchRestaurants']);
+
+
+Route::get('restaurant/{id}/reviews', [ReviewController::class, 'getReviews']);
+Route::get('reviews', [ReviewController::class, 'index']);
 
 Route::get('/banners', [BannerController::class, 'getBanners']);
 Route::get('/getBannersbyRestaurant/{restaurant_id}', [BannerController::class, 'getBannersbyRestaurant']);
@@ -56,28 +92,6 @@ Route::get('/provinces', [ProvinceController::class, 'index']);
 Route::get('/restaurant/{id}', [BusinessController::class, 'getRestaurantDetail']);
 //admin routes
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
-
-    Route::resource('/category', CategoryController::class)->except(['create', 'edit']);
-    Route::resource('/facility', FacilityController::class)->except(['create', 'edit']);
-    Route::resource('/service', ServiceController::class)->except(['create', 'edit']);
-    Route::resource('/province', ProvinceController::class)->except(['create', 'edit']);
-    Route::resource('/district', DistrictController::class)->except(['create', 'edit']);
-    Route::resource('/municipality', MunicipalityController::class)->except(['create', 'edit']);
-    Route::resource('/authorize', AuthorizeController::class)->except(['create', 'edit']);
-
-    Route::get('/pendingcustomer', [AdminController::class, 'pendingcustomers']);
-    Route::get('/viewpendingcustomer/{id}', [AdminController::class, 'viewpendingcustomers']);
-    Route::post('/pendingcustomer/{id}/verify', [AdminController::class, 'verifypendingCustomer']);
-    Route::post('/pendingcustomer/{id}/reject', [AdminController::class, 'rejectpendingCustomer']);
-    Route::delete('/customer/{id}', [AdminController::class, 'destroycustomer']);
-
-    Route::get('/verifiedcustomer', [AdminController::class, 'verifiedcustomers']);
-    Route::get('/viewverifiedcustomer/{id}', [AdminController::class, 'viewverifiedcustomers']);
-    Route::get('/rejectedcustomer', [AdminController::class, 'rejectedcustomers']);
-    Route::get('/viewrejectedcustomer/{id}', [AdminController::class, 'viewrejectedcustomers']);
-});
 
 // Customer routes
 Route::group(['prefix' => 'customer'], function () {

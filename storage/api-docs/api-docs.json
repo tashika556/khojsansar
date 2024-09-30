@@ -209,6 +209,12 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -237,6 +243,77 @@
                         "schema": {
                             "type": "number",
                             "format": "float"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RestaurantDetail"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/restaurantsrate": {
+            "get": {
+                "tags": [
+                    "Restaurants Display as per rating"
+                ],
+                "summary": "Get list of restaurants sorted by rating",
+                "operationId": "8b304bbfb8fe011bc1470b1997035fb6",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
                         }
                     }
                 ],
@@ -324,6 +401,43 @@
                 }
             }
         },
+        "/api/getCategorym": {
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get list of categories by municipality ID",
+                "operationId": "6a6e19f362921e5f2c78bf67206e9c2a",
+                "parameters": [
+                    {
+                        "name": "municipality_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
         "/": {
             "get": {
                 "summary": "Display Home Page",
@@ -336,186 +450,94 @@
                 }
             }
         },
-        "/api/customer/customersignup": {
-            "get": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Get Signup Form Data",
-                "description": "Returns provinces, districts, authorizes, and categories for signup.",
-                "operationId": "495fa11baf79ff5cd4400d83a37983ce",
-                "responses": {
-                    "200": {
-                        "description": "Returns signup data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "provinces": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "districts": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "authorizes": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "categories": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/terms": {
-            "get": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Get Terms and Conditions",
-                "description": "Returns the terms and conditions text.",
-                "operationId": "4950580df8bcf40de13b002a2b273cb2",
-                "responses": {
-                    "200": {
-                        "description": "Returns terms and conditions",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "terms": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/login-form": {
+        "/api/customer/register": {
             "post": {
                 "tags": [
-                    "Customer"
+                    "Registration"
                 ],
-                "summary": "Customer Login",
-                "description": "Logs in a customer with email, password, and OTP.",
-                "operationId": "6f25f1a105c043b62959ff00e015e6e4",
+                "summary": "Customer registration",
+                "operationId": "691ec2329923c2174a17ef051cd4b8f7",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
+                                    "authorize": {
+                                        "type": "integer",
+                                        "example": 1
                                     },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "otp": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Login successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "token": {
-                                            "type": "string"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid OTP or Password"
-                    },
-                    "404": {
-                        "description": "Please register first"
-                    }
-                }
-            }
-        },
-        "/api/customer/reg-form": {
-            "post": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Customer Signup",
-                "description": "Registers a new customer with the provided information.",
-                "operationId": "052abd6fb5799319a4146cec40412511",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
                                     "first_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "middle_name": {
+                                        "type": "string",
+                                        "example": "Michael"
                                     },
                                     "last_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Doe"
                                     },
                                     "business": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Business Name"
                                     },
                                     "category": {
-                                        "type": "string"
+                                        "type": "integer",
+                                        "example": 1
                                     },
-                                    "phone": {
-                                        "type": "string"
+                                    "permanent_state": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "permanent_district": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "permanent_municipality": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "permanent_ward": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "permanent_tole": {
+                                        "type": "string",
+                                        "example": "Tole Name"
+                                    },
+                                    "permanent_city": {
+                                        "type": "string",
+                                        "example": "City Name"
                                     },
                                     "user_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "johndoe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "cell": {
+                                        "type": "string",
+                                        "example": "9876543210"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "format": "email"
+                                        "example": "customer@example.com"
                                     },
                                     "password": {
                                         "type": "string",
-                                        "format": "password"
+                                        "example": "yourpassword"
                                     },
                                     "cpassword": {
                                         "type": "string",
-                                        "format": "password"
+                                        "example": "yourpassword"
                                     },
                                     "agree": {
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "example": true
                                     }
                                 },
                                 "type": "object"
@@ -530,8 +552,22 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
                                         "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Registration successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "customer_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -539,28 +575,98 @@
                             }
                         }
                     },
-                    "500": {
-                        "description": "Registration failed"
-                    }
-                }
-            }
-        },
-        "/api/customerhome": {
-            "get": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Get Customer Home",
-                "description": "Returns the customer information if authenticated.",
-                "operationId": "3600dcbbf09e519becc92d6063f4bfc3",
-                "responses": {
-                    "200": {
-                        "description": "Returns customer information",
+                    "400": {
+                        "description": "Validation error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "customer": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "field_name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The field is required"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/customer/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Customer login",
+                "operationId": "7c3f3e1e7e18baa11236d373fe379b51",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "customer@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "yourpassword"
+                                    },
+                                    "otp": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "jwt_token_here"
+                                                },
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "refresh_token_here"
+                                                }
+                                            },
                                             "type": "object"
                                         }
                                     },
@@ -570,14 +676,208 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized"
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid OTP or password"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Customer not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Please, Register first"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                },
-                "security": [
+                }
+            }
+        },
+        "/api/customer/forget-password": {
+            "post": {
+                "tags": [
+                    "Forget Password"
+                ],
+                "summary": "Send reset code to customer email",
+                "operationId": "d7e6082d6d29c1333ddddb2d65cbdb34",
+                "parameters": [
                     {
-                        "bearerAuth": []
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        }
                     }
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reset code sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Email not registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/customer/reset-password": {
+            "post": {
+                "tags": [
+                    "Forget Password"
+                ],
+                "summary": "Reset customer password using reset code",
+                "operationId": "c77b398856a0af9d19d390c7bd9366df",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 12,
+                            "minLength": 8
+                        }
+                    },
+                    {
+                        "name": "cpassword",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 12,
+                            "minLength": 8
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password reset successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid verification code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No account found with that email address",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/districts": {
@@ -772,6 +1072,93 @@
                 }
             }
         },
+        "/api/restaurantsphotos": {
+            "get": {
+                "tags": [
+                    "Restaurant Images Details"
+                ],
+                "summary": "Get list of all restaurants with images in pagination",
+                "operationId": "134384575cfda7fa44e77002eb3dd058",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Photos"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/restaurantsphotos/{id}": {
+            "get": {
+                "tags": [
+                    "Restaurant Images Details"
+                ],
+                "summary": "Get images for a specific restaurant by ID",
+                "operationId": "2e5f1617726e51b9795ece947cf6f29c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Ani's Restaurant"
+                                        },
+                                        "coverimage": {
+                                            "type": "string",
+                                            "example": "coverimage.jpg"
+                                        },
+                                        "slider_images": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "gallery_images": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
         "/api/provinces": {
             "get": {
                 "tags": [
@@ -788,6 +1175,121 @@
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Province"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/restaurantssearch": {
+            "get": {
+                "tags": [
+                    "Restaurants Search"
+                ],
+                "summary": "Get list of restaurants by search filters through keyword[name and category] and municipality",
+                "operationId": "177accb4540a3949c8ab8cabe9022ca7",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "municipality_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RestaurantSearchResult"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/reviews": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "summary": "Get paginated list of all reviews",
+                "operationId": "a15f7d74fd8a01fc0cba02cc1a871267",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Review"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/restaurant/{id}/reviews": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "summary": "Get reviews for a as per restaurant id",
+                "operationId": "8d25cc4218d7e9d6ceb21c919316db11",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Review"
                                     }
                                 }
                             }
@@ -852,6 +1354,59 @@
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Service"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/similar-restaurants": {
+            "get": {
+                "tags": [
+                    "Similar Restaurants"
+                ],
+                "summary": "Get similar restaurants by category and location",
+                "operationId": "516588f6f3de90700b1394b49addf540",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RestaurantFilter"
                                     }
                                 }
                             }
@@ -1093,74 +1648,165 @@
                 }
             }
         },
-        "/customerlogin": {
+        "/api/customerview/{id}": {
             "get": {
-                "summary": "Display Customer Login Page",
-                "operationId": "2c323b67184703860e1235bce07a9551",
-                "responses": {
-                    "200": {
-                        "description": "Displays the login page for customers"
-                    }
-                }
-            }
-        },
-        "/customersignup": {
-            "get": {
-                "summary": "Display Customer Signup Page",
-                "operationId": "ec2fa397782934a0fbcadbb13d11e1ed",
-                "responses": {
-                    "200": {
-                        "description": "Displays the signup page for customers"
-                    }
-                }
-            }
-        },
-        "/reg-form": {
-            "post": {
                 "tags": [
-                    "Customer"
+                    "Customer Data Update/Fetch"
                 ],
-                "summary": "Customer Signup",
-                "description": "Registers a new customer with the provided information.",
-                "operationId": "7b9288874b145b57700cc22014cd5225",
+                "summary": "Customer Details Display By It's ID",
+                "operationId": "4e94122e282f4923b3fe3b9e7c6ea091",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/customer/update/{id}": {
+            "put": {
+                "tags": [
+                    "Customer Data Update/Fetch"
+                ],
+                "summary": "Update Customer Information",
+                "operationId": "b8daa0ccea41db450af6041d7147464c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "business",
+                                    "category",
+                                    "phone",
+                                    "email",
+                                    "address"
+                                ],
                                 "properties": {
+                                    "authorize": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "first_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "default": "Existing First Name",
+                                        "example": "John"
+                                    },
+                                    "middle_name": {
+                                        "type": "string",
+                                        "default": "Existing Middle Name",
+                                        "example": "Doe"
                                     },
                                     "last_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "default": "Existing Last Name",
+                                        "example": "Smith"
                                     },
                                     "business": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "default": "Existing Business",
+                                        "example": 1
                                     },
                                     "category": {
-                                        "type": "string"
+                                        "type": "integer",
+                                        "default": 2,
+                                        "example": 2
+                                    },
+                                    "permanent_state": {
+                                        "type": "integer",
+                                        "default": 1,
+                                        "example": 1
+                                    },
+                                    "permanent_district": {
+                                        "type": "integer",
+                                        "default": 5,
+                                        "example": 5
+                                    },
+                                    "permanent_municipality": {
+                                        "type": "integer",
+                                        "default": 12,
+                                        "example": 12
+                                    },
+                                    "permanent_ward": {
+                                        "type": "integer",
+                                        "default": 3,
+                                        "example": 3
+                                    },
+                                    "permanent_tole": {
+                                        "type": "string",
+                                        "default": "Existing Tole",
+                                        "example": "Park Street"
+                                    },
+                                    "temporary_state": {
+                                        "type": "integer",
+                                        "default": 2,
+                                        "example": 2
+                                    },
+                                    "temporary_district": {
+                                        "type": "integer",
+                                        "default": 8,
+                                        "example": 8
+                                    },
+                                    "temporary_municipality": {
+                                        "type": "integer",
+                                        "default": 15,
+                                        "example": 15
+                                    },
+                                    "temporary_ward": {
+                                        "type": "integer",
+                                        "default": 4,
+                                        "example": 4
+                                    },
+                                    "temporary_tole": {
+                                        "type": "string",
+                                        "default": "Existing Tole",
+                                        "example": "Main Avenue"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "default": "Existing Address",
+                                        "example": "1234 Elm Street"
                                     },
                                     "phone": {
-                                        "type": "string"
-                                    },
-                                    "user_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "default": "Existing Phone Number",
+                                        "example": "1234567890"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "format": "email"
+                                        "default": "Existing Email",
+                                        "example": "john@example.com"
                                     },
-                                    "password": {
+                                    "cell": {
                                         "type": "string",
-                                        "format": "password"
-                                    },
-                                    "cpassword": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "agree": {
-                                        "type": "boolean"
+                                        "default": "Existing Cell Number",
+                                        "example": "0987654321"
                                     }
                                 },
                                 "type": "object"
@@ -1169,14 +1815,62 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Registration successful",
+                    "200": {
+                        "description": "Customer information updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
                                         "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Customer information has been updated successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Customer not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Customer not found"
                                         }
                                     },
                                     "type": "object"
@@ -1185,9 +1879,309 @@
                         }
                     },
                     "500": {
-                        "description": "Registration failed"
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/businessview/{id}": {
+            "get": {
+                "tags": [
+                    "Business Data Update/Fetch"
+                ],
+                "summary": "Business Details Display By Customer ID",
+                "operationId": "f823f274d3ee58a74c2f9391d186590a",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "description": "Not Found"
                     }
                 }
+            }
+        },
+        "/api/customer/updatestorebusiness": {
+            "post": {
+                "tags": [
+                    "Business Data Update/Fetch"
+                ],
+                "summary": "Store or Update Business Information",
+                "operationId": "5a863b6c07f43bbed75bc48c73274e3d",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "description": "ID of the customer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Provide this field for update only",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "summary": {
+                                        "type": "string",
+                                        "example": "Business Summary"
+                                    },
+                                    "email_one": {
+                                        "type": "string",
+                                        "example": "business@example.com"
+                                    },
+                                    "email_two": {
+                                        "type": "string",
+                                        "example": "business2@example.com"
+                                    },
+                                    "phone_one": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "phone_two": {
+                                        "type": "string",
+                                        "example": "0987654321"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "123 Business Ave"
+                                    },
+                                    "website_url": {
+                                        "type": "string",
+                                        "example": "https://businesswebsite.com"
+                                    },
+                                    "state": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "district": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "municipality": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "ward": {
+                                        "type": "integer",
+                                        "example": 4
+                                    },
+                                    "tole": {
+                                        "type": "string",
+                                        "example": "Main Tole"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "27.7172"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "85.3240"
+                                    },
+                                    "opening_total_days": {
+                                        "description": "Total operating days",
+                                        "type": "integer",
+                                        "example": 7
+                                    },
+                                    "opening_total_hours": {
+                                        "description": "Total operating hours",
+                                        "type": "string",
+                                        "example": "9 AM to 9 PM"
+                                    },
+                                    "logo": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "coverimage": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Business data updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Business data updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "summary": {
+                                                    "type": "string",
+                                                    "example": "Business Summary"
+                                                },
+                                                "email_one": {
+                                                    "type": "string",
+                                                    "example": "business@example.com"
+                                                },
+                                                "email_two": {
+                                                    "type": "string",
+                                                    "example": "business2@example.com"
+                                                },
+                                                "phone_one": {
+                                                    "type": "string",
+                                                    "example": "1234567890"
+                                                },
+                                                "phone_two": {
+                                                    "type": "string",
+                                                    "example": "0987654321"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "123 Business Ave"
+                                                },
+                                                "website_url": {
+                                                    "type": "string",
+                                                    "example": "https://businesswebsite.com"
+                                                },
+                                                "state": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "district": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "municipality": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "ward": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "tole": {
+                                                    "type": "string",
+                                                    "example": "Main Tole"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "27.7172"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "85.3240"
+                                                },
+                                                "logo": {
+                                                    "type": "string",
+                                                    "example": "logo_path.jpg"
+                                                },
+                                                "coverimage": {
+                                                    "type": "string",
+                                                    "example": "cover_image_path.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -1336,6 +2330,31 @@
                     "district_id": 1
                 }
             },
+            "Photos": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Ani's Restaurant"
+                    },
+                    "coverimage": {
+                        "type": "string",
+                        "example": "coverimage.jpg"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "Ani's Restaurant",
+                    "restaurant_type": "Chinese Cuisine",
+                    "coverimage": "coverimage.jpg",
+                    "rating": 4.5,
+                    "review_count": 120
+                }
+            },
             "Province": {
                 "properties": {
                     "id": {
@@ -1352,6 +2371,68 @@
                     "id": 1,
                     "province_name": "Koshi Pradesh"
                 }
+            },
+            "RestaurantSearchResult": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Ani's Restaurant"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "Main Street"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "municipality_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "123-456-7890"
+                    },
+                    "featuredSpecial": {
+                        "type": "string",
+                        "example": "Special Dish"
+                    }
+                },
+                "type": "object"
+            },
+            "Review": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "review": {
+                        "type": "string"
+                    },
+                    "rating": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "Pending",
+                            "Approved",
+                            "Rejected"
+                        ]
+                    }
+                },
+                "type": "object"
             },
             "Service": {
                 "properties": {
@@ -1373,6 +2454,44 @@
                     "id": 1,
                     "service_name": "Buffet Service",
                     "service_logo": "buffet.png"
+                }
+            },
+            "RestaurantFilter": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Ani's Restaurant"
+                    },
+                    "restaurant_type": {
+                        "type": "string",
+                        "example": "Chinese Cuisine"
+                    },
+                    "coverimage": {
+                        "type": "string",
+                        "example": "coverimage.jpg"
+                    },
+                    "rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 4.5
+                    },
+                    "review_count": {
+                        "type": "integer",
+                        "example": 120
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "Ani's Restaurant",
+                    "restaurant_type": "Chinese Cuisine",
+                    "coverimage": "coverimage.jpg",
+                    "rating": 4.5,
+                    "review_count": 120
                 }
             },
             "SpecialFood": {
@@ -1426,12 +2545,24 @@
             "description": "Restaurants Detail By Location"
         },
         {
+            "name": "Restaurants Display as per rating",
+            "description": "Restaurants Display as per rating"
+        },
+        {
             "name": "Categories",
             "description": "Categories"
         },
         {
-            "name": "Customer",
-            "description": "Customer"
+            "name": "Registration",
+            "description": "Registration"
+        },
+        {
+            "name": "Login",
+            "description": "Login"
+        },
+        {
+            "name": "Forget Password",
+            "description": "Forget Password"
         },
         {
             "name": "Districts",
@@ -1446,12 +2577,28 @@
             "description": "Municipalities"
         },
         {
+            "name": "Restaurant Images Details",
+            "description": "Restaurant Images Details"
+        },
+        {
             "name": "Provinces",
             "description": "Provinces"
         },
         {
+            "name": "Restaurants Search",
+            "description": "Restaurants Search"
+        },
+        {
+            "name": "Reviews",
+            "description": "Reviews"
+        },
+        {
             "name": "Services",
             "description": "Services"
+        },
+        {
+            "name": "Similar Restaurants",
+            "description": "Similar Restaurants"
         },
         {
             "name": "Special Foods",
@@ -1460,6 +2607,14 @@
         {
             "name": "Special Offers",
             "description": "Special Offers"
+        },
+        {
+            "name": "Customer Data Update/Fetch",
+            "description": "Customer Data Update/Fetch"
+        },
+        {
+            "name": "Business Data Update/Fetch",
+            "description": "Business Data Update/Fetch"
         }
     ]
 }

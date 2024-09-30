@@ -31,7 +31,7 @@
                     <ol class="breadcrumb mb-0">
 
                         <li class="breadcrumb-item"><a href="{{url('admin/dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{url('admin/pendingcustomer')}}">Business Menus</a>
+                        <li class="breadcrumb-item"><a href="{{url('admin/businessmenu')}}">Business Menus</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">@yield('page_title')</li>
                     </ol>
@@ -71,46 +71,38 @@
                                 <table class="table text-nowrap">
                                     <thead>
                                         <tr class="Customers-list">
-                                            <th class="bg-yellow-themed text-fixed-white " scope="col">S.No.</th>
-                                            <th class="bg-yellow-themed text-fixed-white " scope="col">Customers Name
+                                            <th class="bg-yellow-themed text-fixed-white" scope="col">S.No.</th>
+                                            <th class="bg-yellow-themed text-fixed-white" scope="col">Customers Name
                                             </th>
-                                            <th class="bg-yellow-themed text-fixed-white " scope="col">Category
-                                            </th>
-                                            <th class="bg-yellow-themed text-fixed-white " scope="col">Business Name
-                                            </th>
-                                            <th class="bg-yellow-themed text-fixed-white " scope="col">Email
-                                            </th>
-                                            <th class="bg-yellow-themed text-fixed-white " scope="col">Action</th>
+                                            <th class="bg-yellow-themed text-fixed-white" scope="col">Category</th>
+                                            <th class="bg-yellow-themed text-fixed-white" scope="col">Business Name</th>
+                                            <th class="bg-yellow-themed text-fixed-white" scope="col">Email</th>
+                                            <th class="bg-yellow-themed text-fixed-white" scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="dataTable">
-
+                                        @foreach($businessmenu as $businessId => $menus)
+                                        @if($menus->isNotEmpty())
                                         <tr class="Customers-list">
-                                            <td></td>
-                                            <td class="data-name"></td>
-                                            <td class="province-name"></td>
-                                            <td class="muni-name"></td>
-                                            <td class="muni-name"></td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td class="data-name">
+                                                {{ $menus->first()->businesses->customershow->first_name }}</td>
+                                            <td class="province-name">{{ $menus->first()->businesses->customershow->categoryshow->category_name}}</td>
+                                            <td class="muni-name">{{ $menus->first()->businesses->customershow->business}}</td>
+                                            <td class="muni-name">{{ $menus->first()->businesses->email_one }}</td>
                                             <td>
-                                                <a href="" class="btn btn-info btn-icon btn-sm">
+                                                <a href="{{ route('admin.businessmenu.view', ['business' => $businessId]) }}"
+                                                    class="btn btn-info btn-icon btn-sm">
                                                     <i class="ri-eye-line"></i>
                                                 </a>
-                                                <a href="" class="btn btn-info btn-icon btn-sm">
-                                                <i class="ri-chat-2-fill"></i>
-                                                </a>
                                              
-
-
-
-
-
                                             </td>
                                         </tr>
+                                        @endif
                                         @endforeach
-
-
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                         <div id="pagination-controls" class="d-flex justify-content-center mt-3">

@@ -99,4 +99,42 @@ class CategoryController extends Controller
             return $this->apiResponse(false, 'An error occurred while fetching categories', [], ['error' => $e->getMessage()]);
         }
     }
+
+/**
+ * @OA\Post(
+ *     path="/api/getCategorym",
+ *     summary="Get list of categories by municipality ID",
+ *     tags={"Categories"},
+ *     @OA\Parameter(
+ *         name="municipality_id",
+ *         in="query",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Category"))
+ *     ),
+ *     @OA\Response(response=404, description="Not Found")
+ * )
+ */
+public function getCategories(Request $request)
+{
+    $municipalityId = $request->input('municipality_id');
+    if (!$municipalityId) {
+        return $this->apiResponse(false, 'Municipality ID is required', [], [], false);
+    }
+
+    try {
+        $categories = DB::table('categories')->where('municipality_id', $municipalityId)->get();
+        if ($categories->isEmpty()) {
+            return $this->apiResponse(false, 'No categories found', [], [], false);
+        }
+        return $this->apiResponse(true, 'Categories fetched successfully', $categories);
+    } catch (\Exception $e) {
+        return $this->apiResponse(false, 'Error fetching categories', [], ['error' => $e->getMessage()]);
+    }
+
+}
 }

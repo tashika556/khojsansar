@@ -943,6 +943,9 @@ section.search_section {
   background-color: #ffffff;
   color: #b01918;
 }
+.card:hover .icon-wrapper img {
+  filter: brightness(0) saturate(100%) invert(14%) sepia(93%) saturate(6086%) hue-rotate(370deg) brightness(92%) contrast(85%);
+}
 
 .card:hover h3 {
   color: #ffffff;
@@ -1212,7 +1215,7 @@ section#room_page .table td,
   bottom: 100px;
   right: 30px;
   opacity: 0;
-  color: #042726;
+  color: #eb811b;
   z-index: 1000;
   transform: rotate(89deg);
   font-family: "Mulish", sans-serif;
@@ -1228,7 +1231,7 @@ section#room_page .table td,
   left: -30%;
   height: 48px;
   width: 1px;
-  background: #042726;
+  background: #eb811b;
 }
 
 #button.show {
@@ -2503,6 +2506,7 @@ a.arrow_project {
   height: 120px;
   object-fit: contain;
   object-position: center;
+  border-radius: 50%;
 }
 
 .restaurant {
@@ -2897,11 +2901,11 @@ section.contact-area {
 .restaurant-btn i {
   position: relative;
   font-size: 16px;
-  color: #042726;
+  color: #ef7f19;
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  border: 1px solid #042726;
+  /* border: 1px solid #042726; */
   line-height: 42px;
   transition: 400ms cubic-bezier(0.4, 0, 1, 1);
   transform: translateX(5px);
@@ -2909,7 +2913,7 @@ section.contact-area {
 
 .restaurant-btn:hover i {
   color: #fff;
-  background-color: #042726;
+  background-color: #ef7f19;
   transform: translateX(0px);
 }
 
@@ -2917,7 +2921,7 @@ section.contact-area {
   display: none;
   margin-left: 6px;
   font-size: 16px;
-  color: #042726;
+  color: #ef7f19;
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
@@ -2962,4 +2966,31 @@ section.contact-area {
   100% {
     transform: translatey(-15%) scale(1.35);
   }
+}
+.navbar-logo img,.footer-bottom-middle a img{
+  filter:brightness(0) invert(1);
+}
+
+.blog_detail-text ul li {
+  list-style:disc; color:#b01918; margin-bottom:10px;
+}.blog_detail-text ul {margin-top:20px;}.blog_detail-text p{margin-top:10px;}.blog_detail-text p strong{ color:#b01918;}.text-golden {color:#eb811b;}
+.restaurant_slider a:hover{color:unset;}
+.open {
+    position: absolute;
+    top: 10px;
+    background: #a2211f;
+    padding: 0 5px;
+    color: #fff;
+    margin: 0 10px;
+}
+
+.open p {
+    font-size: smaller;
+    font-weight: 800;
+}
+/* new css  */
+.footer-khoj-app a img {
+  width: 110px;
+  object-fit: cover;
+  object-position: center;
 }

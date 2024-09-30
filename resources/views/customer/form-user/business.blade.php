@@ -12,8 +12,7 @@
                 <div class="col-12">
                     <div class="form-group mb-4">
                         <label for="exampleFormControlSelect2">Summary</label>
-                        <textarea name="summary" class="form-control" rows="6" id="">{{ $business->summary ?? '' }}
-                        </textarea>
+                        <textarea name="summary" class="form-control" rows="6" id="">{{ $business->summary ?? '' }}</textarea>
                     </div>
                 </div>
 
@@ -136,7 +135,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-12">
+                <div class="col-md-3 col-12">
                     <div class="form-group mb-4">
                         <label for="exampleFormControlSelect2">Latitude</label>
                         <input type="text" class="form-control" name="latitude" id="exampleFormControlInput1"
@@ -144,13 +143,28 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-12">
+                <div class="col-md-3 col-12">
                     <div class="form-group">
                         <label for="exampleFormControlSelect2">Longitude</label>
                         <input type="text" class="form-control" name="longitude" id="exampleFormControlInput1"
                             value="{{ $business->longitude ?? '' }}">
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <p>Opens 24 Hours or Not ? </p>
+                        <input type="checkbox" name="openeveryday" id="openeveryday" value="1" @if(isset($business) &&
+                            $business->openeveryday == 1) checked @endif
+                        >
+                        <label for="openeveryday">Does your business open 24 / 7 ? If yes, then tick otherwise leave as
+                            it is.</label>
+                    </div>
+
+                </div>
+                <div class="col-12">
+                    <hr>
+                </div>
+
                 <div class="col-xl-6 col-md-6 col-12">
                     <div class="form-group mb-4">
                         <label for="website_url">Website URL</label>
@@ -159,7 +173,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 col-md-6 col-12">
+                <div class="col-xl-3 col-md-6 col-12">
                     <div class="form-group mb-4">
                         <label for="phone_one">Phone One</label>
                         <input type="text" class="form-control" name="phone_one"
@@ -167,7 +181,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 col-md-6 col-12">
+                <div class="col-xl-3 col-md-6 col-12">
                     <div class="form-group mb-4">
                         <label for="phone_two">Phone Two</label>
                         <input type="text" class="form-control" name="phone_two"
@@ -195,23 +209,25 @@
                     <div class="form-group mb-4">
                         <label for="logo">Logo</label>
                         <input type="file" class="form-control" name="logo">
-                        @if($business->logo)
-                        <div class="container__img-holder ">
-                        <img src="{{ asset('uploads/businesslogo/' . $business->logo) }}" alt="Logo">
+                        @if($business && $business->logo)
+                        <div class="container__img-holder img-view-small">
+                            <img src="{{ asset('uploads/businesslogo/' . $business->logo) }}" alt="Logo" width="100">
                         </div>
                         @endif
                     </div>
                 </div>
 
+
+
                 <div class="col-xl-6 col-md-6 col-12">
                     <div class="form-group mb-4">
                         <label for="coverimage">Cover Image</label>
                         <input type="file" class="form-control" name="coverimage">
-                        @if($business->coverimage)
-                        <div class="container__img-holder ">
-                        <img src="{{ asset('uploads/businesscoverimage/'.$business->coverimage) }}" alt="Cover Image"
-                            width="100">
-                            </div>
+                        @if($business && $business->coverimage)
+                        <div class="container__img-holder img-view-small">
+                            <img src="{{ asset('uploads/businesscoverimage/'.$business->coverimage) }}"
+                                alt="Cover Image" width="100">
+                        </div>
                         @endif
                     </div>
                 </div>
@@ -221,7 +237,7 @@
 
                 <div class="col-xl-4 col-md-6 col-12">
                     <div class="form-group mb-4">
-                        <input type="submit" class="btn btn-warning text-white" value="Save">
+                        <input type="submit" class="btn btn-warning text-white submit-btn-form" value="Save">
                     </div>
                 </div>
             </div>

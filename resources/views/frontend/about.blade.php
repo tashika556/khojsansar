@@ -1,16 +1,17 @@
-<?php include 'header.php'; ?>
+@extends('frontend/layout')
+@section('page_title','About Us')
+
+
+@section('container')
 <section class="bg_img banner d-flex justify-content-center align-items-center dark_bg"
-    style="background-image: url(img/slider/slider02.jpg);">
+    style="background-image: url({{ asset('uploads/about/coverimage/' . $about->cover_image) }});">
 
     <div class="banner_content d-flex justify-content-center align-items-center h-100 text-white">
-        <h1>About
+        <h1>@yield('page_title')
         </h1>
     </div>
 </section>
 
-
-
-<!-- search end  -->
 
 <section class="pb-0">
     <div class="restaurant">
@@ -20,12 +21,10 @@
         <div class="row">
             <div class="col-lg-8 col-12 mx-auto">
                 <div class="inner_heading text-center">
-                    <h6>About us</h6>
+                    <h6>@yield('page_title')</h6>
                     <div class="">
 
-                        <h2>Lorem ipsum dolor sit amet cons quo
-                            error dolor id libero dolorem itaque provident facilis inventore maxime quis sapiente dicta
-                            nemo alias, impedit temporibus!</h2>
+                        <h2>{!! $about->details !!}</h2>
                     </div>
                 </div>
 
@@ -41,11 +40,11 @@
             <div class="col-lg-7">
                 <div class="img_wrapp d-flex flex-md-row flex-column">
                     <div class="img_one">
-                        <img src="img/food01.jpg" class="img-fluid" alt="">
+                        <img src="{{ asset('uploads/about/mission_image/one/' . $about->mission_image_one) }}" class="img-fluid" alt="">
 
                     </div>
                     <div class="img_two w-100">
-                        <img src="img/food02.jpg" class="img-fluid" alt="">
+                        <img src="{{ asset('uploads/about/mission_image/two/' . $about->mission_image_two) }}" class="img-fluid" alt="">
 
                     </div>
                 </div>
@@ -53,12 +52,11 @@
             </div>
             <div class="col-lg-5">
                 <div class="section_title d-flex justify-content-center flex-column h-100 pl-lg-5 pl-0 py-lg-0 py-5">
-                    <h6><span>NUTRITION AND TASTE</span></h6>
+                    <h6><span>MISSION AND VISION</span></h6>
                     <div class="py-md-4 py-2">
-                        <h1>QUALITY & BALANCED FOOD</h1>
+                        <h1>OUR MISSION</h1>
                     </div>
-                    <p>Simple and balanced. Alexander Petillo brings together flavors and specialties from Italy and
-                        beyond to create his own culinary world...</p>
+                    <p>{!! $about->mission_details !!}</p>
                 </div>
             </div>
         </div>
@@ -66,25 +64,24 @@
             <div class="col-lg-5 order-lg-1 order-2">
                 <div
                     class="section_title section_left d-flex justify-content-center flex-column h-100 pr-lg-5 pr-0 text-right mb-lg-0 mb-5 mt-lg-0 mt-3">
-                    <h6><span>FABULOUS TASTE JOURNEY</span></h6>
+                    <h6><span>KHOJSANSAR NEPAL VISION</span></h6>
                     <div class="py-md-4 py-2">
-                        <h1>OUR PHILOSOPHY</h1>
+                        <h1>OUR VISION</h1>
                     </div>
-                    <p>We see our customers as invited guests to a party, and we are the hosts.</p>
-                    <p>M: digisoftdev.com</p>
-                    <p>T: 980-1021761</p>
+                    <p>{!! $about->vision_details !!}</p>
+          
                 </div>
 
             </div>
             <div class="col-lg-7 order-lg-2 order-1">
                 <div class="section_title section_left d-flex justify-content-center flex-md-row flex-column">
                     <div class="restairant mr-1">
-                        <img src="img/restaurant.jpg" class="img-fluid" alt="">
+                        <img src="{{ asset('uploads/about/vision_image/one/' . $about->vision_image_one) }}" class="img-fluid" alt="">
 
 
                     </div>
                     <div class="restairant res_two mt-4 ml-lg-1 ml-0">
-                        <img src="img/restaurant01.jpg" class="img-fluid" alt="">
+                        <img src="{{ asset('uploads/about/vision_image/two/' . $about->vision_image_two) }}" class="img-fluid" alt="">
 
                     </div>
                 </div>
@@ -95,203 +92,7 @@
     </div>
 </section>
 
-<section class="restaurant_home bg_img image_bg dark_bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-12 mx-auto">
-                <div class="section_title text-center text-white">
-                    <h5>Explore</h5>
-                    <div class="section_header">
-                        <h1><span>Restaurant</span> </h1>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="restaurant_slider">
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="restaurant_item bg-white">
-                <div class="menu_imgs text-center position-relative">
-                    <div class="menu_img">
-                        <img src="img/menu/menu01.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="overlay">
-                        <div class="bottom-box p-4">
-                            <div class="">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                            <p>
-                                Pork, chicken and vegetable fried rolls served with lettuce wraps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="feature-price">
-                            <i>$ </i> 42
-                        </div>
-                        <div class="px-5 pb-4">
-                            <div class="pt-4">
-                                <h4>
-                                    Tuscan Flatbread
-                                </h4>
-                                <p>Kathmandu</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<?php include "testimonial.php"; ?>
-<section class="booking-logo bg_gray py-4 position-relative">
-    <div class="container">
-        <div class="row d-flex align-items-center">
-            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
-                <a href="" class="logo_item" alt="#">
-                    <img src="img/client/digisoft.png" alt="#">
-                </a>
-            </div>
-            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
-                <a href="" class="logo_item" alt="#">
-                    <img src="img/client/digisoft.png" alt="#">
-                </a>
-            </div>
-            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
-                <a href="" class="logo_item" alt="#">
-                    <img src="img/client/digisoft.png" alt="#">
-                </a>
-            </div>
-            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
-                <a href="" class="logo_item" alt="#">
-                    <img src="img/client/digisoft.png" alt="#">
-                </a>
-            </div>
-            <div class="col-xl-2 col-lg-3 col-md-4 col-6 text-center">
-                <a href="" class="logo_item" alt="#">
-                    <img src="img/client/digisoft.png" alt="#">
-                </a>
-            </div>
-            <div class="col-xl-2 col-lg-2 col-md-4 col-6 text-center">
-                <a href="" class="logo_item" alt="#">
-                    <img src="img/client/digisoft.png" alt="#">
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-<?php include "footer.php"; ?>
+@include('frontend.specialfoodrestaurantsection')
+@include('frontend.testimonial')
+@include('frontend.partner')
+@endsection

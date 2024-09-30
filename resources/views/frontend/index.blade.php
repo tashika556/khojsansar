@@ -9,19 +9,14 @@
         <div class="slider-container">
 
             <div class="slider_text text-center">
-                <h1>KhojSansar Nepal </h1>
-                <p>Any Where Every Where</p>
+                <h1>{{ $sitesetting->site_title }}</h1>
+                <p>{{ $sitesetting->caption }}</p>
+            </div>
+            @foreach($sitesetting->slider_images as $image)
+            <div class="slide" style="background-image: url('{{ asset('sitesetting/sliders/' . $image) }}')">
             </div>
 
-            <div class="slide" style="background-image: url('img/slider/slider01.jpg')">
-            </div>
-
-            <div class="slide" style="background-image: url('img/slider/slider02.jpg')">
-            </div>
-
-            <div class="slide" style="background-image: url('img/slider/slider03.jpg')">
-            </div>
-
+            @endforeach
             <div class="controls-container">
                 <div class="control"></div>
                 <div class="control"></div>
@@ -33,9 +28,10 @@
                 </div>
                 <div class="left_block_social">
                     <ul>
-                        <li><a href="" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $contact->facebook_url }}" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $contact->instagram_url }}" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $contact->twitter_url }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $contact->youtube_url }}" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -46,71 +42,10 @@
 
 <section class="search_section p-0">
     <div class="container">
-    @include('frontend.search-bar')
+        @include('frontend.search-bar')
     </div>
 </section>
-
-
-
-
-<section class="section_menu">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-lg-0 md:mb-4 mb-2">
-                <a href="blog-detail.php">
-                    <div class="card text-center">
-                        <div class="icon-wrapper">
-                            <i class="fa fa-cutlery" aria-hidden="true"></i>
-                        </div>
-                        <h3>Restaurant</h3>
-
-                    </div>
-                </a>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6 mb-lg-0 md:mb-4 mb-2">
-                <a href="blog-detail.php">
-                    <div class="card text-center">
-                        <div class="icon-wrapper">
-                            <i class="fa fa-server" aria-hidden="true"></i>
-                        </div>
-                        <h3>Digital Menu</h3>
-
-                    </div>
-                </a>
-
-            </div>
-            <div class="col-lg-3 col-md-6 mb-lg-0 md:mb-4 mb-2">
-                <a href="blog-detail.php">
-                    <div class="card text-center">
-                        <div class="icon-wrapper">
-                            <i class="fa fa-file-image-o" aria-hidden="true"></i>
-                        </div>
-                        <h3>Photoshot</h3>
-
-                    </div>
-                </a>
-
-            </div>
-            <div class="col-lg-3 col-md-6 mb-lg-0 md:mb-4 mb-2">
-                <a href="blog-detail.php">
-                    <div class="card text-center">
-                    <div class="icon-wrapper">
-                        <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                    </div>
-                    <h3> Event Management</h3>
-
-                  </div>
-                </a>
-            </div>
-
-
-        </div>
-    </div>
-</section>
-
+@include('frontend.services-section')
 <section class="news p-0">
     <div class="container-fluid p-0">
         <div class="row">
@@ -124,84 +59,28 @@
             </div>
         </div>
         <div class="row no-gutters">
-
-            <div class="col-lg-4">
-                <a href="restaurant-list.php">
-                    <div class="inner-box mr-sm-1 mr-0  mb-1">
+            @foreach($locationrestaurant->take(5) as $index => $locationrestaurants)
+            <div class="{{ $index < 3 ? 'col-lg-4' : 'col-lg-6' }}">
+                <a
+                    href="{{ route('restaurant.list', ['district_id' => $locationrestaurants->district->id]) }}">
+                    <div class="inner-box mr-sm-1 mr-0 mb-1">
                         <div class="image">
-                            <img src="img/destinations/kathmandu.jpg" class="img-fluid" />
+                            <img src="{{ asset('uploads/bannerbyrestaurant/' . $locationrestaurants->cover_image) }}"
+                                class="img-fluid" />
                             <div class="overlay-box text-white">
-                                <h2>Kathmandu</h2>
+                                <h2>{{ $locationrestaurants->district->district_name }}</h2>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-lg-4">
-                <a href="restaurant-list.php">
-                    <div class="inner-box mr-sm-1 mr-0  mb-1">
-                        <div class="image">
-
-                            <img src="img/destinations/lalitpur.jpg" class="img-fluid" />
-                            <div class="overlay-box text-white">
-                                <h2>Lalitpur</h2>
-
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4">
-                <a href="restaurant-list.php">
-                    <div class="inner-box mb-1">
-                        <div class="image">
-
-                            <img src="img/destinations/bhaktapur.jpg" class="img-fluid" />
-                            <div class="overlay-box text-white">
-                                <h2>Bhaktapur</h2>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-lg-6">
-                <a href="restaurant-list.php">
-                    <div class="inner-box mr-md-1 mr-0 mb-1">
-                        <div class="image">
-
-                            <img src="img/destinations/pokhara.jpg" class="img-fluid" />
-                            <div class="overlay-box text-white">
-                                <h2>Pokhara</h2>
-
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-6">
-                <a href="restaurant-list.php">
-                    <div class="inner-box mb-1">
-                        <div class="image">
-
-                            <img src="img/destinations/chitwan.jpg" class="img-fluid" />
-                            <div class="overlay-box text-white">
-                                <h2>Chitwan</h2>
-
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            @endforeach
 
 
         </div>
 
     </div>
 </section>
-
-
-
 
 @include('frontend.testimonial')
 @include('frontend.partner')

@@ -6,23 +6,23 @@
         <div class="authentication-cover overflow-hidden">
             <div class="authentication-cover-logo">
                 <a href="index.html">
-                    <img src="{{ URL::asset('admin/images/brand-logos/digi-logo.png')}}" alt=""
+                    <img src="{{ asset('sitesetting/logo/' . $sitesetting->logo) }}" style="height:156px; width:200px; "alt=""
                         class="authentication-brand desktop-dark">
                 </a>
             </div>
             <div class="aunthentication-cover-content d-flex align-items-center justify-content-center">
                 <div>
-                    <h2 class="fs-1 text-fixed-white lh-base text-center">KhojSansar Nepal</h2>
-                    <p class="lh-base text-fixed-white op-8 text-center mb-5">Join for Digital Promotion and Carnival.
+                    <h2 class="fs-1 text-fixed-white lh-base text-center">{{ $sitesetting->site_title }}</h2>
+                    <p class="lh-base text-fixed-white op-8 text-center mb-5">{{ $sitesetting->caption }}.
                     </p>
                     <div class="contact-box mt-5">
                         <h3 class="mb-0 mt-4 lh-base text-fixed-white op-9 text-center">Contact Information</h3>
                         <p class="mb-0 mt-2 lh-base text-fixed-white op-8 text-center"><i class="fa fa-map-marker"
-                                aria-hidden="true"></i> Kumaripati, Lalitpur</p>
+                                aria-hidden="true"></i> {{ $contact->address_one }}, {{ $contact->address_two}}</p>
                         <p class="mb-0 mt-2 lh-base text-fixed-white op-8 text-center"><i class="fa fa-phone"
-                                aria-hidden="true"></i> 01-5553000</p>
+                                aria-hidden="true"></i> {{ $contact->phone_one }}</p>
                         <p class="mb-0 mt-2 lh-base text-fixed-white op-8 text-center"><i class="fa fa-envelope"
-                                aria-hidden="true"></i> digisoftdev@gmail.com</p>
+                                aria-hidden="true"></i> {{ $contact->email_one }}</p>
                     </div>
                 </div>
 

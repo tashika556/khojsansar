@@ -4,7 +4,7 @@
             Showing {{ $businesses->firstItem() }} to {{ $businesses->lastItem() }} of {{ $businesses->total() }} results
         </div>
         <div class="pagination">
-            {{ $businesses->links() }}
+            {{ $businesses->appends(['per_page' => request('per_page')])->links() }}
         </div>
     </div>
 @endif

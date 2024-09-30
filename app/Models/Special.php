@@ -11,8 +11,9 @@ class Special extends Model
     protected $table = 'specials';
     protected $fillable = ['business','special_name','short_detail','price','photo'];
 
-    public function business()
+    public function businesses()
     {
         return $this->belongsTo(Business::class, 'business');
     }
+    
 }

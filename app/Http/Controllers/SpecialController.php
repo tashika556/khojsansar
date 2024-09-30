@@ -4,16 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Special;
 use App\Models\Business;
+use App\Models\SiteSetting;
+use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Models\Customer;
+use Session;
+
 
 class SpecialController extends Controller
-{
+{ 
     public function businessspecial($id)
-    {
+    { if (Session::has('loginId')) {
+        $customer = Customer::where('id', '=', Session::get('loginId'))->first();
         $business = Business::where('customer', $id)->firstOrFail();
         $specials = Special::where('business', $business->id)->get();
-    
-        return view('customer.form-user.special', compact('specials', 'business'));
+        $sitesetting = SiteSetting::first();
+        $contact = Contact::first();
+        return view('customer.form-user.special', compact('customer','specials', 'business','sitesetting','contact'));
+    }else{
+        return back()->with('fail', 'Sorry, you donot have right to acces it. First, Login to continue');
+     }
     }
     
     public function store(Request $request, $businessId)
@@ -56,7 +66,7 @@ class SpecialController extends Controller
                 Special::create($specialData);
             }
         }
-    
+        session(['businessSpecialCompleted' => true]);
         return redirect()->route('businessphotosvideosview', $business->customer)->with('success', 'Special items added/updated successfully!');
     }
     
