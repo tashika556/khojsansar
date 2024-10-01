@@ -60,6 +60,7 @@
             <li><a href="{{url('aboutcustomer')}}">About</a></li>
             <li><a href="{{url('contactcustomer')}}">Contact</a></li>
             <li><a href="{{url('reviewcustomer')}}">Review</a></li>
+            <li><a href="{{url('customerchangepassword')}}">Change Password</a></li>
 
 <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
     Logout

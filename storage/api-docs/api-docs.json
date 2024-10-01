@@ -880,6 +880,621 @@
                 }
             }
         },
+        "/api/customer/update-password": {
+            "post": {
+                "tags": [
+                    "Customer Change Password"
+                ],
+                "summary": "Update the customer's password",
+                "operationId": "188fa5ba7fad93f00ed69db602e43a23",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "oldpassword",
+                                    "password",
+                                    "cpassword"
+                                ],
+                                "properties": {
+                                    "oldpassword": {
+                                        "type": "string",
+                                        "example": "oldpassword123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    },
+                                    "cpassword": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Password updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation errors or other issues",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The old password is incorrect."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/customerview": {
+            "get": {
+                "tags": [
+                    "Customer Data Update/Fetch"
+                ],
+                "summary": "Customer Details Display ",
+                "operationId": "9c6b18349d3e5b85fb2750f5c3510c5c",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/customer/update": {
+            "put": {
+                "tags": [
+                    "Customer Data Update/Fetch"
+                ],
+                "summary": "Update Customer Information",
+                "operationId": "24c1230358291cbb23667f57f7c72a43",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "business",
+                                    "category",
+                                    "phone",
+                                    "email",
+                                    "address",
+                                    "permanent_state",
+                                    "permanent_district",
+                                    "permanent_municipality",
+                                    "permanent_ward",
+                                    "permanent_tole"
+                                ],
+                                "properties": {
+                                    "authorize": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "middle_name": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "business": {
+                                        "type": "string",
+                                        "example": 1
+                                    },
+                                    "category": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "permanent_state": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "permanent_district": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "permanent_municipality": {
+                                        "type": "integer",
+                                        "example": 12
+                                    },
+                                    "permanent_ward": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "permanent_tole": {
+                                        "type": "string",
+                                        "example": "Park Street"
+                                    },
+                                    "temporary_state": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "temporary_district": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "permanent_city": {
+                                        "type": "string",
+                                        "example": "Pcity"
+                                    },
+                                    "temporary_municipality": {
+                                        "type": "integer",
+                                        "example": 15
+                                    },
+                                    "temporary_ward": {
+                                        "type": "integer",
+                                        "example": 4
+                                    },
+                                    "temporary_tole": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "temporary_city": {
+                                        "type": "string",
+                                        "example": "Tcity"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "cell": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Customer information updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Customer information has been updated successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Customer not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Customer not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/businessview": {
+            "get": {
+                "tags": [
+                    "Business Data Update/Fetch"
+                ],
+                "summary": "Business Details Display ",
+                "operationId": "3d740ca27b47f33dd2d57ace7876cc71",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/customer/updatestorebusiness": {
+            "post": {
+                "tags": [
+                    "Business Data Update/Fetch"
+                ],
+                "summary": "Store or Update Business Information",
+                "operationId": "8ac0a7ed4fc9ea3094ed9f836315d659",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "customer": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "summary": {
+                                        "type": "string",
+                                        "example": "Business summary goes here."
+                                    },
+                                    "email_one": {
+                                        "type": "string",
+                                        "example": "example@example.com"
+                                    },
+                                    "email_two": {
+                                        "type": "string",
+                                        "example": "example2@example.com"
+                                    },
+                                    "phone_one": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "phone_two": {
+                                        "type": "string",
+                                        "example": "0987654321"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "123 Main St, City, Country"
+                                    },
+                                    "website_url": {
+                                        "type": "string",
+                                        "example": "https://www.example.com"
+                                    },
+                                    "state": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "district": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "municipality": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "ward": {
+                                        "type": "integer",
+                                        "example": 4
+                                    },
+                                    "tole": {
+                                        "type": "string",
+                                        "example": "Main Tole"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "27.7172"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "85.3240"
+                                    },
+                                    "openeveryday": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "logo": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "coverimage": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Business data updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Business data updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "summary": {
+                                                    "type": "string",
+                                                    "example": "Business summary goes here."
+                                                },
+                                                "email_one": {
+                                                    "type": "string",
+                                                    "example": "example@example.com"
+                                                },
+                                                "email_two": {
+                                                    "type": "string",
+                                                    "example": "example2@example.com"
+                                                },
+                                                "phone_one": {
+                                                    "type": "string",
+                                                    "example": "1234567890"
+                                                },
+                                                "phone_two": {
+                                                    "type": "string",
+                                                    "example": "0987654321"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "123 Main St, City, Country"
+                                                },
+                                                "website_url": {
+                                                    "type": "string",
+                                                    "example": "https://www.example.com"
+                                                },
+                                                "state": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "district": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "municipality": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "ward": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "tole": {
+                                                    "type": "string",
+                                                    "example": "Main Tole"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "27.7172"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "85.3240"
+                                                },
+                                                "openeveryday": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "logo": {
+                                                    "type": "string",
+                                                    "example": "logo_path.jpg"
+                                                },
+                                                "coverimage": {
+                                                    "type": "string",
+                                                    "example": "cover_image_path.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "customer": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The selected customer does not exist."
+                                                    }
+                                                },
+                                                "email_one": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The email has already been taken."
+                                                    }
+                                                },
+                                                "phone_one": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The phone number is required."
+                                                    }
+                                                },
+                                                "address": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The address field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/districts": {
             "get": {
                 "tags": [
@@ -1648,18 +2263,18 @@
                 }
             }
         },
-        "/api/customerview/{id}": {
+        "/api/business/{customerId}/services": {
             "get": {
                 "tags": [
-                    "Customer Data Update/Fetch"
+                    "Service Data Update/Fetch"
                 ],
-                "summary": "Customer Details Display By It's ID",
-                "operationId": "4e94122e282f4923b3fe3b9e7c6ea091",
+                "summary": "Get services of a given business",
+                "operationId": "2ad6337b27b4fb54069e1a587965107e",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
-                        "description": "Customer ID",
+                        "description": "ID of the customer",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1668,26 +2283,108 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Business services fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "business": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "summary": {
+                                                    "type": "string",
+                                                    "example": "Business summary goes here."
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "services": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Service Name"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Not Found"
+                        "description": "Business not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Business not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
-            }
-        },
-        "/api/customer/update/{id}": {
-            "put": {
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "post": {
                 "tags": [
-                    "Customer Data Update/Fetch"
+                    "Service Data Update/Fetch"
                 ],
-                "summary": "Update Customer Information",
-                "operationId": "b8daa0ccea41db450af6041d7147464c",
+                "summary": "Update services for a given business",
+                "operationId": "5a09f90a87ed8daa92ff89c3211fba75",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
-                        "description": "Customer ID",
+                        "description": "ID of the customer",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1699,114 +2396,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "first_name",
-                                    "last_name",
-                                    "business",
-                                    "category",
-                                    "phone",
-                                    "email",
-                                    "address"
-                                ],
                                 "properties": {
-                                    "authorize": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "first_name": {
-                                        "type": "string",
-                                        "default": "Existing First Name",
-                                        "example": "John"
-                                    },
-                                    "middle_name": {
-                                        "type": "string",
-                                        "default": "Existing Middle Name",
-                                        "example": "Doe"
-                                    },
-                                    "last_name": {
-                                        "type": "string",
-                                        "default": "Existing Last Name",
-                                        "example": "Smith"
-                                    },
-                                    "business": {
-                                        "type": "string",
-                                        "default": "Existing Business",
-                                        "example": 1
-                                    },
-                                    "category": {
-                                        "type": "integer",
-                                        "default": 2,
-                                        "example": 2
-                                    },
-                                    "permanent_state": {
-                                        "type": "integer",
-                                        "default": 1,
-                                        "example": 1
-                                    },
-                                    "permanent_district": {
-                                        "type": "integer",
-                                        "default": 5,
-                                        "example": 5
-                                    },
-                                    "permanent_municipality": {
-                                        "type": "integer",
-                                        "default": 12,
-                                        "example": 12
-                                    },
-                                    "permanent_ward": {
-                                        "type": "integer",
-                                        "default": 3,
-                                        "example": 3
-                                    },
-                                    "permanent_tole": {
-                                        "type": "string",
-                                        "default": "Existing Tole",
-                                        "example": "Park Street"
-                                    },
-                                    "temporary_state": {
-                                        "type": "integer",
-                                        "default": 2,
-                                        "example": 2
-                                    },
-                                    "temporary_district": {
-                                        "type": "integer",
-                                        "default": 8,
-                                        "example": 8
-                                    },
-                                    "temporary_municipality": {
-                                        "type": "integer",
-                                        "default": 15,
-                                        "example": 15
-                                    },
-                                    "temporary_ward": {
-                                        "type": "integer",
-                                        "default": 4,
-                                        "example": 4
-                                    },
-                                    "temporary_tole": {
-                                        "type": "string",
-                                        "default": "Existing Tole",
-                                        "example": "Main Avenue"
-                                    },
-                                    "address": {
-                                        "type": "string",
-                                        "default": "Existing Address",
-                                        "example": "1234 Elm Street"
-                                    },
-                                    "phone": {
-                                        "type": "string",
-                                        "default": "Existing Phone Number",
-                                        "example": "1234567890"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "default": "Existing Email",
-                                        "example": "john@example.com"
-                                    },
-                                    "cell": {
-                                        "type": "string",
-                                        "default": "Existing Cell Number",
-                                        "example": "0987654321"
+                                    "services": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1816,7 +2411,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Customer information updated successfully",
+                        "description": "Business services updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1827,29 +2422,15 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Customer information has been updated successfully."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "example": "Services updated successfully!"
                                         },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Validation Error"
-                                        },
-                                        "errors": {
+                                        "business": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
                                             "type": "object"
                                         }
                                     },
@@ -1858,8 +2439,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Customer not found",
+                    "400": {
+                        "description": "Validation error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1870,7 +2451,19 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Customer not found"
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "services": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The selected service does not exist."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1906,18 +2499,18 @@
                 ]
             }
         },
-        "/api/businessview/{id}": {
+        "/api/business/{customerId}/facilities": {
             "get": {
                 "tags": [
-                    "Business Data Update/Fetch"
+                    "Facilities Data Update/Fetch"
                 ],
-                "summary": "Business Details Display By Customer ID",
-                "operationId": "f823f274d3ee58a74c2f9391d186590a",
+                "summary": "Get Facilities of a given business",
+                "operationId": "ef75bcd2bf07f62db216496eed76bdab",
                 "parameters": [
                     {
-                        "name": "customer_id",
-                        "in": "query",
-                        "description": "Customer ID",
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID of the customer",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1926,25 +2519,107 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Business facilities fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "business": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "summary": {
+                                                    "type": "string",
+                                                    "example": "Business summary goes here."
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "facilities": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Facility Name"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Not Found"
+                        "description": "Business not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Business not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
-            }
-        },
-        "/api/customer/updatestorebusiness": {
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
-                    "Business Data Update/Fetch"
+                    "Facilities Data Update/Fetch"
                 ],
-                "summary": "Store or Update Business Information",
-                "operationId": "5a863b6c07f43bbed75bc48c73274e3d",
+                "summary": "Update facilities for a given business",
+                "operationId": "be911902a612bfe8ce010ef89a7f892a",
                 "parameters": [
                     {
-                        "name": "customer_id",
-                        "in": "query",
+                        "name": "customerId",
+                        "in": "path",
                         "description": "ID of the customer",
                         "required": true,
                         "schema": {
@@ -1955,87 +2630,14 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
-                                    "id": {
-                                        "description": "Provide this field for update only",
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "summary": {
-                                        "type": "string",
-                                        "example": "Business Summary"
-                                    },
-                                    "email_one": {
-                                        "type": "string",
-                                        "example": "business@example.com"
-                                    },
-                                    "email_two": {
-                                        "type": "string",
-                                        "example": "business2@example.com"
-                                    },
-                                    "phone_one": {
-                                        "type": "string",
-                                        "example": "1234567890"
-                                    },
-                                    "phone_two": {
-                                        "type": "string",
-                                        "example": "0987654321"
-                                    },
-                                    "address": {
-                                        "type": "string",
-                                        "example": "123 Business Ave"
-                                    },
-                                    "website_url": {
-                                        "type": "string",
-                                        "example": "https://businesswebsite.com"
-                                    },
-                                    "state": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "district": {
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "municipality": {
-                                        "type": "integer",
-                                        "example": 3
-                                    },
-                                    "ward": {
-                                        "type": "integer",
-                                        "example": 4
-                                    },
-                                    "tole": {
-                                        "type": "string",
-                                        "example": "Main Tole"
-                                    },
-                                    "latitude": {
-                                        "type": "string",
-                                        "example": "27.7172"
-                                    },
-                                    "longitude": {
-                                        "type": "string",
-                                        "example": "85.3240"
-                                    },
-                                    "opening_total_days": {
-                                        "description": "Total operating days",
-                                        "type": "integer",
-                                        "example": 7
-                                    },
-                                    "opening_total_hours": {
-                                        "description": "Total operating hours",
-                                        "type": "string",
-                                        "example": "9 AM to 9 PM"
-                                    },
-                                    "logo": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
-                                    "coverimage": {
-                                        "type": "string",
-                                        "format": "binary"
+                                    "facilities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -2045,7 +2647,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Business data updated successfully",
+                        "description": "Business Facilities updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2056,73 +2658,13 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Business data updated successfully."
+                                            "example": "Facilities updated successfully!"
                                         },
-                                        "data": {
+                                        "business": {
                                             "properties": {
-                                                "summary": {
-                                                    "type": "string",
-                                                    "example": "Business Summary"
-                                                },
-                                                "email_one": {
-                                                    "type": "string",
-                                                    "example": "business@example.com"
-                                                },
-                                                "email_two": {
-                                                    "type": "string",
-                                                    "example": "business2@example.com"
-                                                },
-                                                "phone_one": {
-                                                    "type": "string",
-                                                    "example": "1234567890"
-                                                },
-                                                "phone_two": {
-                                                    "type": "string",
-                                                    "example": "0987654321"
-                                                },
-                                                "address": {
-                                                    "type": "string",
-                                                    "example": "123 Business Ave"
-                                                },
-                                                "website_url": {
-                                                    "type": "string",
-                                                    "example": "https://businesswebsite.com"
-                                                },
-                                                "state": {
+                                                "id": {
                                                     "type": "integer",
                                                     "example": 1
-                                                },
-                                                "district": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "municipality": {
-                                                    "type": "integer",
-                                                    "example": 3
-                                                },
-                                                "ward": {
-                                                    "type": "integer",
-                                                    "example": 4
-                                                },
-                                                "tole": {
-                                                    "type": "string",
-                                                    "example": "Main Tole"
-                                                },
-                                                "latitude": {
-                                                    "type": "string",
-                                                    "example": "27.7172"
-                                                },
-                                                "longitude": {
-                                                    "type": "string",
-                                                    "example": "85.3240"
-                                                },
-                                                "logo": {
-                                                    "type": "string",
-                                                    "example": "logo_path.jpg"
-                                                },
-                                                "coverimage": {
-                                                    "type": "string",
-                                                    "example": "cover_image_path.jpg"
                                                 }
                                             },
                                             "type": "object"
@@ -2134,7 +2676,7 @@
                         }
                     },
                     "400": {
-                        "description": "Validation Error",
+                        "description": "Validation error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2148,6 +2690,15 @@
                                             "example": "Validation error"
                                         },
                                         "errors": {
+                                            "properties": {
+                                                "facilities": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The selected faciliy does not exist."
+                                                    }
+                                                }
+                                            },
                                             "type": "object"
                                         }
                                     },
@@ -2169,6 +2720,266 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/business/{customerId}/menus": {
+            "get": {
+                "tags": [
+                    "Business Menus Data Update/Fetch"
+                ],
+                "summary": "Fetch all menus for a given business including PDF",
+                "operationId": "685c2d469705d189e966d05b73386e9f",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID of the customer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Business Menus fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Menus fetched successfully!"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "menuTopics": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "menu_topic": {
+                                                                "type": "string",
+                                                                "example": "Appetizers"
+                                                            },
+                                                            "menuItems": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "title": {
+                                                                            "type": "string",
+                                                                            "example": "Spring Rolls"
+                                                                        },
+                                                                        "price": {
+                                                                            "type": "string",
+                                                                            "example": "5.99"
+                                                                        },
+                                                                        "caption": {
+                                                                            "type": "string",
+                                                                            "example": "Delicious rolls"
+                                                                        },
+                                                                        "photo": {
+                                                                            "type": "string",
+                                                                            "example": "path/to/photo.jpg"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "menuPDF": {
+                                                    "type": "string",
+                                                    "example": "path/to/pdf.pdf"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Business not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Business not found!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Business Menus Data Update/Fetch"
+                ],
+                "summary": "Store or update menu items and PDF for a given business",
+                "operationId": "800ca27ea2f84ad643fa22174ff191e3",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID of the customer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "menu_items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "menu_topic": {
+                                                    "description": "ID of the menu topic",
+                                                    "type": "integer"
+                                                },
+                                                "items": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "title": {
+                                                                "description": "Menu item title",
+                                                                "type": "string"
+                                                            },
+                                                            "price": {
+                                                                "description": "Menu item price",
+                                                                "type": "string"
+                                                            },
+                                                            "caption": {
+                                                                "description": "Menu item caption",
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "pdf": {
+                                        "description": "Upload PDF file",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Menu items and PDF added/updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Menu items and PDF added/updated successfully!"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Business not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Business not found!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation errors occurred."
+                                        },
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2529,6 +3340,13 @@
             "SpecialOffer": {
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
         }
     },
     "tags": [
@@ -2563,6 +3381,18 @@
         {
             "name": "Forget Password",
             "description": "Forget Password"
+        },
+        {
+            "name": "Customer Change Password",
+            "description": "Customer Change Password"
+        },
+        {
+            "name": "Customer Data Update/Fetch",
+            "description": "Customer Data Update/Fetch"
+        },
+        {
+            "name": "Business Data Update/Fetch",
+            "description": "Business Data Update/Fetch"
         },
         {
             "name": "Districts",
@@ -2609,12 +3439,16 @@
             "description": "Special Offers"
         },
         {
-            "name": "Customer Data Update/Fetch",
-            "description": "Customer Data Update/Fetch"
+            "name": "Service Data Update/Fetch",
+            "description": "Service Data Update/Fetch"
         },
         {
-            "name": "Business Data Update/Fetch",
-            "description": "Business Data Update/Fetch"
+            "name": "Facilities Data Update/Fetch",
+            "description": "Facilities Data Update/Fetch"
+        },
+        {
+            "name": "Business Menus Data Update/Fetch",
+            "description": "Business Menus Data Update/Fetch"
         }
     ]
 }

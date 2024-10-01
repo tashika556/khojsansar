@@ -311,6 +311,49 @@ public function updatepersonalform(Request $request, $id)
         return back()->with('fail', 'Sorry, there was an error updating your information.');
     }
 }
+public function changepassword()
+{
+    
+    if (Session::has('loginId')) {
+       $customer = Customer::where('id', '=', Session::get('loginId'))->first();
+       $authorizes = Authorize::all();
+       $category = Category::all();
+       $provinces = Province::all();
+       $business = Business::where('customer', '=', $customer->id)->first();
+       $sitesetting = SiteSetting::first();
+       $contact = Contact::first();
+       return view('customer.change-password', compact('customer','authorizes','category','provinces','sitesetting','contact', 'business'));
+    }
+    else{
+       return back()->with('fail', 'Sorry, you donot have right to acces it. First, Login to continue');
+    }
+    }
+    public function updatepassword(Request $request)
+    {
+  
+        $request->validate([
+            'oldpassword' => 'required',
+            'password' => 'required|min:8|max:12|required_with:cpassword|same:cpassword',
+            'cpassword' => 'required|min:8|max:12',
+        ], [
+            'oldpassword.required' => 'Old password is required.',
+            'password.required' => 'New password is required.',
+            'password.same' => 'The new password and confirmation password must match.',
+            'cpassword.required' => 'Confirm password is required.',
+        ]);
+
+        $customer = Customer::find(Session::get('loginId'));
+    
+
+        if (!Hash::check($request->oldpassword, $customer->password)) {
+            return back()->with('fail', 'The old password is incorrect.');
+        }
+
+        $customer->password = Hash::make($request->password);
+        $customer->save();
+    
+        return back()->with('success', 'Password updated successfully.');
+    }
 public function logout(Request $request)
 {
 

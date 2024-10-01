@@ -49,7 +49,7 @@
         </div>
     </nav>
 
-    <div class="side-bar-large p-5">
+    <div class="side-bar-large py-5 pl-5 pr-3">
         <div class="side-bar-overlay"></div>
         <header>
             <div class="close-btn-large">
@@ -99,12 +99,12 @@
                     </li>
                     <li><a href="tel:{{ $contact->phone_one }} "><span><i class="fa fa-volume-control-phone"
                                     aria-hidden="true"></i></span>{{ $contact->phone_one }} </a>
-                        <a href="tel:{{ $contact->phone_two }} "><span></span>, {{$contact->phone_two}}</a>
+                        <a href="tel:{{ $contact->phone_two }} " class="mt-0"><span></span>, {{$contact->phone_two}}</a>
                     </li>
 
                     <li><a href=" {{ $contact->email_one }}">
                             <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                            {{ $contact->email_one }}</a><a href=" {{ $contact->email_two }}">
+                            {{ $contact->email_one }}</a><a href=" {{ $contact->email_two }}" class="mt-0">
                             <span></span>
                             {{ $contact->email_two }}</a>
                     </li>
@@ -142,7 +142,7 @@
         <div class="container">
             <div class="footer-top-area">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <div class="footer-top-area-item text-center">
                             <h5>Contact Us</h5>
                             <p><a href="tel:{{ $contact->phone_one }}">{{ $contact->phone_one }}</a></p>
@@ -167,12 +167,12 @@
                         </div>
 
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <div class="footer-top-area-item text-center">
                             <h5>Address</h5>
                             <p>{{ $contact->address_one }} <br> {{ $contact->address_two }}</p>
                         </div>
-                        <div class="footer-khoj-app d-flex justify-content-center align-items-center">
+                        <div class="footer-khoj-app d-flex justify-content-center align-items-center mt-3">
                             <a href="#">
                                 <img src="{{ URL::asset('frontend/img/playstore.png') }}" alt="">
                             </a>
@@ -183,7 +183,7 @@
                     </div>
 
 
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <div class="footer-top-area-item text-center">
                             <h5>Opening Hours</h5>
                             <p>Everyday : {{ $contact->opening_hours }}</p>

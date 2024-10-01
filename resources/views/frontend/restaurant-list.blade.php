@@ -15,10 +15,10 @@
 <section class="restaurant_list">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4">
+        <div class="col-lg-4 order-lg-1 order-2">
                 @include('frontend.sidebar')
             </div>
-            <div class="col-lg-8 mt-lg-0 mt-5">
+            <div class="col-lg-8 order-lg-2 order-1 mt-lg-0 mt-5">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex">
                         <div class="items-per-page mb-4 d-flex align-items-center">

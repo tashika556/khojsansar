@@ -259,7 +259,7 @@ Route::group(['middleware' => 'adminauth'], function () {
 //customer
 
 Route::get('/customerlogin',[CustomerController::class,'login'])->name('customer.login');
-Route::get('/customersignup',[CustomerController::class,'signup']);
+Route::get('/customersignup',[CustomerController::class,'signup'])->name('customer.signup');
 
 
 Route::get('/customerforgetpassword', [CustomerController::class, 'forgetpassword']);
@@ -267,7 +267,8 @@ Route::post('/customer/forget-password', [CustomerController::class, 'sendResetC
 Route::get('/customer/reset-password/{email}', [CustomerController::class, 'showResetPasswordForm'])->name('customer.reset-password');
 Route::post('/customer/reset-password', [CustomerController::class, 'resetPassword'])->name('customer.reset-password.submit');
 
-
+Route::get('/customerchangepassword', [CustomerController::class, 'changepassword']);
+Route::post('/customer/update-password', [CustomerController::class, 'updatepassword'])->name('customer.updatepassword');
 
 Route::get('/logout', [CustomerController::class, 'logout'])->name('logout');
 

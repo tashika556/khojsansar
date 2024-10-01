@@ -30,12 +30,28 @@ Route::post('/customer/login', [CustomerController::class, 'login']);
 
 Route::post('/customer/register', [CustomerController::class, 'apiSignup']);
 
-Route::get('/customerview/{id}', [UpdateFetchController::class, 'displaycustomer']);
-Route::put('/customer/update/{id}', [UpdateFetchController::class, 'updateCustomer']);
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('/customer/update-password', [CustomerController::class, 'updatePasswordApi']);  
+    Route::get('/customerview', [CustomerController::class, 'displaycustomer']); 
+    Route::put('/customer/update', [CustomerController::class, 'updateCustomer']);
 
-Route::get('/businessview/{id}', [UpdateFetchController::class, 'displaybusiness']);
+    
+   Route::get('/businessview', [CustomerController::class, 'displaybusiness']);
 
-Route::post('/customer/updatestorebusiness', [UpdateFetchController::class, 'storeOrUpdateBusiness']);
+});
+
+Route::post('/customer/updatestorebusiness', [CustomerController::class, 'storeOrUpdateBusiness'])->middleware('auth:api');
+
+
+
+Route::get('/business/{customerId}/services', [UpdateFetchController::class, 'getBusinessServices']);
+Route::post('/business/{customerId}/services', [UpdateFetchController::class, 'updateBusinessServices']);
+
+Route::get('/business/{customerId}/facilities', [UpdateFetchController::class, 'getBusinessFacilities']);
+Route::post('/business/{customerId}/facilities', [UpdateFetchController::class, 'updateBusinessFacilities']);
+
+Route::get('/business/{customerId}/menus', [UpdateFetchController::class, 'fetchBusinessMenus']);
+Route::post('/business/{customerId}/menus', [UpdateFetchController::class, 'storemenus']);
 
 Route::post('/customer/forget-password', [CustomerController::class, 'apiSendResetCode'])->name('api.customer.send-reset-code');
 Route::post('/customer/reset-password', [CustomerController::class, 'apiResetPassword'])->name('api.customer.reset-password');
@@ -93,14 +109,5 @@ Route::get('/restaurant/{id}', [BusinessController::class, 'getRestaurantDetail'
 //admin routes
 
 
-// Customer routes
-Route::group(['prefix' => 'customer'], function () {
-    Route::get('/customerlogin', [CustomerController::class, 'login']);
-    Route::get('/customersignup', [CustomerController::class, 'signup']);
-    Route::post('/reg-form', [CustomerController::class, 'signupform']);
-    Route::post('/login-form', [CustomerController::class, 'loginform']);  
-    Route::get('/home', [CustomerController::class, 'customerhome']);
-    Route::get('/termscondition', [CustomerController::class, 'termscond']);
-});
 
 

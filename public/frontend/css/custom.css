@@ -2585,6 +2585,7 @@ a.arrow_project {
 
 .restaurant_block-text h5 {
   color: #b01918;
+  text-transform: capitalize;
 }
 
 .menu_side ul li a span {
@@ -2627,7 +2628,7 @@ a.arrow_project {
   font-size: 17px;
   line-height: 1.58824em;
   letter-spacing: .14em;
-  margin: 0 0 17px;
+  margin: 0 0 10px;
   word-wrap: break-word;
 }
 

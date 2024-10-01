@@ -31,6 +31,10 @@ class Business extends Model
 'coverimage',
 'openeveryday',
     ];
+    public function customershow()
+{
+    return $this->belongsTo(Customer::class, 'customer', 'id');
+}
     public function payment()
     {
       
@@ -54,10 +58,7 @@ public function menuPdfs()
     {
         return $this->hasMany(Review::class);
     }
-public function customershow()
-{
-    return $this->belongsTo(Customer::class, 'customer', 'id');
-}
+
 
 public function stateshow()
 {

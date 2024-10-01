@@ -25,29 +25,12 @@
                 <div class="col-lg-1"></div>
                 <div class="col-xl-2 col-2 d-xl-block d-none ">
                     <div class="mt-3">
-                        <p class="text-white"><i class="fa fa-phone" aria-hidden="true"></i> {{ $contact->phone_one }}
-                        </p>
+                        <p class="text-white">Welcome {{ $business->customershow->first_name }}
+                            {{ $business->customershow->middle_name }} {{ $business->customershow->last_name }}</p>
                     </div>
                 </div>
-                <div class="col-xl-4 col-4 d-xl-block d-none ">
-                    <div class="mt-3 d-flex">
-                        <p class="text-white"><i class="fa fa-map-marker" aria-hidden="true"></i>
-                            {{ $contact->address_one }}</p>
 
-                    </div>
-                </div>
-                <div class="col-lg-2 col-2 d-xl-block d-none ">
-                    <div class="mt-3 d-flex justify-content-evenly">
-                        <a class="text-white" target="_blank" href="{{ $contact->facebook_url }}"><i
-                                class="fa fa-facebook" aria-hidden="true"></i></a>
-                        <a class="text-white" target="_blank" href="{{ $contact->twitter_url }}"><i
-                                class="fa fa-twitter" aria-hidden="true"></i></a>
-                        <a class="text-white" target="_blank" href="{{ $contact->instagram_url }}"><i
-                                class="fa fa-instagram" aria-hidden="true"></i></a>
-                        <a class="text-white" target="_blank" href="{{ $contact->youtube_url }}"><i
-                                class="fa fa-youtube" aria-hidden="true"></i></a>
-                    </div>
-                </div>
+
                 <div class="col-lg-2">
                     <div class="hamburger-init">
                         <span class="bar top-bar"></span>
@@ -64,6 +47,7 @@
             <li><a href="{{url('aboutcustomer')}}">About</a></li>
             <li><a href="{{url('contactcustomer')}}">Contact</a></li>
             <li><a href="{{url('reviewcustomer')}}">Review</a></li>
+            <li><a href="{{url('customerchangepassword')}}">Change Password</a></li>
             <li><a href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Logout
@@ -76,67 +60,95 @@
     </div>
 
     <section class="form-sections padding-section position-relative">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-boxes">
-                        <div class="row">
 
-                            <div class="col-xl-2 col-md-4 col-12">
-                                <a href="{{ route('customerhome') }}"
-                                    class="@yield('personalactive_class') info-box mx-auto text-center mb-4">Personal</a>
-                            </div>
-                            <div class="col-xl-1 col-md-4 col-12">
-                                <a href="{{ route('businessview') }}"
-                                    class="{{ session('personalFormCompleted') ? '' : 'disabled' }} @yield('businessactive_class') info-box mx-auto text-center mb-4">
-                                    Business</a>
-                            </div>
-
-                            <div class="col-xl-1 col-md-4 col-12">
-                                <a href="{{ $business ? route('businessserviceview', ['id' => $business->customer]) : '#' }}"
-                                    class="{{ session('businessFormCompleted') ? '' : 'disabled' }} @yield('serviceactive_class') info-box mx-auto text-center mb-4">
-                                    Services
-                                </a>
-                            </div>
-                            <div class="col-xl-1 col-md-4 col-12">
-                                <a href="{{ $business ? route('businessfacilityview', ['id' => $business->customer]) : '#' }}"
-                                    class="{{ session('businessServicesCompleted') ? '' : 'disabled' }} @yield('facilityactive_class') info-box mx-auto text-center mb-4">
-                                    Facility</a>
-                            </div>
-                            <div class="col-xl-1 col-md-4 col-12">
-                                <a href="{{ $business ? route('businessmenuview', ['id' => $business->customer]) : '#' }}"
-                                    class="{{ session('businessFacilityCompleted') ? '' : 'disabled' }} @yield('menuactive_class') info-box mx-auto text-center mb-4">
-                                    Menu</a>
-                            </div>
-                            <div class="col-xl-2 col-md-4 col-12">
-                                <a href="{{ $business ? route('businessspecialview', ['id' => $business->customer]) : '#' }}"
-                                    class="{{ session('businessMenuCompleted') ? '' : 'disabled' }} @yield('specialactive_class') info-box mx-auto text-center mb-4">
-                                    Special</a>
-                            </div>
-                            <div class="col-xl-2 col-md-4 col-12">
-                                <a href="{{ $business ? route('businessphotosvideosview', ['id' => $business->customer]) : '#' }}"
-                                    class="{{ session('businessSpecialCompleted') ? '' : 'disabled' }} @yield('photosactive_class') info-box mx-auto text-center mb-4">
-                                    Photos & Videos</a>
-                            </div>
-                            <div class="col-xl-2 col-md-4 col-12">
-                                <a href="{{ $business ? route('paymentview', ['id' => $business->customer]) : '#' }}"
-                                    class="{{ session('businessphotos') ? '' : 'disabled' }} @yield('paymentactive_class') info-box mx-auto text-center mb-4">
-                                    Payment</a>
-                            </div>
-
-                            <div class="img-popup">
-                                <img src="" alt="Popup Image">
-                                <div class="close-btn">
-                                    <div class="bar"></div>
-                                    <div class="bar"></div>
-                                </div>
-                            </div>
-                            @section('container')
-                            @show
+        <div class="row">
+            <div class="col-lg-2 col-12">
+                <div class="custumer-sidenav bg-red-themed">
+                    <ul>
+                        <li>
+                            <img src="{{ asset('uploads/businesslogo/' . $business->logo) }}">
+                            <p>{{ $customer->business }}</p>
+                        </li>
+                        <li>
+                            <i class="las la-check-circle"></i>
+                            <p>{{$customer->authorizeshow->authorize_name}}</p>
+                        </li>
+                        <li>
+                            <i class="las la-user-check"></i>
+                            <p>{{ $customer->first_name }} {{ $customer->middle_name }} {{ $customer->last_name }}</p>
+                        </li>
+                        <li>
+                            <i class="las la-store-alt"></i>
+                            <p>{{$customer->categoryshow->category_name}}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-10 col-12">
+                <div class="form-boxes">
+                    <div class="row">
+                        <div class="col-xl-2 col-md-4 col-12">
+                            <a href="{{ route('customerhome') }}"
+                                class="@yield('personalactive_class') info-box mx-auto text-center mb-4">Personal</a>
                         </div>
+                        <div class="col-xl-1 col-md-4 col-12">
+                            <a href="{{ route('businessview') }}"
+                                class="{{ session('personalFormCompleted') ? '' : 'disabled' }} @yield('businessactive_class') info-box mx-auto text-center mb-4">
+                                Business
+                            </a>
+                        </div>
+
+                        <div class="col-xl-1 col-md-4 col-12">
+                            <a href="{{ $business && session('businessFormCompleted') ? route('businessserviceview', ['id' => $business->customer]) : '#' }}"
+                                class="{{ session('businessFormCompleted') ? '' : 'disabled' }} @yield('serviceactive_class') info-box mx-auto text-center mb-4">
+                                Services
+                            </a>
+                        </div>
+                        <div class="col-xl-1 col-md-4 col-12">
+                            <a href="{{ $business && session('businessServicesCompleted') ? route('businessfacilityview', ['id' => $business->customer]) : '#' }}"
+                                class="{{ session('businessServicesCompleted') ? '' : 'disabled' }} @yield('facilityactive_class') info-box mx-auto text-center mb-4">
+                                Facility
+                            </a>
+                        </div>
+                        <div class="col-xl-1 col-md-4 col-12">
+                            <a href="{{ $business && session('businessFacilityCompleted') ? route('businessmenuview', ['id' => $business->customer]) : '#' }}"
+                                class="{{ session('businessFacilityCompleted') ? '' : 'disabled' }} @yield('menuactive_class') info-box mx-auto text-center mb-4">
+                                Menu
+                            </a>
+                        </div>
+                        <div class="col-xl-2 col-md-4 col-12">
+                            <a href="{{ $business && session('businessMenuCompleted') ? route('businessspecialview', ['id' => $business->customer]) : '#' }}"
+                                class="{{ session('businessMenuCompleted') ? '' : 'disabled' }} @yield('specialactive_class') info-box mx-auto text-center mb-4">
+                                Special
+                            </a>
+                        </div>
+                        <div class="col-xl-2 col-md-4 col-12">
+                            <a href="{{ $business && session('businessSpecialCompleted') ? route('businessphotosvideosview', ['id' => $business->customer]) : '#' }}"
+                                class="{{ session('businessSpecialCompleted') ? '' : 'disabled' }} @yield('photosactive_class') info-box mx-auto text-center mb-4">
+                                Photos & Videos
+                            </a>
+                        </div>
+                        <div class="col-xl-2 col-md-4 col-12">
+                            <a href="{{ $business && session('businessPhotosCompleted') ? route('paymentview', ['id' => $business->customer]) : '#' }}"
+                                class="{{ session('businessPhotosCompleted') ? '' : 'disabled' }} @yield('paymentactive_class') info-box mx-auto text-center mb-4">
+                                Payment
+                            </a>
+                        </div>
+
+
+                        <div class="img-popup">
+                            <img src="" alt="Popup Image">
+                            <div class="close-btn">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                        </div>
+                        @section('container')
+                        @show
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
     <section class="contact-area">

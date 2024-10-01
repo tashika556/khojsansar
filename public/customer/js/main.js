@@ -10,6 +10,12 @@ s &&
 s.addEventListener("click", function () {
     "password" === n.type ? ((n.type = "text"), s.classList.remove("fa-eye"), s.classList.add("fa-eye-slash")) : ((n.type = "password"), s.classList.remove("fa-eye-slash"), s.classList.add("fa-eye"));
 });
+let f = document.getElementById("cpasswords"),
+g = document.querySelector(".password-toggle-iconc i");
+g &&
+g.addEventListener("click", function () {
+    "password" === f.type ? ((f.type = "text"), g.classList.remove("fa-eye"), g.classList.add("fa-eye-slash")) : ((f.type = "password"), g.classList.remove("fa-eye-slash"), g.classList.add("fa-eye"));
+});
 
 $(document).ready(function () {
 

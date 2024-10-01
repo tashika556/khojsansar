@@ -2,55 +2,59 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable; 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Customer extends Model implements JWTSubject
+class Customer extends Authenticatable implements JWTSubject 
 {
     use HasFactory;
-    protected $table= 'customers';
+
+    protected $table = 'customers';
 
     protected $fillable = [
-      'authorize',
-      'business',
-      'category',
-      'first_name',
-      'middle_name',
-      'last_name',
-      'permanent_state',
-      'permanent_district',
-      'permanent_municipality',
-      'permanent_ward',
-      'permanent_tole',
-      'permanent_city',
-      'temporary_state',
-      'temporary_district',
-      'temporary_municipality',
-      'temporary_ward',
-      'temporary_tole',
-      'temporary_city',
-      'address',
-      'email',
-      'phone',
-      'cell',
-      'user_name',
-      'password',
-      'cpassword',
-      'agree',
-      'otp',
-      'admin_verified',
-      'admin_rejected',
-      'rejection_reason',
-    ];  
+        'authorize',
+        'business',
+        'category',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'permanent_state',
+        'permanent_district',
+        'permanent_municipality',
+        'permanent_ward',
+        'permanent_tole',
+        'permanent_city',
+        'temporary_state',
+        'temporary_district',
+        'temporary_municipality',
+        'temporary_ward',
+        'temporary_tole',
+        'temporary_city',
+        'address',
+        'email',
+        'phone',
+        'cell',
+        'user_name',
+        'password',
+        'cpassword',
+        'agree',
+        'otp',
+        'admin_verified',
+        'admin_rejected',
+        'rejection_reason',
+    ];
+
     public function authorizeshow()
     {
         return $this->belongsTo(Authorize::class, 'authorize', 'id');
     }
+
     public function categoryshow()
     {
         return $this->belongsTo(Category::class, 'category', 'id');
     }
+
     public function permanentState()
     {
         return $this->belongsTo(Province::class, 'permanent_state', 'id');
@@ -80,11 +84,13 @@ class Customer extends Model implements JWTSubject
     {
         return $this->belongsTo(Municipality::class, 'temporary_municipality', 'id');
     }
-    public function business()
-{
-    return $this->hasOne(Business::class, 'customer', 'id');
-}
-/**
+
+    public function businesses()
+    {
+        return $this->hasOne(Business::class, 'customer', 'id');
+    }
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed

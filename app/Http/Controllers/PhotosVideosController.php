@@ -19,16 +19,19 @@ class PhotosVideosController extends Controller
     {
         if (Session::has('loginId')) {
             $customer = Customer::where('id', '=', Session::get('loginId'))->first();
-        $sliderphotos = SliderPhotosVideos::all();
-        $galleryphotos = GalleryPhotosVideos::all();
-        $business = Business::where('customer', $id)->firstOrFail();
-        $sitesetting = SiteSetting::first();
-        $contact = Contact::first();
-        return view('customer.form-user.photos_videos', compact('customer','sliderphotos', 'galleryphotos', 'business','sitesetting','contact'));
-    }else{
-        return back()->with('fail', 'Sorry, you donot have right to acces it. First, Login to continue');
-     }
+            $business = Business::where('customer', $id)->firstOrFail();
+
+            $sliderphotos = SliderPhotosVideos::where('business', $business->id)->get();
+            $galleryphotos = GalleryPhotosVideos::where('business', $business->id)->get();
+            
+            $sitesetting = SiteSetting::first();
+            $contact = Contact::first();
+            return view('customer.form-user.photos_videos', compact('customer', 'sliderphotos', 'galleryphotos', 'business', 'sitesetting', 'contact'));
+        } else {
+            return back()->with('fail', 'Sorry, you do not have the right to access it. First, Login to continue');
+        }
     }
+    
     public function store(Request $request, $businessId)
     {
         $request->validate([

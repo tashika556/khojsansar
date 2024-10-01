@@ -16,19 +16,26 @@ use App\Models\PaymentMethod;
 class BusinessMenuController extends Controller
 {
     public function businessmenu($id)
-    {    if (Session::has('loginId')) {
-        $customer = Customer::where('id', '=', Session::get('loginId'))->first();
-        $menuTopics = Menu::all();
-        $business = Business::where('customer', $id)->firstOrFail();
-        $existingPdf = MenuPdf::where('business', $business->id)->first();
-        $sitesetting = SiteSetting::first();
-        $contact = Contact::first();
-        return view('customer.form-user.menu', compact('customer','menuTopics', 'business', 'existingPdf','sitesetting','contact'));
-    }else{
-            return back()->with('fail', 'Sorry, you donot have right to acces it. First, Login to continue');
-         }
-    }
+    {
+        if (Session::has('loginId')) {
+            $customer = Customer::where('id', '=', Session::get('loginId'))->first();
+            
 
+            $menuTopics = Menu::with(['menuItems' => function ($query) use ($id) {
+                $query->where('business', $id);
+            }])->get();
+    
+            $business = Business::where('customer', $id)->firstOrFail();
+            $existingPdf = MenuPdf::where('business', $business->id)->first();
+            $sitesetting = SiteSetting::first();
+            $contact = Contact::first();
+    
+            return view('customer.form-user.menu', compact('customer', 'menuTopics', 'business', 'existingPdf', 'sitesetting', 'contact'));
+        } else {
+            return back()->with('fail', 'Sorry, you do not have the right to access it. First, login to continue.');
+        }
+    }
+    
 
      
     public function store(Request $request, $businessId)
@@ -115,5 +122,6 @@ class BusinessMenuController extends Controller
     }
     
     
+
 
 }

@@ -63,11 +63,12 @@ public function index()
                 'customers.business as name',
                 'categories.category_name as restaurant_type',
                 'businesses.coverimage',
+                'businesses.openeveryday',
                 DB::raw('COALESCE(AVG(reviews.rating), 0) as rating'),
                 DB::raw('COUNT(CASE WHEN reviews.approved = 1 AND reviews.rejected = 0 THEN reviews.id END) as review_count')
             )
             ->leftJoin('reviews', 'businesses.id', '=', 'reviews.business_id')
-            ->groupBy('businesses.id', 'customers.business', 'categories.category_name', 'businesses.coverimage')
+            ->groupBy('businesses.id', 'customers.business', 'categories.category_name', 'businesses.coverimage', 'businesses.openeveryday')
             ->paginate(10);
 
         $businesses->transform(function ($business) {
@@ -151,8 +152,7 @@ public function getRestaurantDetail($id)
                 'businesses.email_two',
                 'businesses.logo',
                 'businesses.coverimage',
-                'businesses.opening_total_hours',
-                'businesses.opening_total_days',
+                'businesses.openeveryday',
                 'customers.business as name',   
                 'categories.category_name as restaurant_type', 
                 DB::raw('COALESCE(AVG(reviews.rating), 0) as rating'), 
@@ -177,8 +177,7 @@ public function getRestaurantDetail($id)
                 'businesses.email_two',
                 'businesses.logo',
                 'businesses.coverimage',
-                'businesses.opening_total_hours',
-                'businesses.opening_total_days',
+                'businesses.openeveryday',
                 'customers.business',
                 'categories.category_name'
             ) 
@@ -196,9 +195,8 @@ public function getRestaurantDetail($id)
         $services = BusinessService::where('business', $id)->with('service')->get();
         $facilities = BusinessFacility::where('business', $id)->with('facility')->get();
         $menus = BusinessMenu::where('business', $id)->with('menu')->get();
-        $sliderImages = SliderPhotosVideos::where('business', $id)->pluck('photosvideos');
-        $galleryImages = GalleryPhotosVideos::where('business', $id)->pluck('photosvideos');
-
+        $sliderImages = SliderPhotosVideos::where('business', $id)->take(5)->pluck('photosvideos');
+        $galleryImages = GalleryPhotosVideos::where('business', $id)->take(5)->pluck('photosvideos');
 
         $response = [
             'restaurant' => $restaurant,
@@ -280,8 +278,7 @@ public function getRestaurantByLocation(Request $request)
             businesses.email_two,
             businesses.logo,
             businesses.coverimage,
-            businesses.opening_total_hours,
-            businesses.opening_total_days,
+            businesses.openeveryday
             customers.business as restaurant_name,
             categories.category_name as restaurant_type,
             AVG(reviews.rating) as rating, -- actual average rating
@@ -309,8 +306,7 @@ public function getRestaurantByLocation(Request $request)
                   'businesses.email_two', 
                   'businesses.logo', 
                   'businesses.coverimage', 
-                  'businesses.opening_total_hours', 
-                  'businesses.opening_total_days',
+                  'businesses.openeveryday',
                   'customers.business',
                   'categories.category_name')
         ->paginate($perPage, ['*'], 'page', $page);
@@ -395,8 +391,7 @@ public function getRestaurantsByLatLng(Request $request)
             businesses.email_two,
             businesses.logo,
             businesses.coverimage,
-            businesses.opening_total_hours,
-            businesses.opening_total_days,
+            businesses.openeveryday
             customers.business as restaurant_name,
             categories.category_name as restaurant_type,
             AVG(reviews.rating) as rating, -- actual average rating
@@ -427,8 +422,7 @@ public function getRestaurantsByLatLng(Request $request)
                   'businesses.email_two',
                   'businesses.logo',
                   'businesses.coverimage',
-                  'businesses.opening_total_hours',
-                  'businesses.opening_total_days',
+                  'businesses.openeveryday',
                   'customers.business',
                   'categories.category_name')
    
@@ -499,8 +493,7 @@ public function getRestaurantsrate(Request $request)
             businesses.email_two,
             businesses.logo,
             businesses.coverimage,
-            businesses.opening_total_hours,
-            businesses.opening_total_days,
+            businesses.openeveryday,
             customers.business as restaurant_name,
             categories.category_name as restaurant_type,
             AVG(reviews.rating) as rating, -- actual average rating
@@ -531,8 +524,7 @@ public function getRestaurantsrate(Request $request)
                   'businesses.email_two', 
                   'businesses.logo', 
                   'businesses.coverimage', 
-                  'businesses.opening_total_hours', 
-                  'businesses.opening_total_days', 
+                  'businesses.openeveryday',
                   'customers.business', 
                   'categories.category_name')
         ->orderBy('rating', 'DESC')

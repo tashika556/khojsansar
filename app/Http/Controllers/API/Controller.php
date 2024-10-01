@@ -20,6 +20,14 @@ use Illuminate\Routing\Controller as BaseController;
  *      )
  * )
  * 
+ *    @OA\SecurityScheme(
+ *         securityScheme="bearerAuth",
+ *         type="http",
+ *         scheme="bearer",
+ *         bearerFormat="JWT"
+ *     )
+ * 
+ *
  * @OA\Get(
  *     path="/",
  *     summary="Display Home Page",
