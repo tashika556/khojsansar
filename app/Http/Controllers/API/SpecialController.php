@@ -44,7 +44,7 @@ class SpecialController extends Controller
     public function index()
     {
         try {
-            $specialFoods = DB::table('specials')->get();
+            $specialFoods = DB::table('specials')->get(['id','special_name', 'short_detail', 'price', 'photo']);
 
             if ($specialFoods->isEmpty()) {
                 return $this->apiResponse(false, 'No special foods found', [], [], false);

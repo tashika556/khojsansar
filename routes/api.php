@@ -37,18 +37,21 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     
    Route::get('/businessview', [CustomerController::class, 'displaybusiness']);
+   Route::post('/customer/updatestorebusiness', [CustomerController::class, 'storeOrUpdateBusiness']);
+
+   Route::get('/businessservicesview', [CustomerController::class, 'displaybusinessservices']);
+   Route::post('/customer/updatestorebusinessservices', [CustomerController::class, 'storeOrUpdateBusinessservices']);
+
+   Route::get('/businessfacilityview', [CustomerController::class, 'displaybusinessfacility']);
+   Route::post('/customer/updatestorebusinessfacility', [CustomerController::class, 'storeOrUpdateBusinessfacility']);
 
 });
 
-Route::post('/customer/updatestorebusiness', [CustomerController::class, 'storeOrUpdateBusiness'])->middleware('auth:api');
 
 
 
-Route::get('/business/{customerId}/services', [UpdateFetchController::class, 'getBusinessServices']);
-Route::post('/business/{customerId}/services', [UpdateFetchController::class, 'updateBusinessServices']);
 
-Route::get('/business/{customerId}/facilities', [UpdateFetchController::class, 'getBusinessFacilities']);
-Route::post('/business/{customerId}/facilities', [UpdateFetchController::class, 'updateBusinessFacilities']);
+
 
 Route::get('/business/{customerId}/menus', [UpdateFetchController::class, 'fetchBusinessMenus']);
 Route::post('/business/{customerId}/menus', [UpdateFetchController::class, 'storemenus']);

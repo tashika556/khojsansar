@@ -60,7 +60,7 @@ public function index()
             ->leftJoin('categories', 'customers.category', '=', 'categories.id')
             ->select(
                 'businesses.id',
-                'customers.business as name',
+                'customers.business as restaurant_name',
                 'categories.category_name as restaurant_type',
                 'businesses.coverimage',
                 'businesses.openeveryday',
@@ -72,18 +72,44 @@ public function index()
             ->paginate(10);
 
         $businesses->transform(function ($business) {
-
+            $business->rating = number_format($business->rating, 1);
             $offers = [
                 '10% off on your first order',
                 'Free dessert with orders over $30',
                 'Happy hour: 5-7 PM for drinks'
             ];
 
-            $services = BusinessService::where('business', $business->id)->with('service')->get();
-
-            $facilities = BusinessFacility::where('business', $business->id)->with('facility')->get();
-
-            $menus = BusinessMenu::where('business', $business->id)->with('menu')->get();
+            $services = BusinessService::where('business', $business->id)
+            ->with('serviceDetail')
+            ->get()
+            ->map(function ($serviceItem) {
+                return [
+                    'service_name' => $serviceItem->serviceDetail->service_name,
+                    'service_logo' => $serviceItem->serviceDetail->service_logo,
+                ];
+            });
+    
+            $facilities = BusinessFacility::where('business', $business->id)
+            ->with('facilityDetail')
+            ->get()
+            ->map(function ($facilityItem) {
+                return [
+                    'service_name' => $facilityItem->facilityDetail->facility_name,
+                    'service_logo' => $facilityItem->facilityDetail->facility_logo,
+                ];
+            });
+        
+            $menus = BusinessMenu::where('business', $business->id)
+                ->with('menu')
+                ->get()
+                ->map(function ($menu) {
+                    return [
+                        'menu_topic' => $menu->menu->menu_topic, 
+                        'title' => $menu->title,
+                        'price' => $menu->price,
+                        'caption' => $menu->caption,
+                    ];
+                });
 
             $sliderImages = SliderPhotosVideos::where('business', $business->id)->pluck('photosvideos');
 
@@ -127,7 +153,7 @@ public function index()
 public function getRestaurantDetail($id)
 {
     try {
-        // Fetch basic restaurant details
+        // Fetch restaurant details by ID
         $restaurant = DB::table('businesses')
             ->join('customers', 'businesses.customer', '=', 'customers.id')
             ->join('categories', 'customers.category', '=', 'categories.id')
@@ -153,8 +179,9 @@ public function getRestaurantDetail($id)
                 'businesses.logo',
                 'businesses.coverimage',
                 'businesses.openeveryday',
-                'customers.business as name',   
+                'customers.business as restaurant_name',   
                 'categories.category_name as restaurant_type', 
+                'categories.id as restaurant_type_id',
                 DB::raw('COALESCE(AVG(reviews.rating), 0) as rating'), 
                 DB::raw('COUNT(CASE WHEN reviews.approved = 1 AND reviews.rejected = 0 THEN reviews.id END) as review_count') 
             )
@@ -179,25 +206,65 @@ public function getRestaurantDetail($id)
                 'businesses.coverimage',
                 'businesses.openeveryday',
                 'customers.business',
-                'categories.category_name'
-            ) 
+                'categories.category_name',
+                'categories.id',
+            )
             ->first();
 
         if (!$restaurant) {
             return $this->apiResponse(false, 'Restaurant not found', [], [], false);
         }
 
-          $offers = [
+        // Formatting the rating
+        $restaurant->rating = number_format($restaurant->rating, 1);
+
+        // Sample offers
+        $offers = [
             '10% off on your first order',
             'Free dessert with orders over $30',
             'Happy hour: 5-7 PM for drinks'
         ];
-        $services = BusinessService::where('business', $id)->with('service')->get();
-        $facilities = BusinessFacility::where('business', $id)->with('facility')->get();
-        $menus = BusinessMenu::where('business', $id)->with('menu')->get();
+
+        // Fetch services
+        $services = BusinessService::where('business', $id)
+            ->with('serviceDetail')
+            ->get()
+            ->map(function ($serviceItem) {
+                return [
+                    'service_name' => $serviceItem->serviceDetail->service_name,
+                    'service_logo' => $serviceItem->serviceDetail->service_logo,
+                ];
+            });
+
+        // Fetch facilities
+        $facilities = BusinessFacility::where('business', $id)
+            ->with('facilityDetail')
+            ->get()
+            ->map(function ($facilityItem) {
+                return [
+                    'service_name' => $facilityItem->facilityDetail->facility_name,
+                    'service_logo' => $facilityItem->facilityDetail->facility_logo,
+                ];
+            });
+
+        // Fetch menus
+        $menus = BusinessMenu::where('business', $id)
+            ->with('menu')
+            ->get()
+            ->map(function ($menu) {
+                return [
+                    'menu_topic' => $menu->menu->menu_topic, 
+                    'title' => $menu->title,
+                    'price' => $menu->price,
+                    'caption' => $menu->caption,
+                ];
+            });
+
+        // Fetch images
         $sliderImages = SliderPhotosVideos::where('business', $id)->take(5)->pluck('photosvideos');
         $galleryImages = GalleryPhotosVideos::where('business', $id)->take(5)->pluck('photosvideos');
 
+        // Prepare the response
         $response = [
             'restaurant' => $restaurant,
             'offers' => $offers,
@@ -209,6 +276,7 @@ public function getRestaurantDetail($id)
         ];
 
         return $this->apiResponse(true, 'Restaurant details fetched successfully', $response);
+
     } catch (\Exception $e) {
         return $this->apiResponse(false, 'An error occurred while fetching restaurant details', [], ['error' => $e->getMessage()]);
     }
@@ -278,7 +346,7 @@ public function getRestaurantByLocation(Request $request)
             businesses.email_two,
             businesses.logo,
             businesses.coverimage,
-            businesses.openeveryday
+            businesses.openeveryday,
             customers.business as restaurant_name,
             categories.category_name as restaurant_type,
             AVG(reviews.rating) as rating, -- actual average rating
@@ -310,7 +378,8 @@ public function getRestaurantByLocation(Request $request)
                   'customers.business',
                   'categories.category_name')
         ->paginate($perPage, ['*'], 'page', $page);
-
+        foreach ($businesses as $business) {
+            $business->rating = number_format($business->rating, 1);}
         if ($businesses->isEmpty()) {
             return $this->apiResponse(false, 'No restaurants found in given municipality', [], [], false);
         }
@@ -391,7 +460,7 @@ public function getRestaurantsByLatLng(Request $request)
             businesses.email_two,
             businesses.logo,
             businesses.coverimage,
-            businesses.openeveryday
+            businesses.openeveryday,
             customers.business as restaurant_name,
             categories.category_name as restaurant_type,
             AVG(reviews.rating) as rating, -- actual average rating
@@ -400,8 +469,8 @@ public function getRestaurantsByLatLng(Request $request)
             * cos(radians(longitude) - radians(?)) 
             + sin(radians(?)) * sin(radians(latitude)))) AS distance
         ", [$latitude, $longitude, $latitude])
-        ->join('customers', 'customers.id', '=', 'businesses.customer')
-        ->join('categories', 'customers.category', '=', 'categories.id')
+       ->join('customers', 'businesses.customer', '=', 'customers.id')
+            ->join('categories', 'customers.category', '=', 'categories.id')
         ->leftJoin('reviews', 'businesses.id', '=', 'reviews.business_id')
         ->having('distance', '<', 50) 
         ->groupBy('businesses.id', 
@@ -428,6 +497,8 @@ public function getRestaurantsByLatLng(Request $request)
    
                  ->orderBy('distance', 'asc')
                 ->paginate($perPage, ['*'], 'page', $page);
+                foreach ($businesses as $business) {
+                    $business->rating = number_format($business->rating, 1);}
 
         if ($businesses->isEmpty()) {
             return $this->apiResponse(false, 'No restaurants found nearby', [], [], false);
@@ -530,7 +601,8 @@ public function getRestaurantsrate(Request $request)
         ->orderBy('rating', 'DESC')
         ->orderBy('distance', 'ASC')
         ->paginate($perPage, ['*'], 'page', $page);
-
+        foreach ($businesses as $business) {
+        $business->rating = number_format($business->rating, 1);}
         if ($businesses->isEmpty()) {
             return $this->apiResponse(false, 'No restaurants found', [], [], false);
         }

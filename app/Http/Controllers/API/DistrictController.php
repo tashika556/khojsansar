@@ -42,7 +42,9 @@ class DistrictController extends Controller
     public function index()
     {
         try {
-            $districts = DB::table('districts')->get();
+            $districts = DB::table('districts')
+  
+            ->get(['district_name', 'id']);
 
             if ($districts->isEmpty()) {
                 return $this->apiResponse(false, 'No districts found', [], [], false);
@@ -50,7 +52,7 @@ class DistrictController extends Controller
 
             return $this->apiResponse(true, 'Districts fetched successfully', $districts);
         } catch (\Exception $e) {
-            // Return a standardized error response in case of an exception
+
             return $this->apiResponse(false, 'An error occurred while fetching districts', [], ['error' => $e->getMessage()]);
         }
     }

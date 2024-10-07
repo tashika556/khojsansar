@@ -42,7 +42,9 @@ class MunicipalityController extends Controller
     public function index()
     {
         try {
-            $municipalities = DB::table('municipalities')->get();
+            $municipalities = DB::table('municipalities')
+
+            ->get(['municipality_name', 'id']);
 
             if ($municipalities->isEmpty()) {
                 return $this->apiResponse(false, 'No municipalities found', [], [], false);

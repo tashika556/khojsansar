@@ -42,7 +42,11 @@ class ServiceController extends Controller
     public function index()
     {
         try {
-            $services = DB::table('services')->get();
+            $services = DB::table('services')
+            ->join('business_services', 'services.id', '=', 'business_services.service')
+            ->join('businesses', 'business_services.business', '=', 'businesses.id')
+
+            ->get(['services.service_name', 'services.service_logo', 'services.id']);
 
             if ($services->isEmpty()) {
                 return $this->apiResponse(false, 'No services found', [], [], false);

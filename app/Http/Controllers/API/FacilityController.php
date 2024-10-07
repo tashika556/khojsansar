@@ -42,7 +42,11 @@ class FacilityController extends Controller
     public function index()
     {
         try {
-            $facilities = DB::table('facilities')->get();
+            $facilities = DB::table('facilities')
+            ->join('business_facilities', 'facilities.id', '=', 'business_facilities.facility')
+            ->join('businesses', 'business_facilities.business', '=', 'businesses.id')
+
+            ->get(['facilities.facility_name', 'facilities.facility_logo', 'facilities.id']);
 
             if ($facilities->isEmpty()) {
                 return $this->apiResponse(false, 'No facilities found', [], [], false);

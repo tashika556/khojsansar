@@ -5,6 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Business;
+use App\Models\BusinessService;
+use App\Models\BusinessFacility;
+use App\Models\BusinessMenu;
+use App\Models\SliderPhotosVideos;
+use App\Models\GalleryPhotosVideos;
 use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponseTrait;
 
@@ -63,23 +68,66 @@ class RestaurantSearchController extends Controller
  {
      $keyword = $request->input('keyword'); 
      $municipalityId = $request->input('municipality_id');
- 
+     $latitude = $request->query('latitude'); 
+    $longitude = $request->query('longitude');
      try {
-         $query = DB::table('businesses')
-             ->leftJoin('customers', 'businesses.customer', '=', 'customers.id')
-             ->leftJoin('categories', 'customers.category', '=', 'categories.id')
-             ->leftJoin('reviews', 'businesses.id', '=', 'reviews.business_id')
-             ->select(
-                 'businesses.id as restaurant_id',
-                 'customers.business as name',
-                 'categories.category_name as restaurant_category',
-                 'businesses.logo',
-                 'businesses.opening_total_hours',
-                 'businesses.opening_total_days',
-                 'businesses.address',
-                 'businesses.municipality'
-             );
+         // Start building the query
+         $query = Business::selectRaw("
+         businesses.id,
+         businesses.customer,
+         businesses.summary,
+         businesses.address,
+         businesses.state,
+         businesses.district,
+         businesses.municipality,
+         businesses.ward,
+         businesses.tole,
+         businesses.latitude,
+         businesses.longitude,
+         businesses.website_url,
+         businesses.phone_one,
+         businesses.phone_two,
+         businesses.email_one,
+         businesses.email_two,
+         businesses.logo,
+         businesses.coverimage,
+         businesses.openeveryday,
+         customers.business as restaurant_name,
+         categories.category_name as restaurant_type,
+         AVG(reviews.rating) as rating, -- actual average rating
+         COUNT(CASE WHEN reviews.approved = 1 AND reviews.rejected = 0 THEN reviews.id END) as review_count, -- count of approved reviews
+         (6371 * acos(cos(radians(?)) * cos(radians(latitude)) 
+         * cos(radians(longitude) - radians(?)) 
+         + sin(radians(?)) * sin(radians(latitude)))) AS distance
+     ", [$latitude, $longitude, $latitude])
+     ->join('customers', 'customers.id', '=', 'businesses.customer')
+     ->join('categories', 'customers.category', '=', 'categories.id')
+     ->leftJoin('reviews', 'businesses.id', '=', 'reviews.business_id') ->groupBy('businesses.id', 
+     'businesses.customer', 
+     'businesses.summary', 
+     'businesses.address', 
+     'businesses.state', 
+     'businesses.district', 
+     'businesses.municipality', 
+     'businesses.ward', 
+     'businesses.tole', 
+     'businesses.latitude', 
+     'businesses.longitude', 
+     'businesses.website_url', 
+     'businesses.phone_one', 
+     'businesses.phone_two', 
+     'businesses.email_one', 
+     'businesses.email_two', 
+     'businesses.logo', 
+     'businesses.coverimage', 
+     'businesses.openeveryday',
+     'customers.business', 
+     'categories.category_name')
+->orderBy('rating', 'DESC')
+->orderBy('distance', 'ASC');
+         
 
+  
          if ($municipalityId) {
              $query->where('businesses.municipality', $municipalityId);
          }
@@ -90,28 +138,25 @@ class RestaurantSearchController extends Controller
                    ->orWhere('categories.category_name', 'like', '%' . $keyword . '%');
              });
          }
- 
-         $businesses = $query
-             ->groupBy(
-                 'businesses.id',
-                 'customers.business',
-                 'categories.category_name',
-                 'businesses.logo',
-                 'businesses.opening_total_hours',
-                 'businesses.opening_total_days',
-                 'businesses.address',
-                 'businesses.municipality'
-             )
-             ->paginate(10);
- 
+
+         $businesses = $query->paginate(10);
+         foreach ($businesses as $business) {
+            $business->rating = number_format($business->rating, 1);}
          if ($businesses->isEmpty()) {
              return $this->apiResponse(false, 'No restaurants found based on the provided search criteria.', [], [], false);
          }
+
+        
+ 
+         
  
          return $this->apiResponse(true, 'Restaurants fetched successfully', $businesses);
+ 
      } catch (\Exception $e) {
          return $this->apiResponse(false, 'Error fetching restaurants', [], ['error' => $e->getMessage()]);
      }
  }
+ 
+ 
     
 }

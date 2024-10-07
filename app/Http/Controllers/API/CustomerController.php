@@ -7,6 +7,7 @@ use App\Models\District;
 use App\Models\Province;
 use App\Models\Authorize;
 use App\Models\Category;
+use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
@@ -653,6 +654,7 @@ public function updateCustomer(Request $request)
 public function displaybusiness(Request $request)
 {
     $customer = auth()->user(); 
+    \Log::info('Authenticated user: ', ['customer' => $customer]);
     if (!$customer) {
         return $this->apiResponse(false, 'Unauthorized', [], 401);
     }
@@ -666,7 +668,6 @@ public function displaybusiness(Request $request)
             return $this->apiResponse(false, 'Business not found for this customer', [], 404);
         }
 
-        // Return the entire business model
         return $this->apiResponse(true, 'Business details fetched successfully', $business, 200);
     
     } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
@@ -677,18 +678,18 @@ public function displaybusiness(Request $request)
         return $this->apiResponse(false, 'An error occurred while fetching business details', [], ['error' => $e->getMessage()], 500);
     }
 }
+
 /**
  * @OA\Post(
  *     path="/api/customer/updatestorebusiness",
  *     summary="Store or Update Business Information",
  *     tags={"Business Data Update/Fetch"},
- *     security={{"BearerAuth":{}}},
+ *     security={{"bearerAuth": {}}},
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\MediaType(
  *             mediaType="multipart/form-data",
  *             @OA\Schema(
- *                 @OA\Property(property="customer", type="integer", example=1),
  *                 @OA\Property(property="summary", type="string", example="Business summary goes here."),
  *                 @OA\Property(property="email_one", type="string", example="example@example.com"),
  *                 @OA\Property(property="email_two", type="string", example="example2@example.com"),
@@ -744,7 +745,7 @@ public function displaybusiness(Request $request)
  *             @OA\Property(property="success", type="boolean", example=false),
  *             @OA\Property(property="message", type="string", example="Validation error"),
  *             @OA\Property(property="errors", type="object",
- *                 @OA\Property(property="customer", type="array", @OA\Items(type="string", example="The selected customer does not exist.")),
+ *                 @OA\Property(property="summary", type="array", @OA\Items(type="string", example="The summary field is required.")),
  *                 @OA\Property(property="email_one", type="array", @OA\Items(type="string", example="The email has already been taken.")),
  *                 @OA\Property(property="phone_one", type="array", @OA\Items(type="string", example="The phone number is required.")),
  *                 @OA\Property(property="address", type="array", @OA\Items(type="string", example="The address field is required."))
@@ -761,95 +762,345 @@ public function displaybusiness(Request $request)
  *     )
  * )
  */
+public function storeOrUpdateBusiness(Request $request)
+{
+    $customer = auth()->user(); 
+    \Log::info('Authenticated user: ', ['customer' => $customer]);
+    
+    if (!$customer) {
+        return $this->apiResponse(false, 'Unauthorized', [], 401);
+    }
+    
+    $validator = Validator::make($request->all(), [
+        'summary' => 'required|string',
+        'email_one' => 'required|email',
+        'email_two' => 'nullable|email',
+        'phone_one' => 'required|string',
+        'phone_two' => 'nullable|string',
+        'address' => 'required|string',
+        'state' => 'nullable|integer',
+        'district' => 'nullable|integer',
+        'municipality' => 'nullable|integer',
+        'ward' => 'nullable|integer',
+        'tole' => 'nullable|string',
+        'website_url' => 'nullable|url',
+        'latitude' => 'nullable|numeric|between:-90,90|regex:/^[-+]?[0-9]{1,2}(\.[0-9]+)?$/',
+        'longitude' => 'nullable|numeric|between:-180,180|regex:/^[-+]?[0-9]{1,3}(\.[0-9]+)?$/',
+        'logo' => 'sometimes|file|mimes:jpg,png,jpeg|max:2048',
+        'coverimage' => 'sometimes|file|mimes:jpg,png,jpeg|max:2048',
+    ]);
 
- public function storeOrUpdateBusiness(Request $request)
+    if ($validator->fails()) {
+        \Log::warning('Validation error', [
+            'errors' => $validator->errors(),
+            'request_data' => $request->all(),
+        ]);
+        return $this->apiResponse(false, 'Validation error', ['errors' => $validator->errors()], 400);
+    }
+
+    try {
+  
+        $business = Business::where('customer', $customer->id)->first(); 
+        $businessData = $request->only([
+            'summary', 'email_one', 'email_two', 'phone_one',
+            'phone_two', 'address', 'website_url', 'state',
+            'district', 'municipality', 'ward', 'tole',
+            'latitude', 'longitude'
+        ]);
+        if ($request->has('openeveryday')) {
+            $businessData['openeveryday'] = $request->openeveryday ? 1 : 0;
+        }
+        if (!$business) {
+         
+            $business = new Business();
+            $business->customer = $customer->id; 
+            $business->fill($businessData);
+
+   
+            if ($request->hasFile('logo')) {
+                $file = $request->file('logo');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move('uploads/businesslogo', $filename);
+                $business->logo = $filename;
+            }
+
+            if ($request->hasFile('coverimage')) {
+                $file = $request->file('coverimage');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move('uploads/businesscoverimage', $filename);
+                $business->coverimage = $filename;
+            }
+
+            $business->save();
+            return $this->apiResponse(true, 'Business created successfully.', $business->toArray(), 201);
+        }
+
+    
+        $business->update($businessData);
+        return $this->apiResponse(true, 'Business data updated successfully.', $business->toArray(), 200);
+    } catch (\Exception $e) {
+        \Log::error('Error updating business', [
+            'message' => $e->getMessage(),
+            'request_data' => $request->all(),
+        ]);
+        return $this->apiResponse(false, 'Internal Server Error', [], 500);
+    }
+}
+
+/**
+ * @OA\Get(
+ *     path="/api/businessservicesview",
+ *     summary="Service Details Display ",
+ *     tags={"Services Data Update/Fetch"},
+ *     security={{"bearerAuth": {}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *     ),
+ *     @OA\Response(response=404, description="Not Found")
+ * )
+ */
+
+ public function displaybusinessservices(Request $request)
  {
-     $user = $request->user();
-     if (!$user) {
-         return $this->apiResponse(false, 'Unauthorized', [], 401);
-     }
+  
  
-     $validator = Validator::make($request->all(), [
-         'customer' => 'required|integer|exists:customers,id',
-         'summary' => 'required|string',
-         'email_one' => 'required|email',
-         'email_two' => 'nullable|email',
-         'phone_one' => 'required|string',
-         'phone_two' => 'nullable|string',
-         'address' => 'required|string',
-         'state' => 'nullable|integer',
-         'district' => 'nullable|integer',
-         'municipality' => 'nullable|integer',
-         'ward' => 'nullable|integer',
-         'tole' => 'nullable|string',
-         'website_url' => 'nullable|url',
-         'latitude' => 'nullable|numeric|between:-90,90|regex:/^[-+]?[0-9]{1,2}(\.[0-9]+)?$/',
-         'longitude' => 'nullable|numeric|between:-180,180|regex:/^[-+]?[0-9]{1,3}(\.[0-9]+)?$/',
-         'logo' => 'sometimes|file|mimes:jpg,png,jpeg|max:2048',
-         'coverimage' => 'sometimes|file|mimes:jpg,png,jpeg|max:2048',
-     ]);
- 
-     if ($validator->fails()) {
-         \Log::warning('Validation error', [
-             'errors' => $validator->errors(),
-             'request_data' => $request->all(),
-         ]);
-         return $this->apiResponse(false, 'Validation error', ['errors' => $validator->errors()], 400);
-     }
- 
-     try {
-         $business = Business::where('customer', $request->customer)->first();
-         $businessData = $request->only([
-             'summary', 'email_one', 'email_two', 'phone_one',
-             'phone_two', 'address', 'website_url', 'state',
-             'district', 'municipality', 'ward', 'tole',
-             'latitude', 'longitude', 'openeveryday'
-         ]);
- 
-         if (!$business) {
-             $business = new Business();
-             $business->customer = $request->customer;
-             $business->fill($businessData);
- 
-             // Handle logo and cover image
-             if ($request->hasFile('logo')) {
-                 $file = $request->file('logo');
-                 $extension = $file->getClientOriginalExtension();
-                 $filename = time() . '.' . $extension;
-                 $file->move('uploads/businesslogo', $filename);
-                 $business->logo = $filename;
-             } else {
-                 $business->logo = null;
-             }
- 
-             if ($request->hasFile('coverimage')) {
-                 $file = $request->file('coverimage');
-                 $extension = $file->getClientOriginalExtension();
-                 $filename = time() . '.' . $extension;
-                 $file->move('uploads/businesscoverimage', $filename);
-                 $business->coverimage = $filename;
-             } else {
-                 $business->coverimage = null;
-             }
- 
-             $business->save();
-             return $this->apiResponse(true, 'Business created successfully.', $business->toArray(), 201);
-         }
- 
-         $business->update($businessData);
-         return $this->apiResponse(true, 'Business data updated successfully.', $business->toArray(), 200);
-     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-         return $this->apiResponse(false, 'Business not found', [], 404);
-     } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-         return $this->apiResponse(false, 'Token is invalid', [], 401);
-     } catch (\Exception $e) {
-         \Log::error('Error updating business', [
-             'message' => $e->getMessage(),
-             'request_data' => $request->all(),
-         ]);
-         return $this->apiResponse(false, 'Internal Server Error', [], 500);
-     }
+ $customer = auth()->user(); 
+ \Log::info('Authenticated user: ', ['customer' => $customer]);
+ if (!$customer) {
+     return $this->apiResponse(false, 'Unauthorized', [], 401);
  }
  
+ try {
+
+     $business = $customer->businesses; 
+
+
+     if (!$business) {
+         return $this->apiResponse(false, 'Business not found for this customer', [], 404);
+     }
+     $services = $business->services()->get();
+     return $this->apiResponse(true, 'Services of given Business with respective customer fetched successfully', [
+
+        'services' => $services
+    ], 200);
+ 
+ } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+     return $this->apiResponse(false, 'Token is invalid', [], 401);
+ } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+     return $this->apiResponse(false, 'Token has expired', [], 401);
+ } catch (\Exception $e) {
+     return $this->apiResponse(false, 'An error occurred while fetching business details', [], ['error' => $e->getMessage()], 500);
+ }
     
+}
+
+/**
+ * @OA\Post(
+ *     path="/api/customer/updatestorebusinessservices",
+ *     summary="Update services for a given business",
+ *     tags={"Services Data Update/Fetch"},
+ *     security={{"bearerAuth": {}}},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 @OA\Property(property="services", type="array", @OA\Items(type="integer")),
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Business services updated successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Services updated successfully!"),
+ *             @OA\Property(property="business", type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *        
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Validation error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Validation error"),
+ *             @OA\Property(property="errors", type="object",
+ *                 @OA\Property(property="services", type="array", @OA\Items(type="string", example="The selected service does not exist."))
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server Error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Internal Server Error")
+ *         )
+ *     )
+ * )
+ */
+
+ 
+public function storeOrUpdateBusinessservices(Request $request)
+{
+    $customer = auth()->user(); 
+    \Log::info('Authenticated user: ', ['customer' => $customer]);
+    
+    if (!$customer) {
+        return $this->apiResponse(false, 'Unauthorized', [], 401);
+    }
+    
+
+     try {
+      
+         $request->validate([
+             'services' => 'required|array',
+             'services.*' => 'exists:services,id',
+         ]);
+ 
+         $business = Business::where('customer', $customer->id)->first(); 
+         if (!$business) {
+             return $this->apiResponse(false, 'Business not found', [], [], 404);
+         }
+         $business->services()->sync($request->input('services'));
+ 
+         $businessWithServices = $business->services;
+ 
+         return $this->apiResponse(true, 'Services updated successfully of respective business!', $businessWithServices, 200);
+     } catch (\Exception $e) {
+ 
+         return $this->apiResponse(false, 'An error occurred while updating services', [], ['error' => $e->getMessage()], 500);
+     }
+ }
+ /**
+ * @OA\Get(
+ *     path="/api/businessfacilityview",
+ *     summary="Facility Details Display ",
+ *     tags={"Facilities Data Update/Fetch"},
+ *     security={{"bearerAuth": {}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *     ),
+ *     @OA\Response(response=404, description="Not Found")
+ * )
+ */
+
+ public function displaybusinessfacility(Request $request)
+ {
+ $customer = auth()->user(); 
+ \Log::info('Authenticated user: ', ['customer' => $customer]);
+ if (!$customer) {
+     return $this->apiResponse(false, 'Unauthorized', [], 401);
+ }
+ 
+ try {
+
+     $business = $customer->businesses; 
+
+
+     if (!$business) {
+         return $this->apiResponse(false, 'Business not found for this customer', [], 404);
+     }
+     $facilities = $business->facilities()->get();
+     return $this->apiResponse(true, 'Facilities of given Business with respective customer fetched successfully', [
+
+        'facilities' => $facilities
+    ], 200);
+ 
+ } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+     return $this->apiResponse(false, 'Token is invalid', [], 401);
+ } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+     return $this->apiResponse(false, 'Token has expired', [], 401);
+ } catch (\Exception $e) {
+     return $this->apiResponse(false, 'An error occurred while fetching business details', [], ['error' => $e->getMessage()], 500);
+ }
+    
+}
+
+/**
+ * @OA\Post(
+ *     path="/api/updatestorebusinessfacility",
+ *     summary="Facility Details Update / Store ",
+ *     tags={"Facilities Data Update/Fetch"},
+ *     security={{"bearerAuth": {}}},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 @OA\Property(property="facilities", type="array", @OA\Items(type="integer")),
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Business Facilities updated successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Facilities updated successfully!"),
+ *             @OA\Property(property="business", type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *        
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Validation error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Validation error"),
+ *             @OA\Property(property="errors", type="object",
+ *                 @OA\Property(property="facilities", type="array", @OA\Items(type="string", example="The selected Facilities does not exist."))
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server Error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Internal Server Error")
+ *         )
+ *     )
+ * )
+ */
+
+ 
+ public function storeOrUpdateBusinessfacility(Request $request)
+ {
+     $customer = auth()->user(); 
+     \Log::info('Authenticated user: ', ['customer' => $customer]);
+     
+     if (!$customer) {
+         return $this->apiResponse(false, 'Unauthorized', [], 401);
+     }
+     
+ 
+      try {
+       
+          $request->validate([
+              'facilities' => 'required|array',
+              'facilities.*' => 'exists:facilities,id',
+          ]);
+  
+          $business = Business::where('customer', $customer->id)->first(); 
+          if (!$business) {
+              return $this->apiResponse(false, 'Business not found', [], [], 404);
+          }
+          $business->facilities()->sync($request->input('facilities'));
+  
+          $businessWithfacilities = $business->facilities;
+  
+          return $this->apiResponse(true, 'Facilities updated successfully of respective business!', $businessWithfacilities, 200);
+      } catch (\Exception $e) {
+  
+          return $this->apiResponse(false, 'An error occurred while updating Facilities', [], ['error' => $e->getMessage()], 500);
+      }
+  }
 }

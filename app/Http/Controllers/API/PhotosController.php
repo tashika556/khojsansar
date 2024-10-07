@@ -126,7 +126,7 @@ public function restaurantsphotos()
             $sliderImages = SliderPhotosVideos::where('business', $business->id)
                 ->paginate(10, ['*'], 'slider_page'); 
     
-            // Paginate gallery images
+
             $galleryImages = GalleryPhotosVideos::where('business', $business->id)
                 ->paginate(10, ['*'], 'gallery_page');
     

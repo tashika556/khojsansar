@@ -1238,10 +1238,6 @@
                         "multipart/form-data": {
                             "schema": {
                                 "properties": {
-                                    "customer": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "summary": {
                                         "type": "string",
                                         "example": "Business summary goes here."
@@ -1430,11 +1426,11 @@
                                         },
                                         "errors": {
                                             "properties": {
-                                                "customer": {
+                                                "summary": {
                                                     "type": "array",
                                                     "items": {
                                                         "type": "string",
-                                                        "example": "The selected customer does not exist."
+                                                        "example": "The summary field is required."
                                                     }
                                                 },
                                                 "email_one": {
@@ -1490,7 +1486,281 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/businessservicesview": {
+            "get": {
+                "tags": [
+                    "Services Data Update/Fetch"
+                ],
+                "summary": "Service Details Display ",
+                "operationId": "97bba4775839388cfe3702f92f2daf21",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/customer/updatestorebusinessservices": {
+            "post": {
+                "tags": [
+                    "Services Data Update/Fetch"
+                ],
+                "summary": "Update services for a given business",
+                "operationId": "d64273c1a0f705c5010adde3a475200c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "services": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Business services updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Services updated successfully!"
+                                        },
+                                        "business": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "services": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The selected service does not exist."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/businessfacilityview": {
+            "get": {
+                "tags": [
+                    "Facilities Data Update/Fetch"
+                ],
+                "summary": "Facility Details Display ",
+                "operationId": "8b2573417a5eb39232052b5fec1defb9",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/updatestorebusinessfacility": {
+            "post": {
+                "tags": [
+                    "Facilities Data Update/Fetch"
+                ],
+                "summary": "Facility Details Update / Store ",
+                "operationId": "967318f97505ec334a48aa34ffc304c1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "facilities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Business Facilities updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Facilities updated successfully!"
+                                        },
+                                        "business": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "facilities": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The selected Facilities does not exist."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -2263,478 +2533,6 @@
                 }
             }
         },
-        "/api/business/{customerId}/services": {
-            "get": {
-                "tags": [
-                    "Service Data Update/Fetch"
-                ],
-                "summary": "Get services of a given business",
-                "operationId": "2ad6337b27b4fb54069e1a587965107e",
-                "parameters": [
-                    {
-                        "name": "customerId",
-                        "in": "path",
-                        "description": "ID of the customer",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Business services fetched successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "business": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "summary": {
-                                                    "type": "string",
-                                                    "example": "Business summary goes here."
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "services": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Service Name"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Business not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Business not found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Internal Server Error"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Service Data Update/Fetch"
-                ],
-                "summary": "Update services for a given business",
-                "operationId": "5a09f90a87ed8daa92ff89c3211fba75",
-                "parameters": [
-                    {
-                        "name": "customerId",
-                        "in": "path",
-                        "description": "ID of the customer",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "services": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Business services updated successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Services updated successfully!"
-                                        },
-                                        "business": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Validation error"
-                                        },
-                                        "errors": {
-                                            "properties": {
-                                                "services": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "The selected service does not exist."
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Internal Server Error"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/business/{customerId}/facilities": {
-            "get": {
-                "tags": [
-                    "Facilities Data Update/Fetch"
-                ],
-                "summary": "Get Facilities of a given business",
-                "operationId": "ef75bcd2bf07f62db216496eed76bdab",
-                "parameters": [
-                    {
-                        "name": "customerId",
-                        "in": "path",
-                        "description": "ID of the customer",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Business facilities fetched successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "business": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "summary": {
-                                                    "type": "string",
-                                                    "example": "Business summary goes here."
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "facilities": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Facility Name"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Business not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Business not found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Internal Server Error"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Facilities Data Update/Fetch"
-                ],
-                "summary": "Update facilities for a given business",
-                "operationId": "be911902a612bfe8ce010ef89a7f892a",
-                "parameters": [
-                    {
-                        "name": "customerId",
-                        "in": "path",
-                        "description": "ID of the customer",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "facilities": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Business Facilities updated successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Facilities updated successfully!"
-                                        },
-                                        "business": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Validation error"
-                                        },
-                                        "errors": {
-                                            "properties": {
-                                                "facilities": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "The selected faciliy does not exist."
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Internal Server Error"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ]
-            }
-        },
         "/api/business/{customerId}/menus": {
             "get": {
                 "tags": [
@@ -3338,6 +3136,32 @@
                 }
             },
             "SpecialOffer": {
+                "properties": {
+                    "restaurant_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "offer_img": {
+                        "type": "string",
+                        "example": "dashain_offer.jpg"
+                    },
+                    "offer_name": {
+                        "type": "string",
+                        "example": "Dashain Special Offer"
+                    },
+                    "offer_details": {
+                        "type": "string",
+                        "example": "Get 50% off on selected items this Dashain!"
+                    },
+                    "valid_until": {
+                        "type": "string",
+                        "example": "30-09-2024"
+                    },
+                    "municipality_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
                 "type": "object"
             }
         },
@@ -3395,6 +3219,14 @@
             "description": "Business Data Update/Fetch"
         },
         {
+            "name": "Services Data Update/Fetch",
+            "description": "Services Data Update/Fetch"
+        },
+        {
+            "name": "Facilities Data Update/Fetch",
+            "description": "Facilities Data Update/Fetch"
+        },
+        {
             "name": "Districts",
             "description": "Districts"
         },
@@ -3437,14 +3269,6 @@
         {
             "name": "Special Offers",
             "description": "Special Offers"
-        },
-        {
-            "name": "Service Data Update/Fetch",
-            "description": "Service Data Update/Fetch"
-        },
-        {
-            "name": "Facilities Data Update/Fetch",
-            "description": "Facilities Data Update/Fetch"
         },
         {
             "name": "Business Menus Data Update/Fetch",

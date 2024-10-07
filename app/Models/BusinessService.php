@@ -18,7 +18,7 @@ class BusinessService extends Model
         return $this->belongsTo(Business::class, 'business');
     }
 
-    public function service()
+    public function serviceDetail()
     {
         return $this->belongsTo(Service::class, 'service');
     }

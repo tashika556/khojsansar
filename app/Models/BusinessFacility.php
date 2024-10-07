@@ -18,7 +18,7 @@ class BusinessFacility extends Model
         return $this->belongsTo(Business::class, 'business');
     }
 
-    public function facility()
+    public function facilityDetail()
     {
         return $this->belongsTo(Facility::class, 'facility');
     }

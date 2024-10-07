@@ -39,7 +39,9 @@ class ProvinceController extends Controller
     public function index()
     {
         try {
-            $provinces = DB::table('provinces')->get();
+
+            $provinces = DB::table('provinces')
+            ->get(['province_name', 'id']);
 
             if ($provinces->isEmpty()) {
                 return $this->apiResponse(false, 'No provinces found', [], [], false);

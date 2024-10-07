@@ -41,7 +41,11 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = DB::table('categories')->get();
+            $categories = DB::table('categories')
+            ->join('customers', 'categories.id', '=', 'customers.category')
+            ->join('businesses', 'customers.id', '=', 'businesses.customer')
+
+            ->get(['categories.category_name', 'categories.id']);
 
             if ($categories->isEmpty()) {
                 return $this->apiResponse(false, 'No categories found', [], [], false);
