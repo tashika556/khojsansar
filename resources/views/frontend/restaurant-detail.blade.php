@@ -42,7 +42,13 @@
             <div class="col-md-2"></div>
         </div>
     </div>
-
+    <div class=container>
+        <div class="d-flex justify-content-center">
+            <a href="https://www.youtube.com/watch?v=JSvoP-JuYDI" class="video-play-button popup-video">
+                <span></span>
+            </a>
+        </div>
+    </div>
     <div class="restaurant_detail_slider section_header">
     @foreach($sliderPhotos as $photo)
         <div class="restaurant_detail-itme" style="background-image: url({{ asset('storage/uploads/slider_photos_videos/' . $photo->photosvideos) }});">

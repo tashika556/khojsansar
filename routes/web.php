@@ -39,7 +39,7 @@ Route::get('/', [UserController::class,'index']);
 Route::get('/contact', [UserController::class,'contact']);
 
 Route::get('/restaurant-list', [UserController::class, 'showRestaurantList'])->name('restaurant.list');
-Route::get('/restaurants', [UserController::class, 'showRestaurantdistrictList'])->name('restaurant.list');
+Route::get('/restaurants', [UserController::class, 'showRestaurantdistrictList'])->name('restaurant.districtlist');
 
 
 Route::get('/restaurantall-list', [UserController::class, 'showRestauranatallList'])->name('restaurantall.list');
@@ -81,6 +81,7 @@ Route::get('/map', function () {
 //province district municipality view
 
 Route::post('/getDistrict', [DistrictController::class,'getDistricts']);
+
 
 
 Route::post('/getMunicipality', [MunicipalityController::class,'getMunicipalitys']);

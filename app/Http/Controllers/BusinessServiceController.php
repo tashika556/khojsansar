@@ -15,12 +15,17 @@ class BusinessServiceController extends Controller
 {
     public function businessservice($id)
     {
+        if (Session::has('loginId')) {
+            $customer = Customer::where('id', '=', Session::get('loginId'))->first();
         $services = Service::all();
         $business = Business::where('customer', $id)->firstOrFail();
         $sitesetting = SiteSetting::first();
         $contact = Contact::first();
     
-        return view('customer.form-user.service', compact('services', 'business', 'sitesetting', 'contact'));
+        return view('customer.form-user.service', compact('customer','services', 'business', 'sitesetting', 'contact'));
+    }else{
+        return back()->with('fail', 'Sorry, you donot have right to acces it. First, Login to continue');
+     }
     }
     
     public function businessmenu($id)

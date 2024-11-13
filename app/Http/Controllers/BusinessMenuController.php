@@ -20,12 +20,11 @@ class BusinessMenuController extends Controller
         if (Session::has('loginId')) {
             $customer = Customer::where('id', '=', Session::get('loginId'))->first();
             
-
-            $menuTopics = Menu::with(['menuItems' => function ($query) use ($id) {
-                $query->where('business', $id);
-            }])->get();
-    
             $business = Business::where('customer', $id)->firstOrFail();
+            $menuTopics = Menu::with(['menuItems' => function ($query) use ($business) {
+                $query->where('business', $business->id);
+            }])->get();
+            
             $existingPdf = MenuPdf::where('business', $business->id)->first();
             $sitesetting = SiteSetting::first();
             $contact = Contact::first();
@@ -46,7 +45,7 @@ class BusinessMenuController extends Controller
             'pdf.mimes' => 'File must be of the following file type: pdf.',
         ];
     
-        // Adjust validation rules to handle dynamic inputs better
+  
         $request->validate([
             'title.*.*' => 'sometimes|required|string|max:255',
             'price.*.*' => 'sometimes|required|string|max:255',

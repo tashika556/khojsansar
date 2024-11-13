@@ -45,7 +45,7 @@ class UserController extends Controller
         $municipalityId = $request->municipality_id;
             $categories = Category::whereHas('customers', function($query) use ($municipalityId) {
            
-                $query->whereHas('business', function($query) use ($municipalityId) {
+                $query->whereHas('businesses', function($query) use ($municipalityId) {
                     $query->where('municipality', $municipalityId);
                 });
             })->get(['id', 'category_name']);
@@ -158,6 +158,8 @@ class UserController extends Controller
             'popularRestaurants' => $popularRestaurants,
         ]);
     }
+
+     
     
     public function showRestauranatallList(Request $request)
     {

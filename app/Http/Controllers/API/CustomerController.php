@@ -5,9 +5,13 @@ namespace App\Http\Controllers\API;
 use App\Models\Customer;
 use App\Models\District;
 use App\Models\Province;
+use App\Models\Menu;
+use App\Models\BusinessMenu;
+use App\Models\MenuPdf;
 use App\Models\Authorize;
 use App\Models\Category;
 use App\Models\Business;
+use App\Models\Special;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
@@ -140,7 +144,6 @@ public function apiSignup(Request $request)
     }
 }
 
-
 /**
  * @OA\Post(
  *     path="/api/customer/login",
@@ -185,7 +188,6 @@ public function apiSignup(Request $request)
  * )
  */
 
-
  public function login(Request $request)
  {
      $request->validate([
@@ -198,23 +200,27 @@ public function apiSignup(Request $request)
  
      if ($customer) {
          if (Hash::check($request->password, $customer->password) && $request->otp === $customer->otp) {
+             // Generate JWT token
              $token = JWTAuth::fromUser($customer);
-          
+           
+             // Generate refresh token
              $refreshToken = $this->generateRefreshToken($customer); 
  
+             // Return success response with tokens
              return $this->apiResponse(true, 'Login successful', [
                  'token' => $token,
-                 'refresh_token' => $refreshToken 
+                 'refresh_token' => $refreshToken
              ]);
          }
  
+         // Return 401 for invalid OTP or password
          return $this->apiResponse(false, 'Invalid OTP or password', [], 401);
      }
  
+
      return $this->apiResponse(false, 'Please, Register first', [], 404);
  }
  
-
  private function generateRefreshToken($customer)
  {
  
@@ -1024,7 +1030,7 @@ public function storeOrUpdateBusinessservices(Request $request)
 
 /**
  * @OA\Post(
- *     path="/api/updatestorebusinessfacility",
+ *     path="/api/customer/updatestorebusinessfacility",
  *     summary="Facility Details Update / Store ",
  *     tags={"Facilities Data Update/Fetch"},
  *     security={{"bearerAuth": {}}},
@@ -1103,4 +1109,358 @@ public function storeOrUpdateBusinessservices(Request $request)
           return $this->apiResponse(false, 'An error occurred while updating Facilities', [], ['error' => $e->getMessage()], 500);
       }
   }
+
+  /**
+ * @OA\Get(
+ *     path="/api/businessmenuview",
+ *     summary="Business Menu Details Display ",
+ *     tags={"Business Menus Data Update/Fetch"},
+ *     security={{"bearerAuth": {}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *     ),
+ *     @OA\Response(response=404, description="Not Found")
+ * )
+ */
+
+ public function displaybusinessmenu(Request $request)
+ {
+ $customer = auth()->user(); 
+ \Log::info('Authenticated user: ', ['customer' => $customer]);
+ if (!$customer) {
+     return $this->apiResponse(false, 'Unauthorized', [], 401);
+ }
+ 
+ try {
+
+     $business = $customer->businesses; 
+
+
+     if (!$business) {
+         return $this->apiResponse(false, 'Business not found for this customer', [], 404);
+     }
+     $menuTopics = Menu::with(['menuItems' => function ($query) use ($business) {
+        $query->where('business', $business->id);
+    }])
+    ->whereHas('menuItems', function ($query) use ($business) {
+        $query->where('business', $business->id);
+    })
+    ->get();
+
+    $menuPDF = MenuPdf::where('business', $business->id)->value('pdf');
+
+    return $this->apiResponse(true, 'Menus fetched successfully!', ['menuTopics' => $menuTopics, 'menuPDF' => $menuPDF], 200);
+ 
+ } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+     return $this->apiResponse(false, 'Token is invalid', [], 401);
+ } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+     return $this->apiResponse(false, 'Token has expired', [], 401);
+ } catch (\Exception $e) {
+     return $this->apiResponse(false, 'An error occurred while fetching business details', [], ['error' => $e->getMessage()], 500);
+ }
+    
 }
+/**
+ * @OA\Post(
+ *     path="/api/customer/updatestorebusinessmenu",
+ *     summary="Store or Update Business Menus",
+ *     tags={"Business Menus Data Update/Fetch"},
+ *     security={{"bearerAuth": {}}},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 type="object",
+ *                 @OA\Property(
+ *                     property="title",
+ *                     type="array",
+ *                     description="Array of titles for each menu item",
+ *                     @OA\Items(type="object", properties={
+ *                         @OA\Property(property="menu_topic", type="integer"),
+ *                         @OA\Property(property="title", type="string"),
+ *                         @OA\Property(property="price", type="string"),
+ *                         @OA\Property(property="caption", type="string")
+ *                     })
+ *                 ),
+ *                 @OA\Property(
+ *                     property="pdf",
+ *                     type="string",
+ *                     format="binary",
+ *                     description="Optional menu PDF file"
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Menu items and PDF added/updated successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Menu items and PDF added/updated successfully!")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Validation error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Validation error")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server Error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Internal Server Error")
+ *         )
+ *     )
+ * )
+ */
+public function storeOrUpdateBusinessMenu(Request $request)
+{
+    $customer = auth()->user();  // Fetch the authenticated customer
+
+    if (!$customer) {
+        return $this->apiResponse(false, 'Unauthorized', [], 401);
+    }
+
+    // Validate the input
+    $messages = [
+        'required' => 'The :attribute field is required. Please click remove icon if you do not need it.',
+
+        'pdf.mimes' => 'File must be of the following file type: pdf.',
+    ];
+
+    $request->validate([
+        'title' => 'required',  // Ensure title is present
+        'price' => 'required',
+        'caption' => 'sometimes|nullable|string',
+
+        'pdf' => 'nullable|mimes:pdf|max:10000',
+    ], $messages);
+
+    $business = Business::where('customer', $customer->id)->first();
+
+    if (!$business) {
+        return $this->apiResponse(false, 'Business not found', [], 404);
+    }
+
+    try {
+        // Decode JSON encoded strings into arrays
+        $titles = json_decode($request->input('title'), true);
+        $prices = json_decode($request->input('price'), true);
+        $captions = json_decode($request->input('caption'), true);
+        $menu_ids = json_decode($request->input('menu_id'), true);
+
+
+        // Check if decoding was successful
+        if (is_null($titles) || is_null($prices)) {
+            return $this->apiResponse(false, 'Invalid input data format', [], 400);
+        }
+
+        // Process menu items
+        foreach ($titles as $topicId => $titleArray) {
+            foreach ($titleArray as $index => $title) {
+                $menuId = $menu_ids[$topicId][$index] ?? null;
+                $menuData = [
+                    'menu_topic' => $topicId,
+                    'business' => $business->id,
+                    'title' => $title,
+                    'price' => $prices[$topicId][$index] ?? null,
+                    'caption' => $captions[$topicId][$index] ?? null,
+                ];
+
+
+                if ($menuId) {
+                    $menuItem = BusinessMenu::findOrFail($menuId);
+                    $menuItem->update($menuData);
+                } else {
+                    BusinessMenu::create($menuData);
+                }
+            }
+        }
+
+    
+        if ($request->hasFile('pdf')) {
+            $pdfPath = $request->file('pdf')->store('menu_pdfs', 'public');
+
+            $existingPdf = MenuPdf::where('business', $business->id)->first();
+            if ($existingPdf) {
+                $existingPdf->update(['pdf' => $pdfPath]);
+            } else {
+                MenuPdf::create(['pdf' => $pdfPath, 'business' => $business->id]);
+            }
+        }
+
+        return $this->apiResponse(true, 'Menu items and PDF added/updated successfully!', $business->toArray(), 200);
+
+    } catch (\Exception $e) {
+        \Log::error('Error updating business menu', [
+            'message' => $e->getMessage(),
+            'request_data' => $request->all(),
+        ]);
+
+        return $this->apiResponse(false, 'Internal Server Error', [], 500);
+    }
+}
+
+/**
+ * @OA\Get(
+ *     path="/api/businessspecialview",
+ *     summary="Business Special Details Display ",
+ *     tags={"Business Specials Data Update/Fetch"},
+ *     security={{"bearerAuth": {}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *     ),
+ *     @OA\Response(response=404, description="Not Found")
+ * )
+ */
+public function displaybusinessspecial(Request $request)
+{
+    $customer = auth()->user(); 
+
+
+    if (!$customer) {
+        return $this->apiResponse(false, 'Unauthorized', [], 401);
+    }
+    
+    try {
+  
+        $business = $customer->businesses()->first(); 
+
+        if (!$business) {
+            return $this->apiResponse(false, 'Business not found for this customer', [], 404);
+        }
+
+        $specials = Special::where('business', $business->id)->get(); 
+     
+
+        return $this->apiResponse(true, 'Specials fetched successfully!', $specials->toArray(), 200);
+    } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+        return $this->apiResponse(false, 'Token is invalid', [], 401);
+    } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+        return $this->apiResponse(false, 'Token has expired', [], 401);
+    } catch (\Exception $e) {
+        return $this->apiResponse(false, 'An error occurred while fetching special details', [], ['error' => $e->getMessage()], 500);
+    }
+}
+
+/**
+ * @OA\Post(
+ *     path="/api/customer/updatestorebusinessspecial",
+ *     summary="Update or Store Business Specials",
+ *     tags={"Business Specials Data Update/Fetch"},
+ *     security={{"bearerAuth": {}}}, 
+* @OA\RequestBody(
+*     required=true,
+*     @OA\MediaType(
+*         mediaType="multipart/form-data",
+*         @OA\Schema(
+*            @OA\Property(
+*                property="special_name[]",
+ *               type="string",
+ *               example="Special Dish"
+ *                 ),
+ *                 @OA\Property(
+ *                     property="short_detail[]",
+ *                     type="string",
+ *                      example="Short Detail"
+ *                 ),
+ *                 @OA\Property(
+ *                     property="price[]",
+ *                     type="string",
+ *                      example="Price"
+ *                 ),
+ *           @OA\Property(
+ *              property="photo[]",
+ *               type="file"
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(response=200, description="Special items added/updated successfully!"),
+ *     @OA\Response(response=401, description="Unauthorized"),
+ *     @OA\Response(response=404, description="Business not found"),
+ *     @OA\Response(response=500, description="Internal Server Error")
+ * )
+ */
+
+ public function storeOrUpdateBusinessSpecial(Request $request)
+{
+    \Log::info('Request data:', $request->all());
+
+    $customer = auth()->user();
+    if (!$customer) {
+        return $this->apiResponse(false, 'Unauthorized', [], 401);
+    }
+
+    $messages = [
+        'required' => 'The :attribute field is required.',
+    ];
+
+    try {
+        $request->validate([
+            'special_name' => 'required|array|max:5',
+            'special_name.*' => 'required|string|max:255',
+            'short_detail' => 'required|array|max:5',
+            'short_detail.*' => 'required|string|max:255',
+            'price' => 'required|array|max:5',
+            'price.*' => 'required|string|max:255',
+            'photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], $messages);
+
+        // Additional Check: Ensure no more than 5 items are provided
+        if (count($request->input('special_name')) > 5) {
+            return $this->apiResponse(false, 'You can only add a maximum of 5 special items.', [], 422);
+        }
+        
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        \Log::error('Validation failed: ', $e->errors());
+        return $this->apiResponse(false, 'Validation Error', [], 422);
+    }
+
+    $business = Business::where('customer', $customer->id)->first();
+    if (!$business) {
+        return $this->apiResponse(false, 'Business not found', [], 404);
+    }
+
+    try {
+        $specialNames = $request->input('special_name');
+        $shortDetails = $request->input('short_detail');
+        $prices = $request->input('price');
+        $specialDataArray = []; 
+
+        foreach ($specialNames as $index => $specialName) {
+            // Prepare special data
+            $specialData = [
+                'business' => $business->id, // Add this line
+                'special_name' => $specialName,
+                'short_detail' => $shortDetails[$index],
+                'price' => $prices[$index],
+            ];
+
+            // Handle photo upload if exists
+            if (isset($request->photo[$index]) && $request->hasFile("photo.$index")) {
+                $specialData['photo'] = $request->file("photo.$index")->store('special_photos', 'public');
+            }
+
+            // Create new special
+            $special = Special::create($specialData);
+            $specialDataArray[] = $special; // Collecting the created special for response
+        }
+
+        return $this->apiResponse(true, 'Special items added successfully!', $specialDataArray, 200);
+        
+    } catch (\Exception $e) {
+        return $this->apiResponse(false, 'An error occurred while updating Specials', [], ['error' => $e->getMessage()], 500);
+    }
+}
+
+
+} 
+

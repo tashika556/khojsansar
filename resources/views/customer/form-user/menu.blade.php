@@ -25,7 +25,7 @@
                     <h5><strong>{{ $topic->menu_topic }}</strong></h5>
 
                     <div id="menu-items-{{ $topic->id }}">
-                        @foreach($topic->menuItems as $menuItem)
+                    @foreach($topic->menuItems as $menuItem)
                         <div class="menu-item">
                             <input type="hidden" name="menu_id[{{ $topic->id }}][]" value="{{ $menuItem->id }}">
                             <div class="row">

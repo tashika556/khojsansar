@@ -23,4 +23,5 @@ class Menu extends Model
     {
         return $this->hasMany(BusinessMenu::class, 'menu_topic');
     }
+    
 }

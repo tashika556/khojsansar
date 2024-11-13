@@ -123,18 +123,9 @@
 
 
     <a id="button">Go To Top</a>
-    <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
-    <script>
-    grecaptcha.ready(function() {
-        grecaptcha.execute('{{ config('
-            services.recaptcha_v3.key ') }}', {
-                action: 'submit'
-            }).then(function(token) {
-            document.getElementById('recaptcha_token').value = token;
-        });
-    });
-    </script>
+
+
 
     <section class="contact-area">
 
@@ -223,8 +214,20 @@
         </div>
 
     </section>
-
+    <input type="hidden" name="recaptcha_token" id="recaptcha_token">
     @stack('before-scripts')
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('{{ config('services.recaptcha_v3.key') }}', {action: 'submit'}).then(function (token) {
+            document.getElementById('recaptcha_token').value = token;
+        });
+    });
+</script>
+    <script src="{{ URL::asset('frontend/js/jquery-1.12.4.min.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
 
     <script src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
@@ -235,9 +238,7 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
         integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
         crossorigin=""></script>
-    <script src="{{ URL::asset('frontend/js/jquery-1.12.4.min.js')}}"></script>
 
-    <script src="{{ URL::asset('frontend/js/jquery.magnific-popup.min.js')}}"></script>
     <script type="text/javascript" src="{{ URL::asset('frontend/js/popper.min.js')}}"></script>
     <script type="text/javascript" src="{{ URL::asset('frontend/js/bootstrap.min.js')}}"></script>
     <script src="{{ URL::asset('frontend/js/slick.js')}}"></script>
@@ -248,14 +249,19 @@
         integrity="sha512-BdHyGtczsUoFcEma+MfXc71KJLv/cd+sUsUaYYf2mXpfG/PtBjNXsPo78+rxWjscxUYN2Qr2+DbeGGiJx81ifg=="
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
-    <script src="{{ URL::asset('frontend/js/main.js')}}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha_v3.key') }}"></script>
+
+
     <script async src="https://www.google.com/recaptcha/api.js"></script>
-
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha_v3.key') }}"></script>
+        <script src="{{ URL::asset('frontend/js/main.js')}}"></script>
+ 
     <script>
+         $(document).ready(function () {
+        $('.popup-video').magnificPopup({
+            type: 'iframe'
+        });
+    });
     $(document).ready(function() {
         $('#province').on('change', function() {
             var provinceId = $(this).val();
@@ -390,6 +396,7 @@
         url.searchParams.set('per_page', perPage);
         window.location.href = url.toString();
     });
+
     </script>
     @stack('after-scripts')
 

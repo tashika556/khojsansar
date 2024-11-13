@@ -69,9 +69,5 @@ class SpecialController extends Controller
         session(['businessSpecialCompleted' => true]);
         return redirect()->route('businessphotosvideosview', $business->customer)->with('success', 'Special items added/updated successfully!');
     }
-    
-    
-
-    
-    
+     
 }

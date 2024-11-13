@@ -45,16 +45,18 @@ Route::group(['middleware' => 'auth:api'], function () {
    Route::get('/businessfacilityview', [CustomerController::class, 'displaybusinessfacility']);
    Route::post('/customer/updatestorebusinessfacility', [CustomerController::class, 'storeOrUpdateBusinessfacility']);
 
+   Route::get('/businessmenuview', [CustomerController::class, 'displaybusinessmenu']);
+   Route::post('/customer/updatestorebusinessmenu', [CustomerController::class, 'storeOrUpdateBusinessmenu']);
+
+   Route::get('/businessspecialview', [CustomerController::class, 'displaybusinessspecial']);
+   Route::post('/customer/updatestorebusinessspecial', [CustomerController::class, 'storeOrUpdateBusinessspecial']);
+
+   Route::get('/businesspaymentview', [CustomerController::class, 'displaybusinesspayment']);
+   Route::post('/customer/updatestorebusinesspayment', [CustomerController::class, 'storeOrUpdateBusinesspayment']);
+
 });
 
 
-
-
-
-
-
-Route::get('/business/{customerId}/menus', [UpdateFetchController::class, 'fetchBusinessMenus']);
-Route::post('/business/{customerId}/menus', [UpdateFetchController::class, 'storemenus']);
 
 Route::post('/customer/forget-password', [CustomerController::class, 'apiSendResetCode'])->name('api.customer.send-reset-code');
 Route::post('/customer/reset-password', [CustomerController::class, 'apiResetPassword'])->name('api.customer.reset-password');
